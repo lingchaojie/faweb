@@ -28,6 +28,22 @@ async function main() {
     },
   });
 
+  // Platform admin also gets a front-end User account (role: admin)
+  await prisma.user.upsert({
+    where: { username: adminUsername },
+    update: {
+      displayName: adminDisplayName ?? adminUsername,
+      role: "admin",
+      passwordHash: adminPasswordHash,
+    },
+    create: {
+      username: adminUsername,
+      displayName: adminDisplayName ?? adminUsername,
+      role: "admin",
+      passwordHash: adminPasswordHash,
+    },
+  });
+
   const userUsername = process.env.BOOTSTRAP_USER_USERNAME;
   const userPassword = process.env.BOOTSTRAP_USER_PASSWORD;
 
