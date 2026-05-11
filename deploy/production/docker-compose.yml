@@ -1,0 +1,85 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - flowassist-postgres-data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+      args:
+        NPM_CONFIG_REGISTRY: ${NPM_CONFIG_REGISTRY:-https://registry.npmmirror.com}
+        ALPINE_MIRROR: ${ALPINE_MIRROR:-https://mirrors.tencent.com/alpine}
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      APP_ORIGIN: ${APP_ORIGIN:?APP_ORIGIN is required}
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+      PLATFORM_ADMIN_USERNAME: ${PLATFORM_ADMIN_USERNAME:?PLATFORM_ADMIN_USERNAME is required}
+      PLATFORM_ADMIN_DISPLAY_NAME: ${PLATFORM_ADMIN_DISPLAY_NAME:-平台管理员}
+      PLATFORM_ADMIN_PASSWORD: ${PLATFORM_ADMIN_PASSWORD:?PLATFORM_ADMIN_PASSWORD is required}
+      SESSION_COOKIE_NAME: ${SESSION_COOKIE_NAME:-flowassist_session}
+      SESSION_TTL_DAYS: ${SESSION_TTL_DAYS:-30}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-true}
+      UPLOAD_DIR: /app/storage/uploads
+      OUTPUT_DIR: /app/storage/output
+      DOC_WORKER_URL: http://doc-worker:8001
+      PPT_WORKER_URL: http://ppt-worker:8002
+      CHAT_WORKER_URL: http://chat-worker:8003
+    volumes:
+      - flowassist-shared-storage:/app/storage
+    depends_on:
+      db:
+        condition: service_healthy
+
+  doc-worker:
+    build:
+      context: ../../workers/doc-processing
+      args:
+        NPM_CONFIG_REGISTRY: ${NPM_CONFIG_REGISTRY:-https://registry.npmmirror.com}
+    restart: unless-stopped
+    environment:
+      PORT: 8001
+    volumes:
+      - flowassist-shared-storage:/app/storage
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8001/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    environment:
+      APP_SITE_ADDRESS: ${APP_SITE_ADDRESS:?APP_SITE_ADDRESS is required}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - flowassist-caddy-data:/data
+      - flowassist-caddy-config:/config
+    depends_on:
+      - web
+
+volumes:
+  flowassist-postgres-data:
+    name: flowassist-postgres-data
+  flowassist-shared-storage:
+    name: flowassist-shared-storage
+  flowassist-caddy-data:
+    name: flowassist-caddy-data
+  flowassist-caddy-config:
+    name: flowassist-caddy-config
