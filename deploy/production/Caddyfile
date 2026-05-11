@@ -1,4 +1,4 @@
 {$APP_SITE_ADDRESS} {
 	encode zstd gzip
-	reverse_proxy web:3000
+	reverse_proxy web:3001
 }
