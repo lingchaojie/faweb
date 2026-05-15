@@ -1,0 +1,4538 @@
+[
+  {
+    "page": 1,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-001.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片1.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-001.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-001.png",
+    "mae": 4.678,
+    "rms": 19.326,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          954,
+          291,
+          970,
+          308
+        ],
+        "area": 105,
+        "area_ratio": 0.000114,
+        "mean_delta": 162.524,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.415,
+        "bbox_norm": [
+          0.7453,
+          0.4042,
+          0.7578,
+          0.4278
+        ]
+      },
+      {
+        "bbox": [
+          934,
+          392,
+          951,
+          408
+        ],
+        "area": 180,
+        "area_ratio": 0.000195,
+        "mean_delta": 152.756,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.391,
+        "bbox_norm": [
+          0.7297,
+          0.5444,
+          0.743,
+          0.5667
+        ]
+      },
+      {
+        "bbox": [
+          837,
+          458,
+          854,
+          477
+        ],
+        "area": 137,
+        "area_ratio": 0.000149,
+        "mean_delta": 151.854,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.388,
+        "bbox_norm": [
+          0.6539,
+          0.6361,
+          0.6672,
+          0.6625
+        ]
+      },
+      {
+        "bbox": [
+          856,
+          459,
+          874,
+          475
+        ],
+        "area": 158,
+        "area_ratio": 0.000171,
+        "mean_delta": 148.576,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.38,
+        "bbox_norm": [
+          0.6687,
+          0.6375,
+          0.6828,
+          0.6597
+        ]
+      },
+      {
+        "bbox": [
+          1110,
+          290,
+          1126,
+          308
+        ],
+        "area": 151,
+        "area_ratio": 0.000164,
+        "mean_delta": 146.007,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.373,
+        "bbox_norm": [
+          0.8672,
+          0.4028,
+          0.8797,
+          0.4278
+        ]
+      },
+      {
+        "bbox": [
+          895,
+          391,
+          913,
+          409
+        ],
+        "area": 134,
+        "area_ratio": 0.000145,
+        "mean_delta": 145.515,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.372,
+        "bbox_norm": [
+          0.6992,
+          0.5431,
+          0.7133,
+          0.5681
+        ]
+      },
+      {
+        "bbox": [
+          916,
+          392,
+          931,
+          408
+        ],
+        "area": 119,
+        "area_ratio": 0.000129,
+        "mean_delta": 145.513,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.372,
+        "bbox_norm": [
+          0.7156,
+          0.5444,
+          0.7273,
+          0.5667
+        ]
+      },
+      {
+        "bbox": [
+          1070,
+          290,
+          1087,
+          308
+        ],
+        "area": 164,
+        "area_ratio": 0.000178,
+        "mean_delta": 144.902,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.371,
+        "bbox_norm": [
+          0.8359,
+          0.4028,
+          0.8492,
+          0.4278
+        ]
+      },
+      {
+        "bbox": [
+          895,
+          290,
+          913,
+          308
+        ],
+        "area": 137,
+        "area_ratio": 0.000149,
+        "mean_delta": 145.0,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.371,
+        "bbox_norm": [
+          0.6992,
+          0.4028,
+          0.7133,
+          0.4278
+        ]
+      },
+      {
+        "bbox": [
+          855,
+          291,
+          874,
+          308
+        ],
+        "area": 166,
+        "area_ratio": 0.00018,
+        "mean_delta": 143.946,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.368,
+        "bbox_norm": [
+          0.668,
+          0.4042,
+          0.6828,
+          0.4278
+        ]
+      },
+      {
+        "bbox": [
+          973,
+          391,
+          988,
+          409
+        ],
+        "area": 138,
+        "area_ratio": 0.00015,
+        "mean_delta": 143.043,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.366,
+        "bbox_norm": [
+          0.7602,
+          0.5431,
+          0.7719,
+          0.5681
+        ]
+      },
+      {
+        "bbox": [
+          1129,
+          291,
+          1146,
+          307
+        ],
+        "area": 137,
+        "area_ratio": 0.000149,
+        "mean_delta": 142.35,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.364,
+        "bbox_norm": [
+          0.882,
+          0.4042,
+          0.8953,
+          0.4264
+        ]
+      }
+    ]
+  },
+  {
+    "page": 2,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-002.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片2.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-002.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-002.png",
+    "mae": 3.144,
+    "rms": 15.451,
+    "max_delta": 189,
+    "diagnostics": [
+      {
+        "bbox": [
+          66,
+          354,
+          175,
+          364
+        ],
+        "area": 977,
+        "area_ratio": 0.00106,
+        "mean_delta": 139.875,
+        "max_delta": 181,
+        "category": "text_or_font_mismatch",
+        "severity": 0.364,
+        "bbox_norm": [
+          0.0516,
+          0.4917,
+          0.1367,
+          0.5056
+        ]
+      },
+      {
+        "bbox": [
+          416,
+          345,
+          451,
+          381
+        ],
+        "area": 434,
+        "area_ratio": 0.000471,
+        "mean_delta": 137.35,
+        "max_delta": 178,
+        "category": "text_or_font_mismatch",
+        "severity": 0.353,
+        "bbox_norm": [
+          0.325,
+          0.4792,
+          0.3523,
+          0.5292
+        ]
+      },
+      {
+        "bbox": [
+          69,
+          276,
+          114,
+          320
+        ],
+        "area": 833,
+        "area_ratio": 0.000904,
+        "mean_delta": 131.14,
+        "max_delta": 183,
+        "category": "text_or_font_mismatch",
+        "severity": 0.341,
+        "bbox_norm": [
+          0.0539,
+          0.3833,
+          0.0891,
+          0.4444
+        ]
+      },
+      {
+        "bbox": [
+          284,
+          332,
+          333,
+          387
+        ],
+        "area": 992,
+        "area_ratio": 0.001076,
+        "mean_delta": 129.135,
+        "max_delta": 184,
+        "category": "text_or_font_mismatch",
+        "severity": 0.337,
+        "bbox_norm": [
+          0.2219,
+          0.4611,
+          0.2602,
+          0.5375
+        ]
+      },
+      {
+        "bbox": [
+          239,
+          332,
+          281,
+          380
+        ],
+        "area": 600,
+        "area_ratio": 0.000651,
+        "mean_delta": 130.423,
+        "max_delta": 183,
+        "category": "text_or_font_mismatch",
+        "severity": 0.337,
+        "bbox_norm": [
+          0.1867,
+          0.4611,
+          0.2195,
+          0.5278
+        ]
+      },
+      {
+        "bbox": [
+          230,
+          275,
+          277,
+          323
+        ],
+        "area": 1122,
+        "area_ratio": 0.001217,
+        "mean_delta": 127.287,
+        "max_delta": 188,
+        "category": "text_or_font_mismatch",
+        "severity": 0.333,
+        "bbox_norm": [
+          0.1797,
+          0.3819,
+          0.2164,
+          0.4486
+        ]
+      },
+      {
+        "bbox": [
+          428,
+          340,
+          486,
+          381
+        ],
+        "area": 670,
+        "area_ratio": 0.000727,
+        "mean_delta": 128.428,
+        "max_delta": 189,
+        "category": "text_or_font_mismatch",
+        "severity": 0.332,
+        "bbox_norm": [
+          0.3344,
+          0.4722,
+          0.3797,
+          0.5292
+        ]
+      },
+      {
+        "bbox": [
+          101,
+          273,
+          120,
+          303
+        ],
+        "area": 186,
+        "area_ratio": 0.000202,
+        "mean_delta": 129.409,
+        "max_delta": 180,
+        "category": "text_or_font_mismatch",
+        "severity": 0.331,
+        "bbox_norm": [
+          0.0789,
+          0.3792,
+          0.0938,
+          0.4208
+        ]
+      },
+      {
+        "bbox": [
+          484,
+          352,
+          508,
+          381
+        ],
+        "area": 392,
+        "area_ratio": 0.000425,
+        "mean_delta": 126.704,
+        "max_delta": 175,
+        "category": "text_or_font_mismatch",
+        "severity": 0.326,
+        "bbox_norm": [
+          0.3781,
+          0.4889,
+          0.3969,
+          0.5292
+        ]
+      },
+      {
+        "bbox": [
+          178,
+          335,
+          226,
+          386
+        ],
+        "area": 1038,
+        "area_ratio": 0.001126,
+        "mean_delta": 124.438,
+        "max_delta": 187,
+        "category": "text_or_font_mismatch",
+        "severity": 0.325,
+        "bbox_norm": [
+          0.1391,
+          0.4653,
+          0.1766,
+          0.5361
+        ]
+      },
+      {
+        "bbox": [
+          338,
+          334,
+          380,
+          373
+        ],
+        "area": 601,
+        "area_ratio": 0.000652,
+        "mean_delta": 125.463,
+        "max_delta": 182,
+        "category": "text_or_font_mismatch",
+        "severity": 0.324,
+        "bbox_norm": [
+          0.2641,
+          0.4639,
+          0.2969,
+          0.5181
+        ]
+      },
+      {
+        "bbox": [
+          189,
+          271,
+          226,
+          322
+        ],
+        "area": 912,
+        "area_ratio": 0.00099,
+        "mean_delta": 123.093,
+        "max_delta": 182,
+        "category": "text_or_font_mismatch",
+        "severity": 0.321,
+        "bbox_norm": [
+          0.1477,
+          0.3764,
+          0.1766,
+          0.4472
+        ]
+      }
+    ]
+  },
+  {
+    "page": 3,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-003.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片3.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-003.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-003.png",
+    "mae": 6.228,
+    "rms": 28.041,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          88,
+          199,
+          96,
+          214
+        ],
+        "area": 76,
+        "area_ratio": 8.2e-05,
+        "mean_delta": 212.237,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.542,
+        "bbox_norm": [
+          0.0688,
+          0.2764,
+          0.075,
+          0.2972
+        ]
+      },
+      {
+        "bbox": [
+          834,
+          636,
+          857,
+          658
+        ],
+        "area": 329,
+        "area_ratio": 0.000357,
+        "mean_delta": 183.72,
+        "max_delta": 253,
+        "category": "text_or_font_mismatch",
+        "severity": 0.471,
+        "bbox_norm": [
+          0.6516,
+          0.8833,
+          0.6695,
+          0.9139
+        ]
+      },
+      {
+        "bbox": [
+          173,
+          551,
+          231,
+          565
+        ],
+        "area": 569,
+        "area_ratio": 0.000617,
+        "mean_delta": 175.944,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.453,
+        "bbox_norm": [
+          0.1352,
+          0.7653,
+          0.1805,
+          0.7847
+        ]
+      },
+      {
+        "bbox": [
+          855,
+          398,
+          882,
+          407
+        ],
+        "area": 172,
+        "area_ratio": 0.000187,
+        "mean_delta": 171.11,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.437,
+        "bbox_norm": [
+          0.668,
+          0.5528,
+          0.6891,
+          0.5653
+        ]
+      },
+      {
+        "bbox": [
+          126,
+          550,
+          176,
+          568
+        ],
+        "area": 505,
+        "area_ratio": 0.000548,
+        "mean_delta": 169.59,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.436,
+        "bbox_norm": [
+          0.0984,
+          0.7639,
+          0.1375,
+          0.7889
+        ]
+      },
+      {
+        "bbox": [
+          368,
+          369,
+          384,
+          388
+        ],
+        "area": 237,
+        "area_ratio": 0.000257,
+        "mean_delta": 168.895,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.432,
+        "bbox_norm": [
+          0.2875,
+          0.5125,
+          0.3,
+          0.5389
+        ]
+      },
+      {
+        "bbox": [
+          502,
+          197,
+          521,
+          214
+        ],
+        "area": 184,
+        "area_ratio": 0.0002,
+        "mean_delta": 169.12,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.432,
+        "bbox_norm": [
+          0.3922,
+          0.2736,
+          0.407,
+          0.2972
+        ]
+      },
+      {
+        "bbox": [
+          129,
+          480,
+          185,
+          489
+        ],
+        "area": 374,
+        "area_ratio": 0.000406,
+        "mean_delta": 167.04,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.429,
+        "bbox_norm": [
+          0.1008,
+          0.6667,
+          0.1445,
+          0.6792
+        ]
+      },
+      {
+        "bbox": [
+          433,
+          373,
+          446,
+          388
+        ],
+        "area": 142,
+        "area_ratio": 0.000154,
+        "mean_delta": 167.746,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.429,
+        "bbox_norm": [
+          0.3383,
+          0.5181,
+          0.3484,
+          0.5389
+        ]
+      },
+      {
+        "bbox": [
+          454,
+          198,
+          469,
+          214
+        ],
+        "area": 133,
+        "area_ratio": 0.000144,
+        "mean_delta": 164.977,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.422,
+        "bbox_norm": [
+          0.3547,
+          0.275,
+          0.3664,
+          0.2972
+        ]
+      },
+      {
+        "bbox": [
+          116,
+          197,
+          192,
+          216
+        ],
+        "area": 834,
+        "area_ratio": 0.000905,
+        "mean_delta": 162.339,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.42,
+        "bbox_norm": [
+          0.0906,
+          0.2736,
+          0.15,
+          0.3
+        ]
+      },
+      {
+        "bbox": [
+          185,
+          479,
+          201,
+          489
+        ],
+        "area": 88,
+        "area_ratio": 9.5e-05,
+        "mean_delta": 163.489,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.417,
+        "bbox_norm": [
+          0.1445,
+          0.6653,
+          0.157,
+          0.6792
+        ]
+      }
+    ]
+  },
+  {
+    "page": 4,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-004.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片4.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-004.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-004.png",
+    "mae": 6.864,
+    "rms": 26.398,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          1025,
+          214,
+          1042,
+          230
+        ],
+        "area": 178,
+        "area_ratio": 0.000193,
+        "mean_delta": 169.376,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.433,
+        "bbox_norm": [
+          0.8008,
+          0.2972,
+          0.8141,
+          0.3194
+        ]
+      },
+      {
+        "bbox": [
+          1043,
+          213,
+          1061,
+          230
+        ],
+        "area": 211,
+        "area_ratio": 0.000229,
+        "mean_delta": 168.436,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.431,
+        "bbox_norm": [
+          0.8148,
+          0.2958,
+          0.8289,
+          0.3194
+        ]
+      },
+      {
+        "bbox": [
+          1061,
+          213,
+          1099,
+          231
+        ],
+        "area": 374,
+        "area_ratio": 0.000406,
+        "mean_delta": 167.583,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.43,
+        "bbox_norm": [
+          0.8289,
+          0.2958,
+          0.8586,
+          0.3208
+        ]
+      },
+      {
+        "bbox": [
+          959,
+          213,
+          997,
+          231
+        ],
+        "area": 429,
+        "area_ratio": 0.000465,
+        "mean_delta": 166.336,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.427,
+        "bbox_norm": [
+          0.7492,
+          0.2958,
+          0.7789,
+          0.3208
+        ]
+      },
+      {
+        "bbox": [
+          767,
+          422,
+          815,
+          439
+        ],
+        "area": 438,
+        "area_ratio": 0.000475,
+        "mean_delta": 160.758,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.413,
+        "bbox_norm": [
+          0.5992,
+          0.5861,
+          0.6367,
+          0.6097
+        ]
+      },
+      {
+        "bbox": [
+          1015,
+          609,
+          1030,
+          621
+        ],
+        "area": 122,
+        "area_ratio": 0.000132,
+        "mean_delta": 158.828,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.406,
+        "bbox_norm": [
+          0.793,
+          0.8458,
+          0.8047,
+          0.8625
+        ]
+      },
+      {
+        "bbox": [
+          783,
+          441,
+          815,
+          457
+        ],
+        "area": 303,
+        "area_ratio": 0.000329,
+        "mean_delta": 157.541,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.404,
+        "bbox_norm": [
+          0.6117,
+          0.6125,
+          0.6367,
+          0.6347
+        ]
+      },
+      {
+        "bbox": [
+          959,
+          191,
+          979,
+          206
+        ],
+        "area": 172,
+        "area_ratio": 0.000187,
+        "mean_delta": 156.599,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.4,
+        "bbox_norm": [
+          0.7492,
+          0.2653,
+          0.7648,
+          0.2861
+        ]
+      },
+      {
+        "bbox": [
+          815,
+          311,
+          830,
+          327
+        ],
+        "area": 139,
+        "area_ratio": 0.000151,
+        "mean_delta": 154.813,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.396,
+        "bbox_norm": [
+          0.6367,
+          0.4319,
+          0.6484,
+          0.4542
+        ]
+      },
+      {
+        "bbox": [
+          1020,
+          190,
+          1038,
+          208
+        ],
+        "area": 206,
+        "area_ratio": 0.000224,
+        "mean_delta": 153.951,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.394,
+        "bbox_norm": [
+          0.7969,
+          0.2639,
+          0.8109,
+          0.2889
+        ]
+      },
+      {
+        "bbox": [
+          786,
+          291,
+          812,
+          307
+        ],
+        "area": 173,
+        "area_ratio": 0.000188,
+        "mean_delta": 153.04,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.391,
+        "bbox_norm": [
+          0.6141,
+          0.4042,
+          0.6344,
+          0.4264
+        ]
+      },
+      {
+        "bbox": [
+          1141,
+          190,
+          1160,
+          207
+        ],
+        "area": 196,
+        "area_ratio": 0.000213,
+        "mean_delta": 151.857,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.389,
+        "bbox_norm": [
+          0.8914,
+          0.2639,
+          0.9062,
+          0.2875
+        ]
+      }
+    ]
+  },
+  {
+    "page": 5,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-005.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片5.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-005.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-005.png",
+    "mae": 3.5,
+    "rms": 18.363,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          389,
+          146,
+          411,
+          166
+        ],
+        "area": 222,
+        "area_ratio": 0.000241,
+        "mean_delta": 178.946,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.458,
+        "bbox_norm": [
+          0.3039,
+          0.2028,
+          0.3211,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          369,
+          146,
+          389,
+          167
+        ],
+        "area": 171,
+        "area_ratio": 0.000186,
+        "mean_delta": 169.474,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.433,
+        "bbox_norm": [
+          0.2883,
+          0.2028,
+          0.3039,
+          0.2319
+        ]
+      },
+      {
+        "bbox": [
+          596,
+          147,
+          616,
+          165
+        ],
+        "area": 187,
+        "area_ratio": 0.000203,
+        "mean_delta": 168.85,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.432,
+        "bbox_norm": [
+          0.4656,
+          0.2042,
+          0.4813,
+          0.2292
+        ]
+      },
+      {
+        "bbox": [
+          347,
+          148,
+          367,
+          166
+        ],
+        "area": 249,
+        "area_ratio": 0.00027,
+        "mean_delta": 168.12,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.43,
+        "bbox_norm": [
+          0.2711,
+          0.2056,
+          0.2867,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          118,
+          315,
+          135,
+          329
+        ],
+        "area": 146,
+        "area_ratio": 0.000158,
+        "mean_delta": 166.562,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.426,
+        "bbox_norm": [
+          0.0922,
+          0.4375,
+          0.1055,
+          0.4569
+        ]
+      },
+      {
+        "bbox": [
+          241,
+          146,
+          260,
+          166
+        ],
+        "area": 246,
+        "area_ratio": 0.000267,
+        "mean_delta": 164.459,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.421,
+        "bbox_norm": [
+          0.1883,
+          0.2028,
+          0.2031,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          284,
+          147,
+          303,
+          165
+        ],
+        "area": 224,
+        "area_ratio": 0.000243,
+        "mean_delta": 163.862,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.419,
+        "bbox_norm": [
+          0.2219,
+          0.2042,
+          0.2367,
+          0.2292
+        ]
+      },
+      {
+        "bbox": [
+          576,
+          146,
+          594,
+          166
+        ],
+        "area": 213,
+        "area_ratio": 0.000231,
+        "mean_delta": 163.357,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.418,
+        "bbox_norm": [
+          0.45,
+          0.2028,
+          0.4641,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          456,
+          146,
+          476,
+          167
+        ],
+        "area": 166,
+        "area_ratio": 0.00018,
+        "mean_delta": 162.367,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.415,
+        "bbox_norm": [
+          0.3563,
+          0.2028,
+          0.3719,
+          0.2319
+        ]
+      },
+      {
+        "bbox": [
+          410,
+          148,
+          455,
+          165
+        ],
+        "area": 517,
+        "area_ratio": 0.000561,
+        "mean_delta": 157.718,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.406,
+        "bbox_norm": [
+          0.3203,
+          0.2056,
+          0.3555,
+          0.2292
+        ]
+      },
+      {
+        "bbox": [
+          479,
+          147,
+          497,
+          166
+        ],
+        "area": 224,
+        "area_ratio": 0.000243,
+        "mean_delta": 157.871,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.404,
+        "bbox_norm": [
+          0.3742,
+          0.2042,
+          0.3883,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          498,
+          147,
+          519,
+          166
+        ],
+        "area": 232,
+        "area_ratio": 0.000252,
+        "mean_delta": 155.052,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.397,
+        "bbox_norm": [
+          0.3891,
+          0.2042,
+          0.4055,
+          0.2306
+        ]
+      }
+    ]
+  },
+  {
+    "page": 6,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-006.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片6.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-006.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-006.png",
+    "mae": 9.141,
+    "rms": 34.707,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          117,
+          143,
+          172,
+          155
+        ],
+        "area": 146,
+        "area_ratio": 0.000158,
+        "mean_delta": 211.61,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.541,
+        "bbox_norm": [
+          0.0914,
+          0.1986,
+          0.1344,
+          0.2153
+        ]
+      },
+      {
+        "bbox": [
+          566,
+          411,
+          577,
+          420
+        ],
+        "area": 57,
+        "area_ratio": 6.2e-05,
+        "mean_delta": 208.509,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.532,
+        "bbox_norm": [
+          0.4422,
+          0.5708,
+          0.4508,
+          0.5833
+        ]
+      },
+      {
+        "bbox": [
+          329,
+          411,
+          338,
+          421
+        ],
+        "area": 51,
+        "area_ratio": 5.5e-05,
+        "mean_delta": 202.412,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.516,
+        "bbox_norm": [
+          0.257,
+          0.5708,
+          0.2641,
+          0.5847
+        ]
+      },
+      {
+        "bbox": [
+          566,
+          238,
+          577,
+          275
+        ],
+        "area": 117,
+        "area_ratio": 0.000127,
+        "mean_delta": 195.009,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.498,
+        "bbox_norm": [
+          0.4422,
+          0.3306,
+          0.4508,
+          0.3819
+        ]
+      },
+      {
+        "bbox": [
+          453,
+          238,
+          465,
+          362
+        ],
+        "area": 345,
+        "area_ratio": 0.000374,
+        "mean_delta": 190.455,
+        "max_delta": 255,
+        "category": "localized_visual_difference",
+        "severity": 0.488,
+        "bbox_norm": [
+          0.3539,
+          0.3306,
+          0.3633,
+          0.5028
+        ]
+      },
+      {
+        "bbox": [
+          573,
+          289,
+          577,
+          345
+        ],
+        "area": 155,
+        "area_ratio": 0.000168,
+        "mean_delta": 188.748,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.482,
+        "bbox_norm": [
+          0.4477,
+          0.4014,
+          0.4508,
+          0.4792
+        ]
+      },
+      {
+        "bbox": [
+          117,
+          238,
+          172,
+          249
+        ],
+        "area": 168,
+        "area_ratio": 0.000182,
+        "mean_delta": 187.845,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.48,
+        "bbox_norm": [
+          0.0914,
+          0.3306,
+          0.1344,
+          0.3458
+        ]
+      },
+      {
+        "bbox": [
+          775,
+          411,
+          785,
+          512
+        ],
+        "area": 284,
+        "area_ratio": 0.000308,
+        "mean_delta": 185.32,
+        "max_delta": 255,
+        "category": "localized_visual_difference",
+        "severity": 0.475,
+        "bbox_norm": [
+          0.6055,
+          0.5708,
+          0.6133,
+          0.7111
+        ]
+      },
+      {
+        "bbox": [
+          828,
+          245,
+          928,
+          280
+        ],
+        "area": 1693,
+        "area_ratio": 0.001837,
+        "mean_delta": 180.485,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.473,
+        "bbox_norm": [
+          0.6469,
+          0.3403,
+          0.725,
+          0.3889
+        ]
+      },
+      {
+        "bbox": [
+          791,
+          159,
+          804,
+          361
+        ],
+        "area": 524,
+        "area_ratio": 0.000569,
+        "mean_delta": 181.666,
+        "max_delta": 255,
+        "category": "localized_visual_difference",
+        "severity": 0.467,
+        "bbox_norm": [
+          0.618,
+          0.2208,
+          0.6281,
+          0.5014
+        ]
+      },
+      {
+        "bbox": [
+          1072,
+          538,
+          1091,
+          556
+        ],
+        "area": 155,
+        "area_ratio": 0.000168,
+        "mean_delta": 181.897,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.465,
+        "bbox_norm": [
+          0.8375,
+          0.7472,
+          0.8523,
+          0.7722
+        ]
+      },
+      {
+        "bbox": [
+          456,
+          437,
+          565,
+          465
+        ],
+        "area": 1741,
+        "area_ratio": 0.001889,
+        "mean_delta": 176.226,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.462,
+        "bbox_norm": [
+          0.3563,
+          0.6069,
+          0.4414,
+          0.6458
+        ]
+      }
+    ]
+  },
+  {
+    "page": 7,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-007.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片7.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-007.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-007.png",
+    "mae": 6.033,
+    "rms": 23.803,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          736,
+          485,
+          761,
+          506
+        ],
+        "area": 291,
+        "area_ratio": 0.000316,
+        "mean_delta": 173.175,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.444,
+        "bbox_norm": [
+          0.575,
+          0.6736,
+          0.5945,
+          0.7028
+        ]
+      },
+      {
+        "bbox": [
+          140,
+          486,
+          159,
+          507
+        ],
+        "area": 288,
+        "area_ratio": 0.000313,
+        "mean_delta": 167.625,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.429,
+        "bbox_norm": [
+          0.1094,
+          0.675,
+          0.1242,
+          0.7042
+        ]
+      },
+      {
+        "bbox": [
+          722,
+          679,
+          787,
+          691
+        ],
+        "area": 471,
+        "area_ratio": 0.000511,
+        "mean_delta": 159.786,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.411,
+        "bbox_norm": [
+          0.5641,
+          0.9431,
+          0.6148,
+          0.9597
+        ]
+      },
+      {
+        "bbox": [
+          114,
+          485,
+          138,
+          507
+        ],
+        "area": 341,
+        "area_ratio": 0.00037,
+        "mean_delta": 157.669,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.404,
+        "bbox_norm": [
+          0.0891,
+          0.6736,
+          0.1078,
+          0.7042
+        ]
+      },
+      {
+        "bbox": [
+          689,
+          484,
+          712,
+          508
+        ],
+        "area": 257,
+        "area_ratio": 0.000279,
+        "mean_delta": 157.56,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.404,
+        "bbox_norm": [
+          0.5383,
+          0.6722,
+          0.5563,
+          0.7056
+        ]
+      },
+      {
+        "bbox": [
+          161,
+          485,
+          186,
+          506
+        ],
+        "area": 279,
+        "area_ratio": 0.000303,
+        "mean_delta": 157.183,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.403,
+        "bbox_norm": [
+          0.1258,
+          0.6736,
+          0.1453,
+          0.7028
+        ]
+      },
+      {
+        "bbox": [
+          380,
+          660,
+          416,
+          674
+        ],
+        "area": 283,
+        "area_ratio": 0.000307,
+        "mean_delta": 155.972,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.4,
+        "bbox_norm": [
+          0.2969,
+          0.9167,
+          0.325,
+          0.9361
+        ]
+      },
+      {
+        "bbox": [
+          763,
+          485,
+          785,
+          508
+        ],
+        "area": 264,
+        "area_ratio": 0.000286,
+        "mean_delta": 156.102,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.4,
+        "bbox_norm": [
+          0.5961,
+          0.6736,
+          0.6133,
+          0.7056
+        ]
+      },
+      {
+        "bbox": [
+          693,
+          678,
+          708,
+          691
+        ],
+        "area": 142,
+        "area_ratio": 0.000154,
+        "mean_delta": 155.099,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.396,
+        "bbox_norm": [
+          0.5414,
+          0.9417,
+          0.5531,
+          0.9597
+        ]
+      },
+      {
+        "bbox": [
+          381,
+          640,
+          411,
+          655
+        ],
+        "area": 287,
+        "area_ratio": 0.000311,
+        "mean_delta": 153.791,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.394,
+        "bbox_norm": [
+          0.2977,
+          0.8889,
+          0.3211,
+          0.9097
+        ]
+      },
+      {
+        "bbox": [
+          712,
+          484,
+          737,
+          508
+        ],
+        "area": 350,
+        "area_ratio": 0.00038,
+        "mean_delta": 152.357,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.391,
+        "bbox_norm": [
+          0.5563,
+          0.6722,
+          0.5758,
+          0.7056
+        ]
+      },
+      {
+        "bbox": [
+          679,
+          677,
+          694,
+          692
+        ],
+        "area": 146,
+        "area_ratio": 0.000158,
+        "mean_delta": 152.247,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.389,
+        "bbox_norm": [
+          0.5305,
+          0.9403,
+          0.5422,
+          0.9611
+        ]
+      }
+    ]
+  },
+  {
+    "page": 8,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-008.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片8.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-008.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-008.png",
+    "mae": 7.498,
+    "rms": 30.707,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          380,
+          345,
+          388,
+          358
+        ],
+        "area": 69,
+        "area_ratio": 7.5e-05,
+        "mean_delta": 169.087,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.432,
+        "bbox_norm": [
+          0.2969,
+          0.4792,
+          0.3031,
+          0.4972
+        ]
+      },
+      {
+        "bbox": [
+          376,
+          471,
+          384,
+          484
+        ],
+        "area": 67,
+        "area_ratio": 7.3e-05,
+        "mean_delta": 168.224,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.429,
+        "bbox_norm": [
+          0.2938,
+          0.6542,
+          0.3,
+          0.6722
+        ]
+      },
+      {
+        "bbox": [
+          395,
+          211,
+          419,
+          224
+        ],
+        "area": 184,
+        "area_ratio": 0.0002,
+        "mean_delta": 166.37,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.425,
+        "bbox_norm": [
+          0.3086,
+          0.2931,
+          0.3273,
+          0.3111
+        ]
+      },
+      {
+        "bbox": [
+          380,
+          211,
+          396,
+          224
+        ],
+        "area": 112,
+        "area_ratio": 0.000122,
+        "mean_delta": 166.304,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.425,
+        "bbox_norm": [
+          0.2969,
+          0.2931,
+          0.3094,
+          0.3111
+        ]
+      },
+      {
+        "bbox": [
+          206,
+          481,
+          216,
+          494
+        ],
+        "area": 80,
+        "area_ratio": 8.7e-05,
+        "mean_delta": 165.875,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.423,
+        "bbox_norm": [
+          0.1609,
+          0.6681,
+          0.1688,
+          0.6861
+        ]
+      },
+      {
+        "bbox": [
+          189,
+          481,
+          201,
+          494
+        ],
+        "area": 112,
+        "area_ratio": 0.000122,
+        "mean_delta": 165.214,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.422,
+        "bbox_norm": [
+          0.1477,
+          0.6681,
+          0.157,
+          0.6861
+        ]
+      },
+      {
+        "bbox": [
+          467,
+          211,
+          482,
+          224
+        ],
+        "area": 129,
+        "area_ratio": 0.00014,
+        "mean_delta": 161.969,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.414,
+        "bbox_norm": [
+          0.3648,
+          0.2931,
+          0.3766,
+          0.3111
+        ]
+      },
+      {
+        "bbox": [
+          513,
+          209,
+          552,
+          224
+        ],
+        "area": 373,
+        "area_ratio": 0.000405,
+        "mean_delta": 159.233,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.409,
+        "bbox_norm": [
+          0.4008,
+          0.2903,
+          0.4313,
+          0.3111
+        ]
+      },
+      {
+        "bbox": [
+          134,
+          479,
+          165,
+          494
+        ],
+        "area": 294,
+        "area_ratio": 0.000319,
+        "mean_delta": 159.357,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.408,
+        "bbox_norm": [
+          0.1047,
+          0.6653,
+          0.1289,
+          0.6861
+        ]
+      },
+      {
+        "bbox": [
+          395,
+          349,
+          412,
+          358
+        ],
+        "area": 84,
+        "area_ratio": 9.1e-05,
+        "mean_delta": 156.488,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.4,
+        "bbox_norm": [
+          0.3086,
+          0.4847,
+          0.3219,
+          0.4972
+        ]
+      },
+      {
+        "bbox": [
+          166,
+          481,
+          187,
+          494
+        ],
+        "area": 161,
+        "area_ratio": 0.000175,
+        "mean_delta": 155.665,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.398,
+        "bbox_norm": [
+          0.1297,
+          0.6681,
+          0.1461,
+          0.6861
+        ]
+      },
+      {
+        "bbox": [
+          349,
+          200,
+          362,
+          216
+        ],
+        "area": 97,
+        "area_ratio": 0.000105,
+        "mean_delta": 154.598,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.395,
+        "bbox_norm": [
+          0.2727,
+          0.2778,
+          0.2828,
+          0.3
+        ]
+      }
+    ]
+  },
+  {
+    "page": 9,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-009.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片9.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-009.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-009.png",
+    "mae": 6.453,
+    "rms": 29.41,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          287,
+          397,
+          302,
+          410
+        ],
+        "area": 135,
+        "area_ratio": 0.000146,
+        "mean_delta": 161.659,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.413,
+        "bbox_norm": [
+          0.2242,
+          0.5514,
+          0.2359,
+          0.5694
+        ]
+      },
+      {
+        "bbox": [
+          1235,
+          482,
+          1243,
+          494
+        ],
+        "area": 52,
+        "area_ratio": 5.6e-05,
+        "mean_delta": 161.038,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.411,
+        "bbox_norm": [
+          0.9648,
+          0.6694,
+          0.9711,
+          0.6861
+        ]
+      },
+      {
+        "bbox": [
+          975,
+          357,
+          1014,
+          373
+        ],
+        "area": 326,
+        "area_ratio": 0.000354,
+        "mean_delta": 159.509,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.409,
+        "bbox_norm": [
+          0.7617,
+          0.4958,
+          0.7922,
+          0.5181
+        ]
+      },
+      {
+        "bbox": [
+          903,
+          434,
+          914,
+          450
+        ],
+        "area": 116,
+        "area_ratio": 0.000126,
+        "mean_delta": 158.828,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.406,
+        "bbox_norm": [
+          0.7055,
+          0.6028,
+          0.7141,
+          0.625
+        ]
+      },
+      {
+        "bbox": [
+          1007,
+          378,
+          1022,
+          391
+        ],
+        "area": 98,
+        "area_ratio": 0.000106,
+        "mean_delta": 158.837,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.406,
+        "bbox_norm": [
+          0.7867,
+          0.525,
+          0.7984,
+          0.5431
+        ]
+      },
+      {
+        "bbox": [
+          502,
+          481,
+          511,
+          494
+        ],
+        "area": 76,
+        "area_ratio": 8.2e-05,
+        "mean_delta": 158.711,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.405,
+        "bbox_norm": [
+          0.3922,
+          0.6681,
+          0.3992,
+          0.6861
+        ]
+      },
+      {
+        "bbox": [
+          924,
+          584,
+          939,
+          598
+        ],
+        "area": 102,
+        "area_ratio": 0.000111,
+        "mean_delta": 154.373,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.394,
+        "bbox_norm": [
+          0.7219,
+          0.8111,
+          0.7336,
+          0.8306
+        ]
+      },
+      {
+        "bbox": [
+          860,
+          226,
+          875,
+          241
+        ],
+        "area": 111,
+        "area_ratio": 0.00012,
+        "mean_delta": 152.423,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.389,
+        "bbox_norm": [
+          0.6719,
+          0.3139,
+          0.6836,
+          0.3347
+        ]
+      },
+      {
+        "bbox": [
+          972,
+          264,
+          987,
+          278
+        ],
+        "area": 110,
+        "area_ratio": 0.000119,
+        "mean_delta": 152.045,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.388,
+        "bbox_norm": [
+          0.7594,
+          0.3667,
+          0.7711,
+          0.3861
+        ]
+      },
+      {
+        "bbox": [
+          988,
+          225,
+          1002,
+          240
+        ],
+        "area": 100,
+        "area_ratio": 0.000109,
+        "mean_delta": 151.83,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.388,
+        "bbox_norm": [
+          0.7719,
+          0.3125,
+          0.7828,
+          0.3333
+        ]
+      },
+      {
+        "bbox": [
+          1019,
+          395,
+          1034,
+          411
+        ],
+        "area": 122,
+        "area_ratio": 0.000132,
+        "mean_delta": 150.934,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.386,
+        "bbox_norm": [
+          0.7961,
+          0.5486,
+          0.8078,
+          0.5708
+        ]
+      },
+      {
+        "bbox": [
+          219,
+          490,
+          234,
+          505
+        ],
+        "area": 91,
+        "area_ratio": 9.9e-05,
+        "mean_delta": 151.044,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.386,
+        "bbox_norm": [
+          0.1711,
+          0.6806,
+          0.1828,
+          0.7014
+        ]
+      }
+    ]
+  },
+  {
+    "page": 10,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-010.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片10.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-010.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-010.png",
+    "mae": 4.321,
+    "rms": 23.28,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          494,
+          224,
+          509,
+          236
+        ],
+        "area": 116,
+        "area_ratio": 0.000126,
+        "mean_delta": 189.595,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.484,
+        "bbox_norm": [
+          0.3859,
+          0.3111,
+          0.3977,
+          0.3278
+        ]
+      },
+      {
+        "bbox": [
+          540,
+          222,
+          578,
+          236
+        ],
+        "area": 351,
+        "area_ratio": 0.000381,
+        "mean_delta": 163.165,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.419,
+        "bbox_norm": [
+          0.4219,
+          0.3083,
+          0.4516,
+          0.3278
+        ]
+      },
+      {
+        "bbox": [
+          348,
+          465,
+          380,
+          481
+        ],
+        "area": 257,
+        "area_ratio": 0.000279,
+        "mean_delta": 161.584,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.414,
+        "bbox_norm": [
+          0.2719,
+          0.6458,
+          0.2969,
+          0.6681
+        ]
+      },
+      {
+        "bbox": [
+          1061,
+          223,
+          1116,
+          236
+        ],
+        "area": 445,
+        "area_ratio": 0.000483,
+        "mean_delta": 154.897,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.398,
+        "bbox_norm": [
+          0.8289,
+          0.3097,
+          0.8719,
+          0.3278
+        ]
+      },
+      {
+        "bbox": [
+          682,
+          466,
+          696,
+          479
+        ],
+        "area": 102,
+        "area_ratio": 0.000111,
+        "mean_delta": 153.559,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.392,
+        "bbox_norm": [
+          0.5328,
+          0.6472,
+          0.5437,
+          0.6653
+        ]
+      },
+      {
+        "bbox": [
+          590,
+          222,
+          596,
+          237
+        ],
+        "area": 50,
+        "area_ratio": 5.4e-05,
+        "mean_delta": 150.6,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.384,
+        "bbox_norm": [
+          0.4609,
+          0.3083,
+          0.4656,
+          0.3292
+        ]
+      },
+      {
+        "bbox": [
+          988,
+          232,
+          1003,
+          247
+        ],
+        "area": 120,
+        "area_ratio": 0.00013,
+        "mean_delta": 148.95,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.381,
+        "bbox_norm": [
+          0.7719,
+          0.3222,
+          0.7836,
+          0.3431
+        ]
+      },
+      {
+        "bbox": [
+          1060,
+          362,
+          1092,
+          375
+        ],
+        "area": 309,
+        "area_ratio": 0.000335,
+        "mean_delta": 148.023,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.38,
+        "bbox_norm": [
+          0.8281,
+          0.5028,
+          0.8531,
+          0.5208
+        ]
+      },
+      {
+        "bbox": [
+          188,
+          466,
+          203,
+          479
+        ],
+        "area": 108,
+        "area_ratio": 0.000117,
+        "mean_delta": 145.926,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.373,
+        "bbox_norm": [
+          0.1469,
+          0.6472,
+          0.1586,
+          0.6653
+        ]
+      },
+      {
+        "bbox": [
+          909,
+          231,
+          922,
+          248
+        ],
+        "area": 122,
+        "area_ratio": 0.000132,
+        "mean_delta": 145.246,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.371,
+        "bbox_norm": [
+          0.7102,
+          0.3208,
+          0.7203,
+          0.3444
+        ]
+      },
+      {
+        "bbox": [
+          1132,
+          223,
+          1148,
+          237
+        ],
+        "area": 132,
+        "area_ratio": 0.000143,
+        "mean_delta": 144.568,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.37,
+        "bbox_norm": [
+          0.8844,
+          0.3097,
+          0.8969,
+          0.3292
+        ]
+      },
+      {
+        "bbox": [
+          1004,
+          232,
+          1019,
+          247
+        ],
+        "area": 130,
+        "area_ratio": 0.000141,
+        "mean_delta": 144.454,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.369,
+        "bbox_norm": [
+          0.7844,
+          0.3222,
+          0.7961,
+          0.3431
+        ]
+      }
+    ]
+  },
+  {
+    "page": 11,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-011.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片11.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-011.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-011.png",
+    "mae": 5.231,
+    "rms": 26.947,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          194,
+          561,
+          315,
+          590
+        ],
+        "area": 149,
+        "area_ratio": 0.000162,
+        "mean_delta": 230.899,
+        "max_delta": 240,
+        "category": "text_or_font_mismatch",
+        "severity": 0.59,
+        "bbox_norm": [
+          0.1516,
+          0.7792,
+          0.2461,
+          0.8194
+        ]
+      },
+      {
+        "bbox": [
+          195,
+          559,
+          316,
+          589
+        ],
+        "area": 270,
+        "area_ratio": 0.000293,
+        "mean_delta": 221.793,
+        "max_delta": 242,
+        "category": "text_or_font_mismatch",
+        "severity": 0.567,
+        "bbox_norm": [
+          0.1523,
+          0.7764,
+          0.2469,
+          0.8181
+        ]
+      },
+      {
+        "bbox": [
+          400,
+          302,
+          428,
+          329
+        ],
+        "area": 415,
+        "area_ratio": 0.00045,
+        "mean_delta": 192.161,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.493,
+        "bbox_norm": [
+          0.3125,
+          0.4194,
+          0.3344,
+          0.4569
+        ]
+      },
+      {
+        "bbox": [
+          574,
+          147,
+          597,
+          165
+        ],
+        "area": 211,
+        "area_ratio": 0.000229,
+        "mean_delta": 183.848,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.47,
+        "bbox_norm": [
+          0.4484,
+          0.2042,
+          0.4664,
+          0.2292
+        ]
+      },
+      {
+        "bbox": [
+          532,
+          147,
+          554,
+          166
+        ],
+        "area": 223,
+        "area_ratio": 0.000242,
+        "mean_delta": 180.969,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.463,
+        "bbox_norm": [
+          0.4156,
+          0.2042,
+          0.4328,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          598,
+          147,
+          616,
+          166
+        ],
+        "area": 228,
+        "area_ratio": 0.000247,
+        "mean_delta": 176.816,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.452,
+        "bbox_norm": [
+          0.4672,
+          0.2042,
+          0.4813,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          512,
+          147,
+          531,
+          166
+        ],
+        "area": 284,
+        "area_ratio": 0.000308,
+        "mean_delta": 176.018,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.451,
+        "bbox_norm": [
+          0.4,
+          0.2042,
+          0.4148,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          390,
+          146,
+          510,
+          167
+        ],
+        "area": 1357,
+        "area_ratio": 0.001472,
+        "mean_delta": 172.553,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.45,
+        "bbox_norm": [
+          0.3047,
+          0.2028,
+          0.3984,
+          0.2319
+        ]
+      },
+      {
+        "bbox": [
+          662,
+          148,
+          683,
+          166
+        ],
+        "area": 211,
+        "area_ratio": 0.000229,
+        "mean_delta": 172.403,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.441,
+        "bbox_norm": [
+          0.5172,
+          0.2056,
+          0.5336,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          683,
+          149,
+          722,
+          164
+        ],
+        "area": 232,
+        "area_ratio": 0.000252,
+        "mean_delta": 171.672,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.439,
+        "bbox_norm": [
+          0.5336,
+          0.2069,
+          0.5641,
+          0.2278
+        ]
+      },
+      {
+        "bbox": [
+          641,
+          147,
+          659,
+          166
+        ],
+        "area": 269,
+        "area_ratio": 0.000292,
+        "mean_delta": 171.201,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.438,
+        "bbox_norm": [
+          0.5008,
+          0.2042,
+          0.5148,
+          0.2306
+        ]
+      },
+      {
+        "bbox": [
+          749,
+          232,
+          760,
+          246
+        ],
+        "area": 103,
+        "area_ratio": 0.000112,
+        "mean_delta": 171.573,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.438,
+        "bbox_norm": [
+          0.5852,
+          0.3222,
+          0.5938,
+          0.3417
+        ]
+      }
+    ]
+  },
+  {
+    "page": 12,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-012.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片12.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-012.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-012.png",
+    "mae": 3.761,
+    "rms": 19.28,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          203,
+          291,
+          217,
+          304
+        ],
+        "area": 127,
+        "area_ratio": 0.000138,
+        "mean_delta": 179.961,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.46,
+        "bbox_norm": [
+          0.1586,
+          0.4042,
+          0.1695,
+          0.4222
+        ]
+      },
+      {
+        "bbox": [
+          291,
+          456,
+          379,
+          460
+        ],
+        "area": 101,
+        "area_ratio": 0.00011,
+        "mean_delta": 176.465,
+        "max_delta": 219,
+        "category": "text_or_font_mismatch",
+        "severity": 0.451,
+        "bbox_norm": [
+          0.2273,
+          0.6333,
+          0.2961,
+          0.6389
+        ]
+      },
+      {
+        "bbox": [
+          253,
+          578,
+          269,
+          592
+        ],
+        "area": 137,
+        "area_ratio": 0.000149,
+        "mean_delta": 167.445,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.428,
+        "bbox_norm": [
+          0.1977,
+          0.8028,
+          0.2102,
+          0.8222
+        ]
+      },
+      {
+        "bbox": [
+          1190,
+          692,
+          1228,
+          711
+        ],
+        "area": 420,
+        "area_ratio": 0.000456,
+        "mean_delta": 163.648,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.42,
+        "bbox_norm": [
+          0.9297,
+          0.9611,
+          0.9594,
+          0.9875
+        ]
+      },
+      {
+        "bbox": [
+          239,
+          289,
+          294,
+          305
+        ],
+        "area": 537,
+        "area_ratio": 0.000583,
+        "mean_delta": 158.73,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.409,
+        "bbox_norm": [
+          0.1867,
+          0.4014,
+          0.2297,
+          0.4236
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          576,
+          350,
+          593
+        ],
+        "area": 498,
+        "area_ratio": 0.00054,
+        "mean_delta": 158.675,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.408,
+        "bbox_norm": [
+          0.2391,
+          0.8,
+          0.2734,
+          0.8236
+        ]
+      },
+      {
+        "bbox": [
+          283,
+          577,
+          302,
+          592
+        ],
+        "area": 146,
+        "area_ratio": 0.000158,
+        "mean_delta": 158.568,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.405,
+        "bbox_norm": [
+          0.2211,
+          0.8014,
+          0.2359,
+          0.8222
+        ]
+      },
+      {
+        "bbox": [
+          972,
+          291,
+          996,
+          306
+        ],
+        "area": 104,
+        "area_ratio": 0.000113,
+        "mean_delta": 158.625,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.405,
+        "bbox_norm": [
+          0.7594,
+          0.4042,
+          0.7781,
+          0.425
+        ]
+      },
+      {
+        "bbox": [
+          223,
+          289,
+          242,
+          306
+        ],
+        "area": 173,
+        "area_ratio": 0.000188,
+        "mean_delta": 156.197,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.399,
+        "bbox_norm": [
+          0.1742,
+          0.4014,
+          0.1891,
+          0.425
+        ]
+      },
+      {
+        "bbox": [
+          204,
+          150,
+          222,
+          168
+        ],
+        "area": 228,
+        "area_ratio": 0.000247,
+        "mean_delta": 153.596,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.393,
+        "bbox_norm": [
+          0.1594,
+          0.2083,
+          0.1734,
+          0.2333
+        ]
+      },
+      {
+        "bbox": [
+          146,
+          291,
+          156,
+          304
+        ],
+        "area": 95,
+        "area_ratio": 0.000103,
+        "mean_delta": 152.263,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.389,
+        "bbox_norm": [
+          0.1141,
+          0.4042,
+          0.1219,
+          0.4222
+        ]
+      },
+      {
+        "bbox": [
+          163,
+          289,
+          199,
+          306
+        ],
+        "area": 351,
+        "area_ratio": 0.000381,
+        "mean_delta": 150.615,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.387,
+        "bbox_norm": [
+          0.1273,
+          0.4014,
+          0.1555,
+          0.425
+        ]
+      }
+    ]
+  },
+  {
+    "page": 13,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-013.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片13.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-013.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-013.png",
+    "mae": 12.463,
+    "rms": 42.646,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          320,
+          465,
+          327,
+          477
+        ],
+        "area": 60,
+        "area_ratio": 6.5e-05,
+        "mean_delta": 163.917,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.418,
+        "bbox_norm": [
+          0.25,
+          0.6458,
+          0.2555,
+          0.6625
+        ]
+      },
+      {
+        "bbox": [
+          372,
+          345,
+          380,
+          357
+        ],
+        "area": 60,
+        "area_ratio": 6.5e-05,
+        "mean_delta": 160.917,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.411,
+        "bbox_norm": [
+          0.2906,
+          0.4792,
+          0.2969,
+          0.4958
+        ]
+      },
+      {
+        "bbox": [
+          505,
+          481,
+          519,
+          494
+        ],
+        "area": 129,
+        "area_ratio": 0.00014,
+        "mean_delta": 158.667,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.405,
+        "bbox_norm": [
+          0.3945,
+          0.6681,
+          0.4055,
+          0.6861
+        ]
+      },
+      {
+        "bbox": [
+          359,
+          345,
+          373,
+          358
+        ],
+        "area": 94,
+        "area_ratio": 0.000102,
+        "mean_delta": 156.766,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.4,
+        "bbox_norm": [
+          0.2805,
+          0.4792,
+          0.2914,
+          0.4972
+        ]
+      },
+      {
+        "bbox": [
+          397,
+          344,
+          418,
+          358
+        ],
+        "area": 181,
+        "area_ratio": 0.000196,
+        "mean_delta": 156.017,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.399,
+        "bbox_norm": [
+          0.3102,
+          0.4778,
+          0.3266,
+          0.4972
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          465,
+          320,
+          478
+        ],
+        "area": 89,
+        "area_ratio": 9.7e-05,
+        "mean_delta": 154.551,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.395,
+        "bbox_norm": [
+          0.2391,
+          0.6458,
+          0.25,
+          0.6639
+        ]
+      },
+      {
+        "bbox": [
+          1118,
+          192,
+          1131,
+          205
+        ],
+        "area": 109,
+        "area_ratio": 0.000118,
+        "mean_delta": 154.404,
+        "max_delta": 245,
+        "category": "text_or_font_mismatch",
+        "severity": 0.394,
+        "bbox_norm": [
+          0.8734,
+          0.2667,
+          0.8836,
+          0.2847
+        ]
+      },
+      {
+        "bbox": [
+          336,
+          465,
+          343,
+          477
+        ],
+        "area": 67,
+        "area_ratio": 7.3e-05,
+        "mean_delta": 153.149,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.391,
+        "bbox_norm": [
+          0.2625,
+          0.6458,
+          0.268,
+          0.6625
+        ]
+      },
+      {
+        "bbox": [
+          1051,
+          615,
+          1057,
+          629
+        ],
+        "area": 49,
+        "area_ratio": 5.3e-05,
+        "mean_delta": 152.51,
+        "max_delta": 240,
+        "category": "text_or_font_mismatch",
+        "severity": 0.389,
+        "bbox_norm": [
+          0.8211,
+          0.8542,
+          0.8258,
+          0.8736
+        ]
+      },
+      {
+        "bbox": [
+          406,
+          548,
+          433,
+          560
+        ],
+        "area": 200,
+        "area_ratio": 0.000217,
+        "mean_delta": 151.515,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.388,
+        "bbox_norm": [
+          0.3172,
+          0.7611,
+          0.3383,
+          0.7778
+        ]
+      },
+      {
+        "bbox": [
+          457,
+          344,
+          484,
+          358
+        ],
+        "area": 180,
+        "area_ratio": 0.000195,
+        "mean_delta": 151.6,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.388,
+        "bbox_norm": [
+          0.357,
+          0.4778,
+          0.3781,
+          0.4972
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          398,
+          335,
+          411
+        ],
+        "area": 234,
+        "area_ratio": 0.000254,
+        "mean_delta": 151.167,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.387,
+        "bbox_norm": [
+          0.2391,
+          0.5528,
+          0.2617,
+          0.5708
+        ]
+      }
+    ]
+  },
+  {
+    "page": 14,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-014.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片14.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-014.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-014.png",
+    "mae": 14.354,
+    "rms": 46.213,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          721,
+          623,
+          729,
+          635
+        ],
+        "area": 48,
+        "area_ratio": 5.2e-05,
+        "mean_delta": 174.25,
+        "max_delta": 244,
+        "category": "text_or_font_mismatch",
+        "severity": 0.445,
+        "bbox_norm": [
+          0.5633,
+          0.8653,
+          0.5695,
+          0.8819
+        ]
+      },
+      {
+        "bbox": [
+          543,
+          189,
+          550,
+          201
+        ],
+        "area": 62,
+        "area_ratio": 6.7e-05,
+        "mean_delta": 164.855,
+        "max_delta": 254,
+        "category": "text_or_font_mismatch",
+        "severity": 0.421,
+        "bbox_norm": [
+          0.4242,
+          0.2625,
+          0.4297,
+          0.2792
+        ]
+      },
+      {
+        "bbox": [
+          639,
+          444,
+          650,
+          458
+        ],
+        "area": 135,
+        "area_ratio": 0.000146,
+        "mean_delta": 163.8,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.419,
+        "bbox_norm": [
+          0.4992,
+          0.6167,
+          0.5078,
+          0.6361
+        ]
+      },
+      {
+        "bbox": [
+          1044,
+          244,
+          1076,
+          256
+        ],
+        "area": 239,
+        "area_ratio": 0.000259,
+        "mean_delta": 162.339,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.416,
+        "bbox_norm": [
+          0.8156,
+          0.3389,
+          0.8406,
+          0.3556
+        ]
+      },
+      {
+        "bbox": [
+          314,
+          576,
+          328,
+          590
+        ],
+        "area": 77,
+        "area_ratio": 8.4e-05,
+        "mean_delta": 159.519,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.407,
+        "bbox_norm": [
+          0.2453,
+          0.8,
+          0.2562,
+          0.8194
+        ]
+      },
+      {
+        "bbox": [
+          354,
+          188,
+          389,
+          202
+        ],
+        "area": 253,
+        "area_ratio": 0.000275,
+        "mean_delta": 158.53,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.406,
+        "bbox_norm": [
+          0.2766,
+          0.2611,
+          0.3039,
+          0.2806
+        ]
+      },
+      {
+        "bbox": [
+          402,
+          639,
+          413,
+          651
+        ],
+        "area": 71,
+        "area_ratio": 7.7e-05,
+        "mean_delta": 158.31,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.404,
+        "bbox_norm": [
+          0.3141,
+          0.8875,
+          0.3227,
+          0.9042
+        ]
+      },
+      {
+        "bbox": [
+          305,
+          444,
+          334,
+          458
+        ],
+        "area": 238,
+        "area_ratio": 0.000258,
+        "mean_delta": 155.664,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.399,
+        "bbox_norm": [
+          0.2383,
+          0.6167,
+          0.2609,
+          0.6361
+        ]
+      },
+      {
+        "bbox": [
+          280,
+          252,
+          296,
+          264
+        ],
+        "area": 139,
+        "area_ratio": 0.000151,
+        "mean_delta": 156.05,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.399,
+        "bbox_norm": [
+          0.2188,
+          0.35,
+          0.2313,
+          0.3667
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          623,
+          325,
+          636
+        ],
+        "area": 138,
+        "area_ratio": 0.00015,
+        "mean_delta": 155.964,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.399,
+        "bbox_norm": [
+          0.2391,
+          0.8653,
+          0.2539,
+          0.8833
+        ]
+      },
+      {
+        "bbox": [
+          523,
+          639,
+          533,
+          651
+        ],
+        "area": 67,
+        "area_ratio": 7.3e-05,
+        "mean_delta": 156.104,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.398,
+        "bbox_norm": [
+          0.4086,
+          0.8875,
+          0.4164,
+          0.9042
+        ]
+      },
+      {
+        "bbox": [
+          280,
+          560,
+          293,
+          574
+        ],
+        "area": 100,
+        "area_ratio": 0.000109,
+        "mean_delta": 155.47,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.397,
+        "bbox_norm": [
+          0.2188,
+          0.7778,
+          0.2289,
+          0.7972
+        ]
+      }
+    ]
+  },
+  {
+    "page": 15,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-015.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片15.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-015.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-015.png",
+    "mae": 14.026,
+    "rms": 42.798,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          423,
+          544,
+          449,
+          555
+        ],
+        "area": 199,
+        "area_ratio": 0.000216,
+        "mean_delta": 160.678,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.411,
+        "bbox_norm": [
+          0.3305,
+          0.7556,
+          0.3508,
+          0.7708
+        ]
+      },
+      {
+        "bbox": [
+          328,
+          350,
+          337,
+          361
+        ],
+        "area": 69,
+        "area_ratio": 7.5e-05,
+        "mean_delta": 159.986,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.408,
+        "bbox_norm": [
+          0.2562,
+          0.4861,
+          0.2633,
+          0.5014
+        ]
+      },
+      {
+        "bbox": [
+          516,
+          472,
+          537,
+          485
+        ],
+        "area": 153,
+        "area_ratio": 0.000166,
+        "mean_delta": 157.66,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.403,
+        "bbox_norm": [
+          0.4031,
+          0.6556,
+          0.4195,
+          0.6736
+        ]
+      },
+      {
+        "bbox": [
+          834,
+          528,
+          859,
+          539
+        ],
+        "area": 194,
+        "area_ratio": 0.000211,
+        "mean_delta": 156.351,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.4,
+        "bbox_norm": [
+          0.6516,
+          0.7333,
+          0.6711,
+          0.7486
+        ]
+      },
+      {
+        "bbox": [
+          374,
+          382,
+          390,
+          393
+        ],
+        "area": 126,
+        "area_ratio": 0.000137,
+        "mean_delta": 154.873,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.396,
+        "bbox_norm": [
+          0.2922,
+          0.5306,
+          0.3047,
+          0.5458
+        ]
+      },
+      {
+        "bbox": [
+          415,
+          544,
+          422,
+          555
+        ],
+        "area": 49,
+        "area_ratio": 5.3e-05,
+        "mean_delta": 154.531,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.394,
+        "bbox_norm": [
+          0.3242,
+          0.7556,
+          0.3297,
+          0.7708
+        ]
+      },
+      {
+        "bbox": [
+          795,
+          350,
+          803,
+          361
+        ],
+        "area": 61,
+        "area_ratio": 6.6e-05,
+        "mean_delta": 153.803,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.393,
+        "bbox_norm": [
+          0.6211,
+          0.4861,
+          0.6273,
+          0.5014
+        ]
+      },
+      {
+        "bbox": [
+          823,
+          350,
+          830,
+          361
+        ],
+        "area": 69,
+        "area_ratio": 7.5e-05,
+        "mean_delta": 151.986,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.388,
+        "bbox_norm": [
+          0.643,
+          0.4861,
+          0.6484,
+          0.5014
+        ]
+      },
+      {
+        "bbox": [
+          773,
+          528,
+          781,
+          539
+        ],
+        "area": 56,
+        "area_ratio": 6.1e-05,
+        "mean_delta": 151.75,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.387,
+        "bbox_norm": [
+          0.6039,
+          0.7333,
+          0.6102,
+          0.7486
+        ]
+      },
+      {
+        "bbox": [
+          627,
+          222,
+          634,
+          235
+        ],
+        "area": 68,
+        "area_ratio": 7.4e-05,
+        "mean_delta": 150.662,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.385,
+        "bbox_norm": [
+          0.4898,
+          0.3083,
+          0.4953,
+          0.3264
+        ]
+      },
+      {
+        "bbox": [
+          765,
+          528,
+          772,
+          539
+        ],
+        "area": 62,
+        "area_ratio": 6.7e-05,
+        "mean_delta": 149.952,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.383,
+        "bbox_norm": [
+          0.5977,
+          0.7333,
+          0.6031,
+          0.7486
+        ]
+      },
+      {
+        "bbox": [
+          320,
+          350,
+          328,
+          361
+        ],
+        "area": 61,
+        "area_ratio": 6.6e-05,
+        "mean_delta": 149.77,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.382,
+        "bbox_norm": [
+          0.25,
+          0.4861,
+          0.2562,
+          0.5014
+        ]
+      }
+    ]
+  },
+  {
+    "page": 16,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-016.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片16.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-016.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-016.png",
+    "mae": 13.53,
+    "rms": 43.637,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          320,
+          615,
+          327,
+          627
+        ],
+        "area": 60,
+        "area_ratio": 6.5e-05,
+        "mean_delta": 163.717,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.418,
+        "bbox_norm": [
+          0.25,
+          0.8542,
+          0.2555,
+          0.8708
+        ]
+      },
+      {
+        "bbox": [
+          542,
+          366,
+          563,
+          376
+        ],
+        "area": 152,
+        "area_ratio": 0.000165,
+        "mean_delta": 162.914,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.416,
+        "bbox_norm": [
+          0.4234,
+          0.5083,
+          0.4398,
+          0.5222
+        ]
+      },
+      {
+        "bbox": [
+          575,
+          366,
+          595,
+          376
+        ],
+        "area": 162,
+        "area_ratio": 0.000176,
+        "mean_delta": 158.846,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.406,
+        "bbox_norm": [
+          0.4492,
+          0.5083,
+          0.4648,
+          0.5222
+        ]
+      },
+      {
+        "bbox": [
+          320,
+          406,
+          327,
+          418
+        ],
+        "area": 62,
+        "area_ratio": 6.7e-05,
+        "mean_delta": 156.694,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.4,
+        "bbox_norm": [
+          0.25,
+          0.5639,
+          0.2555,
+          0.5806
+        ]
+      },
+      {
+        "bbox": [
+          713,
+          529,
+          720,
+          542
+        ],
+        "area": 69,
+        "area_ratio": 7.5e-05,
+        "mean_delta": 155.652,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.397,
+        "bbox_norm": [
+          0.557,
+          0.7347,
+          0.5625,
+          0.7528
+        ]
+      },
+      {
+        "bbox": [
+          652,
+          460,
+          721,
+          474
+        ],
+        "area": 626,
+        "area_ratio": 0.000679,
+        "mean_delta": 152.149,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.393,
+        "bbox_norm": [
+          0.5094,
+          0.6389,
+          0.5633,
+          0.6583
+        ]
+      },
+      {
+        "bbox": [
+          721,
+          529,
+          768,
+          543
+        ],
+        "area": 395,
+        "area_ratio": 0.000429,
+        "mean_delta": 152.701,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.392,
+        "bbox_norm": [
+          0.5633,
+          0.7347,
+          0.6,
+          0.7542
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          615,
+          320,
+          628
+        ],
+        "area": 86,
+        "area_ratio": 9.3e-05,
+        "mean_delta": 153.372,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.392,
+        "bbox_norm": [
+          0.2391,
+          0.8542,
+          0.25,
+          0.8722
+        ]
+      },
+      {
+        "bbox": [
+          365,
+          615,
+          373,
+          627
+        ],
+        "area": 56,
+        "area_ratio": 6.1e-05,
+        "mean_delta": 153.429,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.392,
+        "bbox_norm": [
+          0.2852,
+          0.8542,
+          0.2914,
+          0.8708
+        ]
+      },
+      {
+        "bbox": [
+          538,
+          476,
+          563,
+          490
+        ],
+        "area": 237,
+        "area_ratio": 0.000257,
+        "mean_delta": 152.574,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.391,
+        "bbox_norm": [
+          0.4203,
+          0.6611,
+          0.4398,
+          0.6806
+        ]
+      },
+      {
+        "bbox": [
+          319,
+          317,
+          334,
+          329
+        ],
+        "area": 125,
+        "area_ratio": 0.000136,
+        "mean_delta": 151.824,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.388,
+        "bbox_norm": [
+          0.2492,
+          0.4403,
+          0.2609,
+          0.4569
+        ]
+      },
+      {
+        "bbox": [
+          373,
+          615,
+          385,
+          628
+        ],
+        "area": 127,
+        "area_ratio": 0.000138,
+        "mean_delta": 150.748,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.385,
+        "bbox_norm": [
+          0.2914,
+          0.8542,
+          0.3008,
+          0.8722
+        ]
+      }
+    ]
+  },
+  {
+    "page": 17,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-017.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片17.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-017.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-017.png",
+    "mae": 13.595,
+    "rms": 44.47,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          205,
+          282,
+          219,
+          295
+        ],
+        "area": 113,
+        "area_ratio": 0.000123,
+        "mean_delta": 160.327,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.41,
+        "bbox_norm": [
+          0.1602,
+          0.3917,
+          0.1711,
+          0.4097
+        ]
+      },
+      {
+        "bbox": [
+          431,
+          290,
+          444,
+          303
+        ],
+        "area": 69,
+        "area_ratio": 7.5e-05,
+        "mean_delta": 160.362,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.409,
+        "bbox_norm": [
+          0.3367,
+          0.4028,
+          0.3469,
+          0.4208
+        ]
+      },
+      {
+        "bbox": [
+          407,
+          407,
+          421,
+          421
+        ],
+        "area": 126,
+        "area_ratio": 0.000137,
+        "mean_delta": 157.54,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.403,
+        "bbox_norm": [
+          0.318,
+          0.5653,
+          0.3289,
+          0.5847
+        ]
+      },
+      {
+        "bbox": [
+          297,
+          274,
+          325,
+          288
+        ],
+        "area": 235,
+        "area_ratio": 0.000255,
+        "mean_delta": 156.864,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.402,
+        "bbox_norm": [
+          0.232,
+          0.3806,
+          0.2539,
+          0.4
+        ]
+      },
+      {
+        "bbox": [
+          297,
+          462,
+          325,
+          476
+        ],
+        "area": 234,
+        "area_ratio": 0.000254,
+        "mean_delta": 156.197,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.4,
+        "bbox_norm": [
+          0.232,
+          0.6417,
+          0.2539,
+          0.6611
+        ]
+      },
+      {
+        "bbox": [
+          333,
+          407,
+          355,
+          421
+        ],
+        "area": 186,
+        "area_ratio": 0.000202,
+        "mean_delta": 155.973,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.399,
+        "bbox_norm": [
+          0.2602,
+          0.5653,
+          0.2773,
+          0.5847
+        ]
+      },
+      {
+        "bbox": [
+          192,
+          548,
+          219,
+          561
+        ],
+        "area": 227,
+        "area_ratio": 0.000246,
+        "mean_delta": 155.11,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.397,
+        "bbox_norm": [
+          0.15,
+          0.7611,
+          0.1711,
+          0.7792
+        ]
+      },
+      {
+        "bbox": [
+          326,
+          274,
+          374,
+          288
+        ],
+        "area": 479,
+        "area_ratio": 0.00052,
+        "mean_delta": 153.463,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.395,
+        "bbox_norm": [
+          0.2547,
+          0.3806,
+          0.2922,
+          0.4
+        ]
+      },
+      {
+        "bbox": [
+          704,
+          548,
+          731,
+          561
+        ],
+        "area": 208,
+        "area_ratio": 0.000226,
+        "mean_delta": 154.524,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.395,
+        "bbox_norm": [
+          0.55,
+          0.7611,
+          0.5711,
+          0.7792
+        ]
+      },
+      {
+        "bbox": [
+          391,
+          290,
+          404,
+          303
+        ],
+        "area": 85,
+        "area_ratio": 9.2e-05,
+        "mean_delta": 154.271,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.394,
+        "bbox_norm": [
+          0.3055,
+          0.4028,
+          0.3156,
+          0.4208
+        ]
+      },
+      {
+        "bbox": [
+          279,
+          494,
+          299,
+          508
+        ],
+        "area": 202,
+        "area_ratio": 0.000219,
+        "mean_delta": 152.257,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.39,
+        "bbox_norm": [
+          0.218,
+          0.6861,
+          0.2336,
+          0.7056
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          336,
+          320,
+          349
+        ],
+        "area": 99,
+        "area_ratio": 0.000107,
+        "mean_delta": 151.636,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.387,
+        "bbox_norm": [
+          0.2391,
+          0.4667,
+          0.25,
+          0.4847
+        ]
+      }
+    ]
+  },
+  {
+    "page": 18,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\pdf-pages\\page-018.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\ppt-renders\\幻灯片18.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diffs\\diff-018.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\Maple_pitchbook_世界模型_vF_001\\comparison\\diagnostic-overlays\\overlay-018.png",
+    "mae": 13.965,
+    "rms": 44.556,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          634,
+          416,
+          641,
+          429
+        ],
+        "area": 47,
+        "area_ratio": 5.1e-05,
+        "mean_delta": 177.447,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.453,
+        "bbox_norm": [
+          0.4953,
+          0.5778,
+          0.5008,
+          0.5958
+        ]
+      },
+      {
+        "bbox": [
+          373,
+          289,
+          381,
+          302
+        ],
+        "area": 64,
+        "area_ratio": 6.9e-05,
+        "mean_delta": 166.984,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.426,
+        "bbox_norm": [
+          0.2914,
+          0.4014,
+          0.2977,
+          0.4194
+        ]
+      },
+      {
+        "bbox": [
+          320,
+          615,
+          327,
+          627
+        ],
+        "area": 61,
+        "area_ratio": 6.6e-05,
+        "mean_delta": 162.197,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.414,
+        "bbox_norm": [
+          0.25,
+          0.8542,
+          0.2555,
+          0.8708
+        ]
+      },
+      {
+        "bbox": [
+          684,
+          400,
+          691,
+          413
+        ],
+        "area": 62,
+        "area_ratio": 6.7e-05,
+        "mean_delta": 159.339,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.407,
+        "bbox_norm": [
+          0.5344,
+          0.5556,
+          0.5398,
+          0.5736
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          158,
+          327,
+          172
+        ],
+        "area": 165,
+        "area_ratio": 0.000179,
+        "mean_delta": 156.885,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.401,
+        "bbox_norm": [
+          0.2391,
+          0.2194,
+          0.2555,
+          0.2389
+        ]
+      },
+      {
+        "bbox": [
+          328,
+          542,
+          335,
+          555
+        ],
+        "area": 73,
+        "area_ratio": 7.9e-05,
+        "mean_delta": 156.918,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.401,
+        "bbox_norm": [
+          0.2562,
+          0.7528,
+          0.2617,
+          0.7708
+        ]
+      },
+      {
+        "bbox": [
+          381,
+          289,
+          419,
+          303
+        ],
+        "area": 343,
+        "area_ratio": 0.000372,
+        "mean_delta": 155.496,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.399,
+        "bbox_norm": [
+          0.2977,
+          0.4014,
+          0.3273,
+          0.4208
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          558,
+          352,
+          572
+        ],
+        "area": 374,
+        "area_ratio": 0.000406,
+        "mean_delta": 154.909,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.398,
+        "bbox_norm": [
+          0.2391,
+          0.775,
+          0.275,
+          0.7944
+        ]
+      },
+      {
+        "bbox": [
+          732,
+          158,
+          762,
+          172
+        ],
+        "area": 261,
+        "area_ratio": 0.000283,
+        "mean_delta": 155.322,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.398,
+        "bbox_norm": [
+          0.5719,
+          0.2194,
+          0.5953,
+          0.2389
+        ]
+      },
+      {
+        "bbox": [
+          306,
+          542,
+          327,
+          556
+        ],
+        "area": 169,
+        "area_ratio": 0.000183,
+        "mean_delta": 155.432,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.397,
+        "bbox_norm": [
+          0.2391,
+          0.7528,
+          0.2555,
+          0.7722
+        ]
+      },
+      {
+        "bbox": [
+          439,
+          542,
+          452,
+          555
+        ],
+        "area": 88,
+        "area_ratio": 9.5e-05,
+        "mean_delta": 155.205,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.396,
+        "bbox_norm": [
+          0.343,
+          0.7528,
+          0.3531,
+          0.7708
+        ]
+      },
+      {
+        "bbox": [
+          279,
+          557,
+          293,
+          571
+        ],
+        "area": 147,
+        "area_ratio": 0.00016,
+        "mean_delta": 154.109,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.394,
+        "bbox_norm": [
+          0.218,
+          0.7736,
+          0.2289,
+          0.7931
+        ]
+      }
+    ]
+  }
+]

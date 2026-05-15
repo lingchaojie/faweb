@@ -1,0 +1,254 @@
+[
+  {
+    "page": 1,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\千诀Teaser外发\\comparison\\pdf-pages\\page-001.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\千诀Teaser外发\\ppt-renders\\幻灯片1.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\千诀Teaser外发\\comparison\\diffs\\diff-001.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\千诀Teaser外发\\comparison\\diagnostic-overlays\\overlay-001.png",
+    "mae": 32.84,
+    "rms": 62.143,
+    "max_delta": 255,
+    "diagnostics": [
+      {
+        "bbox": [
+          267,
+          598,
+          288,
+          606
+        ],
+        "area": 78,
+        "area_ratio": 8.5e-05,
+        "mean_delta": 223.295,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.57,
+        "bbox_norm": [
+          0.2086,
+          0.8306,
+          0.225,
+          0.8417
+        ]
+      },
+      {
+        "bbox": [
+          162,
+          265,
+          175,
+          271
+        ],
+        "area": 54,
+        "area_ratio": 5.9e-05,
+        "mean_delta": 222.222,
+        "max_delta": 241,
+        "category": "text_or_font_mismatch",
+        "severity": 0.567,
+        "bbox_norm": [
+          0.1266,
+          0.3681,
+          0.1367,
+          0.3764
+        ]
+      },
+      {
+        "bbox": [
+          134,
+          131,
+          149,
+          137
+        ],
+        "area": 66,
+        "area_ratio": 7.2e-05,
+        "mean_delta": 220.076,
+        "max_delta": 241,
+        "category": "text_or_font_mismatch",
+        "severity": 0.561,
+        "bbox_norm": [
+          0.1047,
+          0.1819,
+          0.1164,
+          0.1903
+        ]
+      },
+      {
+        "bbox": [
+          115,
+          315,
+          130,
+          321
+        ],
+        "area": 72,
+        "area_ratio": 7.8e-05,
+        "mean_delta": 219.292,
+        "max_delta": 241,
+        "category": "text_or_font_mismatch",
+        "severity": 0.56,
+        "bbox_norm": [
+          0.0898,
+          0.4375,
+          0.1016,
+          0.4458
+        ]
+      },
+      {
+        "bbox": [
+          64,
+          597,
+          185,
+          606
+        ],
+        "area": 646,
+        "area_ratio": 0.000701,
+        "mean_delta": 216.534,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.557,
+        "bbox_norm": [
+          0.05,
+          0.8292,
+          0.1445,
+          0.8417
+        ]
+      },
+      {
+        "bbox": [
+          332,
+          276,
+          347,
+          282
+        ],
+        "area": 73,
+        "area_ratio": 7.9e-05,
+        "mean_delta": 216.863,
+        "max_delta": 241,
+        "category": "text_or_font_mismatch",
+        "severity": 0.553,
+        "bbox_norm": [
+          0.2594,
+          0.3833,
+          0.2711,
+          0.3917
+        ]
+      },
+      {
+        "bbox": [
+          288,
+          597,
+          349,
+          607
+        ],
+        "area": 332,
+        "area_ratio": 0.00036,
+        "mean_delta": 214.557,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.549,
+        "bbox_norm": [
+          0.225,
+          0.8292,
+          0.2727,
+          0.8431
+        ]
+      },
+      {
+        "bbox": [
+          317,
+          305,
+          331,
+          312
+        ],
+        "area": 73,
+        "area_ratio": 7.9e-05,
+        "mean_delta": 213.411,
+        "max_delta": 241,
+        "category": "text_or_font_mismatch",
+        "severity": 0.545,
+        "bbox_norm": [
+          0.2477,
+          0.4236,
+          0.2586,
+          0.4333
+        ]
+      },
+      {
+        "bbox": [
+          706,
+          668,
+          721,
+          674
+        ],
+        "area": 60,
+        "area_ratio": 6.5e-05,
+        "mean_delta": 213.533,
+        "max_delta": 245,
+        "category": "text_or_font_mismatch",
+        "severity": 0.545,
+        "bbox_norm": [
+          0.5516,
+          0.9278,
+          0.5633,
+          0.9361
+        ]
+      },
+      {
+        "bbox": [
+          314,
+          296,
+          329,
+          302
+        ],
+        "area": 60,
+        "area_ratio": 6.5e-05,
+        "mean_delta": 211.383,
+        "max_delta": 241,
+        "category": "text_or_font_mismatch",
+        "severity": 0.539,
+        "bbox_norm": [
+          0.2453,
+          0.4111,
+          0.257,
+          0.4194
+        ]
+      },
+      {
+        "bbox": [
+          102,
+          131,
+          115,
+          137
+        ],
+        "area": 75,
+        "area_ratio": 8.1e-05,
+        "mean_delta": 210.84,
+        "max_delta": 241,
+        "category": "text_or_font_mismatch",
+        "severity": 0.538,
+        "bbox_norm": [
+          0.0797,
+          0.1819,
+          0.0898,
+          0.1903
+        ]
+      },
+      {
+        "bbox": [
+          347,
+          256,
+          362,
+          262
+        ],
+        "area": 61,
+        "area_ratio": 6.6e-05,
+        "mean_delta": 211.033,
+        "max_delta": 241,
+        "category": "text_or_font_mismatch",
+        "severity": 0.538,
+        "bbox_norm": [
+          0.2711,
+          0.3556,
+          0.2828,
+          0.3639
+        ]
+      }
+    ]
+  }
+]
