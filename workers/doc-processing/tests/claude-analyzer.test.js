@@ -57,6 +57,60 @@ test("analyzeLayoutWithClaude invokes claude and validates hints", async () => {
   assert.equal(result.pages[0].pageNumber, 1);
 });
 
+test("analyzeLayoutWithClaude preserves Anthropic base URL auth token and traffic settings", async () => {
+  const { promptPath, manifestPath } = await writePromptAndManifest();
+  const dir = await mkdtemp(join(tmpdir(), "claude-analyzer-env-"));
+  const envPath = join(dir, "env.txt");
+  const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
+  await writeFile(join(fakeDir, "claude"), `#!/bin/sh\nenv > ${shellQuote(envPath)}\nprintf '%s' '{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}'\n`);
+  await chmod(join(fakeDir, "claude"), 0o755);
+
+  await analyzeLayoutWithClaude({
+    manifestPath,
+    pageNumbers: [1],
+    promptPath,
+    claudeConfigDir: "/tmp/claude-config",
+    timeoutMs: 5000,
+    env: {
+      ANTHROPIC_AUTH_TOKEN: "auth-token",
+      ANTHROPIC_BASE_URL: "http://host.docker.internal:8080",
+      CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
+      PATH: `${fakeDir}:${process.env.PATH}`,
+    },
+  });
+
+  const childEnv = await readFile(envPath, "utf8");
+  assert.match(childEnv, /^ANTHROPIC_AUTH_TOKEN=auth-token$/m);
+  assert.match(childEnv, /^ANTHROPIC_BASE_URL=http:\/\/host\.docker\.internal:8080$/m);
+  assert.match(childEnv, /^CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1$/m);
+});
+
+test("analyzeLayoutWithClaude rewrites Docker-localhost Anthropic base URL for child process", async () => {
+  const { promptPath, manifestPath } = await writePromptAndManifest();
+  const dir = await mkdtemp(join(tmpdir(), "claude-analyzer-docker-env-"));
+  const envPath = join(dir, "env.txt");
+  const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
+  await writeFile(join(fakeDir, "claude"), `#!/bin/sh\nenv > ${shellQuote(envPath)}\nprintf '%s' '{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}'\n`);
+  await chmod(join(fakeDir, "claude"), 0o755);
+
+  await analyzeLayoutWithClaude({
+    manifestPath,
+    pageNumbers: [1],
+    promptPath,
+    claudeConfigDir: "/tmp/claude-config",
+    timeoutMs: 5000,
+    env: {
+      ANTHROPIC_AUTH_TOKEN: "auth-token",
+      ANTHROPIC_BASE_URL: "http://localhost:8080",
+      FLOWASSIST_RUNNING_IN_DOCKER: "1",
+      PATH: `${fakeDir}:${process.env.PATH}`,
+    },
+  });
+
+  const childEnv = await readFile(envPath, "utf8");
+  assert.match(childEnv, /^ANTHROPIC_BASE_URL=http:\/\/host\.docker\.internal:8080$/m);
+});
+
 test("analyzeLayoutWithClaude invokes claude without allowed filesystem tools", async () => {
   const { promptPath, manifestPath } = await writePromptAndManifest();
   const dir = await mkdtemp(join(tmpdir(), "claude-analyzer-args-"));

@@ -51,10 +51,16 @@ services:
       args:
         NPM_CONFIG_REGISTRY: ${NPM_CONFIG_REGISTRY:-https://registry.npmmirror.com}
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       PORT: 8001
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_AUTH_TOKEN: ${ANTHROPIC_AUTH_TOKEN:-}
+      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-}
       CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+      CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: ${CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:-1}
+      FLOWASSIST_RUNNING_IN_DOCKER: "1"
       CLAUDE_CONFIG_DIR: /app/claude-config
       CLAUDE_WORKER_PROMPT_DIR: /app/prompts
       PDF_TO_PPT_JOB_TIMEOUT_MS: ${PDF_TO_PPT_JOB_TIMEOUT_MS:-1200000}

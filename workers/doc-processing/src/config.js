@@ -21,8 +21,8 @@ function buildClaudeEnv(baseEnv = process.env, claudeConfigDir = getWorkerConfig
 }
 
 function requireClaudeAuth(env = process.env) {
-  if (env.ANTHROPIC_API_KEY || env.CLAUDE_CODE_OAUTH_TOKEN) return;
-  throw new Error("Missing Claude auth env: set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN");
+  if (env.ANTHROPIC_API_KEY || env.ANTHROPIC_AUTH_TOKEN || env.CLAUDE_CODE_OAUTH_TOKEN) return;
+  throw new Error("Missing Claude auth env: set ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN, or CLAUDE_CODE_OAUTH_TOKEN");
 }
 
 module.exports = {

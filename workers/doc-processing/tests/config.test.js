@@ -36,9 +36,13 @@ test("requireClaudeAuth accepts Claude OAuth token", () => {
   assert.doesNotThrow(() => requireClaudeAuth({ CLAUDE_CODE_OAUTH_TOKEN: "token" }));
 });
 
+test("requireClaudeAuth accepts Anthropic auth token", () => {
+  assert.doesNotThrow(() => requireClaudeAuth({ ANTHROPIC_AUTH_TOKEN: "token" }));
+});
+
 test("requireClaudeAuth fails clearly when no supported auth env exists", () => {
   assert.throws(
     () => requireClaudeAuth({}),
-    /Missing Claude auth env: set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN/,
+    /Missing Claude auth env: set ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN, or CLAUDE_CODE_OAUTH_TOKEN/,
   );
 });

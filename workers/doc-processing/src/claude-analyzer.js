@@ -13,10 +13,26 @@ function extractJsonObject(text) {
   return JSON.parse(text.slice(first, last + 1));
 }
 
+function rewriteDockerLocalhostUrl(value, sourceEnv = process.env) {
+  if (!value || sourceEnv.FLOWASSIST_RUNNING_IN_DOCKER !== "1") return value;
+  return value.replace("//localhost", "//host.docker.internal").replace("//127.0.0.1", "//host.docker.internal");
+}
+
 function createClaudeEnv(sourceEnv = process.env, claudeConfigDir) {
   const minimalEnv = {};
-  for (const key of ["ANTHROPIC_API_KEY", "CLAUDE_CODE_OAUTH_TOKEN", "PATH", "HOME"]) {
+  for (const key of [
+    "ANTHROPIC_API_KEY",
+    "ANTHROPIC_AUTH_TOKEN",
+    "ANTHROPIC_BASE_URL",
+    "CLAUDE_CODE_OAUTH_TOKEN",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC",
+    "PATH",
+    "HOME",
+  ]) {
     if (sourceEnv[key]) minimalEnv[key] = sourceEnv[key];
+  }
+  if (minimalEnv.ANTHROPIC_BASE_URL) {
+    minimalEnv.ANTHROPIC_BASE_URL = rewriteDockerLocalhostUrl(minimalEnv.ANTHROPIC_BASE_URL, sourceEnv);
   }
   return buildClaudeEnv(minimalEnv, claudeConfigDir);
 }
