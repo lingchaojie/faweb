@@ -6,7 +6,8 @@
     "start": "node server.js",
     "test": "npm run test:node && npm run test:python",
     "test:node": "node --test tests/*.test.js",
-    "test:python": "python3 -m unittest discover -s tests -p 'test_*.py'"
+    "test:python": "python3 -m unittest discover -s tests -p 'test_*.py'",
+    "quality:compare": "python3 scripts/quality_compare.py --samples-dir samples --output-dir samples/_quality_compare"
   },
   "dependencies": {
     "express": "^5.1.0"

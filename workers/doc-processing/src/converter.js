@@ -3,7 +3,7 @@ const { mkdir, readFile, writeFile } = require("node:fs/promises");
 const { join, resolve } = require("node:path");
 
 const { analyzeLayoutWithClaude } = require("./claude-analyzer");
-const { validateLayoutHints } = require("./layout-hints");
+const { validateLayoutHints, validateLayoutHintsForPages } = require("./layout-hints");
 
 const workerRoot = resolve(__dirname, "..");
 
@@ -84,20 +84,68 @@ async function defaultExtract(inputPath, jobDir, _config, options = {}) {
   };
 }
 
+function chunkPageNumbers(pageNumbers, pageBatchSize) {
+  const size = Number.isFinite(pageBatchSize) && pageBatchSize > 0 ? Math.floor(pageBatchSize) : pageNumbers.length;
+  const chunks = [];
+  for (let index = 0; index < pageNumbers.length; index += size) {
+    chunks.push(pageNumbers.slice(index, index + size));
+  }
+  return chunks;
+}
+
+function remainingTimeoutMs(config, deadlineAt) {
+  if (!deadlineAt) return config.claudeBatchTimeoutMs;
+  return Math.max(1, Math.min(config.claudeBatchTimeoutMs, deadlineAt - Date.now()));
+}
+
+function baselineLayoutHints(manifest, pageNumbers) {
+  const requestedPages = new Set(pageNumbers);
+  return {
+    pages: manifest.pages
+      .filter((page) => requestedPages.has(page.pageNumber))
+      .map((page) => ({
+        pageNumber: page.pageNumber,
+        mergedTextBlocks: (page.textBlocks || []).map((block) => ({
+          id: `m-${block.id}`,
+          sourceTextBlockIds: [block.id],
+          role: "body",
+          text: block.text || "",
+          bbox: block.bbox,
+        })),
+        tables: [],
+        regions: [],
+        fallbacks: [],
+        ignoredBlockIds: [],
+        imageRoles: (page.images || []).map((image) => ({ imageId: image.id, role: "image" })),
+      })),
+  };
+}
+
 async function defaultAnalyze(manifestPath, pageNumbers, config, options = {}) {
+  const manifest = await readManifest(manifestPath);
+  const baseline = baselineLayoutHints(manifest, pageNumbers);
+  const pagesByNumber = new Map(baseline.pages.map((page) => [page.pageNumber, page]));
   const promptPath = join(config.promptDir, "pdf-layout-analysis.md");
-  const timeoutMs = options.deadlineAt
-    ? Math.max(1, Math.min(config.claudeBatchTimeoutMs, options.deadlineAt - Date.now()))
-    : config.claudeBatchTimeoutMs;
-  return analyzeLayoutWithClaude({
-    manifestPath,
-    pageNumbers,
-    promptPath,
-    claudeConfigDir: config.claudeConfigDir,
-    timeoutMs,
-    env: process.env,
-    signal: options.signal,
-  });
+  const claudePageNumbers = pageNumbers.slice(0, Math.max(0, config.claudeMaxPages));
+
+  for (const batchPageNumbers of chunkPageNumbers(claudePageNumbers, config.pageBatchSize)) {
+    if (options.signal?.aborted) throw abortError(options.signal, "Claude analysis aborted");
+    const hints = await analyzeLayoutWithClaude({
+      manifestPath,
+      pageNumbers: batchPageNumbers,
+      promptPath,
+      claudeConfigDir: config.claudeConfigDir,
+      timeoutMs: remainingTimeoutMs(config, options.deadlineAt),
+      model: config.claudeModel,
+      env: process.env,
+      signal: options.signal,
+    });
+    for (const page of validateLayoutHintsForPages(hints, batchPageNumbers).pages) {
+      pagesByNumber.set(page.pageNumber, page);
+    }
+  }
+
+  return validateLayoutHintsForPages({ pages: pageNumbers.map((pageNumber) => pagesByNumber.get(pageNumber)) }, pageNumbers);
 }
 
 async function defaultBuild(manifestPath, hintsPath, outputPath, _config, options = {}) {
@@ -151,6 +199,8 @@ async function convertPdfToPpt(options) {
 }
 
 module.exports = {
+  baselineLayoutHints,
+  chunkPageNumbers,
   convertPdfToPpt,
   readManifest,
   runCommand,

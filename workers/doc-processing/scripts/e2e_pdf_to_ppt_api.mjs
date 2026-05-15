@@ -8,8 +8,8 @@ import { pipeline } from "node:stream/promises";
 const baseUrl = process.env.FLOWASSIST_BASE_URL || "http://localhost:60001";
 const username = process.env.FLOWASSIST_USERNAME || "admin";
 const password = process.env.FLOWASSIST_PASSWORD || "123456";
-const samplePdf = resolve(process.env.SAMPLE_PDF || "workers/doc-processing/samples/test_final.pdf");
-const outputPptx = resolve(process.env.OUTPUT_PPTX || "/tmp/flowassist-pdf-to-ppt-result.pptx");
+const samplePdf = resolve(process.env.SAMPLE_PDF || "~/faweb/workers/doc-processing/samples/test_final.pdf".replace(/^~/, process.env.HOME || ""));
+const outputPptx = resolve(process.env.OUTPUT_PPTX || `/tmp/flowassist-${basename(samplePdf, ".pdf")}-result.pptx`);
 const pollTimeoutMs = Number(process.env.E2E_TIMEOUT_MS || 20 * 60 * 1000);
 
 let cookie = "";

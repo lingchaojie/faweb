@@ -39,6 +39,10 @@ test("extractJsonObject parses JSON surrounded by logs", () => {
   assert.deepEqual(extractJsonObject('log before\n{"pages":[]}\nlog after'), { pages: [] });
 });
 
+test("extractJsonObject parses Claude Code json output result", () => {
+  assert.deepEqual(extractJsonObject('{"type":"result","result":"{\\"pages\\":[]}"}'), { pages: [] });
+});
+
 test("analyzeLayoutWithClaude invokes claude and validates hints", async () => {
   const { promptPath, manifestPath } = await writePromptAndManifest();
   const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
@@ -55,6 +59,60 @@ test("analyzeLayoutWithClaude invokes claude and validates hints", async () => {
   });
 
   assert.equal(result.pages[0].pageNumber, 1);
+});
+
+test("analyzeLayoutWithClaude preserves Anthropic base URL auth token and traffic settings", async () => {
+  const { promptPath, manifestPath } = await writePromptAndManifest();
+  const dir = await mkdtemp(join(tmpdir(), "claude-analyzer-env-"));
+  const envPath = join(dir, "env.txt");
+  const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
+  await writeFile(join(fakeDir, "claude"), `#!/bin/sh\nenv > ${shellQuote(envPath)}\nprintf '%s' '{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}'\n`);
+  await chmod(join(fakeDir, "claude"), 0o755);
+
+  await analyzeLayoutWithClaude({
+    manifestPath,
+    pageNumbers: [1],
+    promptPath,
+    claudeConfigDir: "/tmp/claude-config",
+    timeoutMs: 5000,
+    env: {
+      ANTHROPIC_AUTH_TOKEN: "auth-token",
+      ANTHROPIC_BASE_URL: "http://host.docker.internal:8080",
+      CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
+      PATH: `${fakeDir}:${process.env.PATH}`,
+    },
+  });
+
+  const childEnv = await readFile(envPath, "utf8");
+  assert.match(childEnv, /^ANTHROPIC_AUTH_TOKEN=auth-token$/m);
+  assert.match(childEnv, /^ANTHROPIC_BASE_URL=http:\/\/host\.docker\.internal:8080$/m);
+  assert.match(childEnv, /^CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1$/m);
+});
+
+test("analyzeLayoutWithClaude rewrites Docker-localhost Anthropic base URL for child process", async () => {
+  const { promptPath, manifestPath } = await writePromptAndManifest();
+  const dir = await mkdtemp(join(tmpdir(), "claude-analyzer-docker-env-"));
+  const envPath = join(dir, "env.txt");
+  const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
+  await writeFile(join(fakeDir, "claude"), `#!/bin/sh\nenv > ${shellQuote(envPath)}\nprintf '%s' '{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}'\n`);
+  await chmod(join(fakeDir, "claude"), 0o755);
+
+  await analyzeLayoutWithClaude({
+    manifestPath,
+    pageNumbers: [1],
+    promptPath,
+    claudeConfigDir: "/tmp/claude-config",
+    timeoutMs: 5000,
+    env: {
+      ANTHROPIC_AUTH_TOKEN: "auth-token",
+      ANTHROPIC_BASE_URL: "http://localhost:8080",
+      FLOWASSIST_RUNNING_IN_DOCKER: "1",
+      PATH: `${fakeDir}:${process.env.PATH}`,
+    },
+  });
+
+  const childEnv = await readFile(envPath, "utf8");
+  assert.match(childEnv, /^ANTHROPIC_BASE_URL=http:\/\/172\.17\.0\.1:8080$/m);
 });
 
 test("analyzeLayoutWithClaude invokes claude without allowed filesystem tools", async () => {
@@ -76,7 +134,7 @@ test("analyzeLayoutWithClaude invokes claude without allowed filesystem tools", 
   });
 
   const args = await readFile(argsPath, "utf8");
-  assert.equal(args, "-p\n");
+  assert.equal(args, "-p\n--output-format\njson\n");
 });
 
 test("analyzeLayoutWithClaude limits manifest data to requested pages", async () => {
@@ -141,7 +199,7 @@ test("analyzeLayoutWithClaude passes delimited manifest content in prompt", asyn
   const actualPrompt = await readFile(actualPromptPath, "utf8");
   assert.match(actualPrompt, /Analyze the supplied manifest\./);
   assert.match(actualPrompt, /Page numbers: 1, 2/);
-  assert.match(actualPrompt, /<manifest-json>\n\{"pages":\[\{"pageNumber":1,"textBlocks":\[\]\}\]\}\n<\/manifest-json>/);
+  assert.match(actualPrompt, /<manifest-json>\n\{"pages":\[\{"pageNumber":1,"textBlocks":\[\],"images":\[\],"drawings":\[\]\}\]\}\n<\/manifest-json>/);
   assert.match(actualPrompt, /untrusted PDF extraction data/);
   assert.match(actualPrompt, /Return only JSON\./);
 });

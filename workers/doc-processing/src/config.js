@@ -8,8 +8,10 @@ function getWorkerConfig(env = process.env) {
     claudeConfigDir: env.CLAUDE_CONFIG_DIR || "/app/claude-config",
     promptDir: env.CLAUDE_WORKER_PROMPT_DIR || "/app/prompts",
     jobTimeoutMs: numberFromEnv(env, "PDF_TO_PPT_JOB_TIMEOUT_MS", 20 * 60 * 1000),
-    claudeBatchTimeoutMs: numberFromEnv(env, "PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS", 90 * 1000),
-    pageBatchSize: numberFromEnv(env, "PDF_TO_PPT_PAGE_BATCH_SIZE", 4),
+    claudeBatchTimeoutMs: numberFromEnv(env, "PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS", 180 * 1000),
+    pageBatchSize: numberFromEnv(env, "PDF_TO_PPT_PAGE_BATCH_SIZE", 1),
+    claudeModel: env.PDF_TO_PPT_CLAUDE_MODEL || "sonnet",
+    claudeMaxPages: Math.floor(numberFromEnv(env, "PDF_TO_PPT_CLAUDE_MAX_PAGES", 3)),
   };
 }
 
@@ -21,8 +23,8 @@ function buildClaudeEnv(baseEnv = process.env, claudeConfigDir = getWorkerConfig
 }
 
 function requireClaudeAuth(env = process.env) {
-  if (env.ANTHROPIC_API_KEY || env.CLAUDE_CODE_OAUTH_TOKEN) return;
-  throw new Error("Missing Claude auth env: set ANTHROPIC_API_KEY or CLAUDE_CODE_OAUTH_TOKEN");
+  if (env.ANTHROPIC_API_KEY || env.ANTHROPIC_AUTH_TOKEN || env.CLAUDE_CODE_OAUTH_TOKEN) return;
+  throw new Error("Missing Claude auth env: set ANTHROPIC_API_KEY, ANTHROPIC_AUTH_TOKEN, or CLAUDE_CODE_OAUTH_TOKEN");
 }
 
 module.exports = {

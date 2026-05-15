@@ -7,7 +7,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
     ports:
-      - "5434:5432"
+      - "${POSTGRES_HOST_PORT:-5435}:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
@@ -51,18 +51,28 @@ services:
       args:
         NPM_CONFIG_REGISTRY: ${NPM_CONFIG_REGISTRY:-https://registry.npmmirror.com}
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       PORT: 8001
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ANTHROPIC_AUTH_TOKEN: ${ANTHROPIC_AUTH_TOKEN:-}
+      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-}
       CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+      CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: ${CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:-1}
+      FLOWASSIST_RUNNING_IN_DOCKER: "1"
+      FLOWASSIST_DOCKER_HOST_ADDRESS: ${FLOWASSIST_DOCKER_HOST_ADDRESS:-172.17.0.1}
       CLAUDE_CONFIG_DIR: /app/claude-config
       CLAUDE_WORKER_PROMPT_DIR: /app/prompts
       PDF_TO_PPT_JOB_TIMEOUT_MS: ${PDF_TO_PPT_JOB_TIMEOUT_MS:-1200000}
-      PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS: ${PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS:-90000}
-      PDF_TO_PPT_PAGE_BATCH_SIZE: ${PDF_TO_PPT_PAGE_BATCH_SIZE:-4}
+      PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS: ${PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS:-180000}
+      PDF_TO_PPT_PAGE_BATCH_SIZE: ${PDF_TO_PPT_PAGE_BATCH_SIZE:-1}
+      PDF_TO_PPT_CLAUDE_MODEL: ${PDF_TO_PPT_CLAUDE_MODEL:-sonnet}
+      PDF_TO_PPT_CLAUDE_MAX_PAGES: ${PDF_TO_PPT_CLAUDE_MAX_PAGES:-3}
     volumes:
       - flowassist-shared-storage:/app/storage
-      - ../../workers/doc-processing/claude-config:/app/claude-config:ro
+      - flowassist-claude-config:/app/claude-config
+      - ../../workers/doc-processing/claude-config/skills:/app/claude-config/skills:ro
       - ../../workers/doc-processing/prompts:/app/prompts:ro
     healthcheck:
       test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
@@ -90,6 +100,8 @@ volumes:
     name: flowassist-postgres-data
   flowassist-shared-storage:
     name: flowassist-shared-storage
+  flowassist-claude-config:
+    name: flowassist-claude-config
   flowassist-caddy-data:
     name: flowassist-caddy-data
   flowassist-caddy-config:
