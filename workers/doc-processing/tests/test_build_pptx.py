@@ -1,8 +1,13 @@
 import json
+import sys
 import tempfile
 import unittest
 import zipfile
 from pathlib import Path
+
+DOC_PROCESSING_ROOT = Path(__file__).resolve().parents[1]
+if str(DOC_PROCESSING_ROOT) not in sys.path:
+    sys.path.insert(0, str(DOC_PROCESSING_ROOT))
 
 from scripts.build_pptx import build_pptx
 from scripts.build_pptx import choose_font_family, style_from_source_blocks
