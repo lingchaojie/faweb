@@ -25,10 +25,7 @@ function legacyStub(taskId, taskType, inputPath, outputDir) {
 function createApp(options = {}) {
   const app = express();
   const store = options.store || createJobStore();
-  const converter = options.converter || ((payload) => {
-    const config = { ...getWorkerConfig(), ...(payload.config || {}) };
-    return convertPdfToPpt({ ...payload, config });
-  });
+  const converter = options.converter || convertPdfToPpt;
 
   app.use(express.json());
 
@@ -37,7 +34,8 @@ function createApp(options = {}) {
   });
 
   app.post("/jobs", async (req, res) => {
-    const { taskId, taskType, inputPath, outputDir, config } = req.body;
+    const body = req.body && typeof req.body === "object" ? req.body : {};
+    const { taskId, taskType, inputPath, outputDir } = body;
 
     if (!taskId || !taskType || !inputPath || !outputDir) {
       return res.status(400).json({ error: "Missing required fields" });
@@ -46,7 +44,7 @@ function createApp(options = {}) {
     const job = store.createJob({ taskId, taskType, inputPath, outputDir });
 
     const runner = taskType === "pdf_to_ppt"
-      ? converter({ taskId, inputPath, outputDir, config })
+      ? converter({ taskId, inputPath, outputDir, config: getWorkerConfig() })
       : legacyStub(taskId, taskType, inputPath, outputDir);
 
     runner
