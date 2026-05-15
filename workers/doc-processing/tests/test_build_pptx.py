@@ -5,6 +5,8 @@ import unittest
 import zipfile
 from pathlib import Path
 
+from PIL import Image
+
 DOC_PROCESSING_ROOT = Path(__file__).resolve().parents[1]
 if str(DOC_PROCESSING_ROOT) not in sys.path:
     sys.path.insert(0, str(DOC_PROCESSING_ROOT))
@@ -284,3 +286,142 @@ class BuildPptxTest(unittest.TestCase):
                 slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
                 self.assertIn("Hello World", slide)
                 self.assertNotIn("MALICIOUS", slide)
+
+    def test_fallback_region_adds_cropped_page_image_and_skips_covered_text(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            page_dir = root / "page-001"
+            page_dir.mkdir()
+            Image.new("RGB", (200, 100), "white").save(page_dir / "page.png")
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 200,
+                        "height": 100,
+                        "rotation": 0,
+                        "imagePath": "page-001/page.png",
+                        "textBlocks": [
+                            {"id": "t1", "text": "Covered", "bbox": [60, 20, 120, 40], "spans": []},
+                            {"id": "t2", "text": "Visible", "bbox": [10, 70, 80, 90], "spans": []},
+                        ],
+                        "images": [],
+                        "drawings": [],
+                    }
+                ],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [],
+                        "tables": [],
+                        "regions": [],
+                        "fallbacks": [{"id": "f1", "reason": "complex", "bbox": [50, 10, 150, 60], "confidence": 0.9, "zIndex": 1}],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
+                media_names = [name for name in pptx.namelist() if name.startswith("ppt/media/")]
+                self.assertNotIn("Covered", slide)
+                self.assertIn("Visible", slide)
+                self.assertEqual(len(media_names), 1)
+
+    def test_region_image_strategy_behaves_as_fallback_crop(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            page_dir = root / "page-001"
+            page_dir.mkdir()
+            Image.new("RGB", (200, 100), "white").save(page_dir / "page.png")
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [{"pageNumber": 1, "width": 200, "height": 100, "rotation": 0, "imagePath": "page-001/page.png", "textBlocks": [], "images": [], "drawings": []}],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [],
+                        "tables": [],
+                        "regions": [{"id": "r1", "role": "chart", "strategy": "image", "bbox": [20, 20, 100, 80], "sourceIds": [], "confidence": 0.8, "zIndex": 1}],
+                        "fallbacks": [],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                media_names = [name for name in pptx.namelist() if name.startswith("ppt/media/")]
+                self.assertEqual(len(media_names), 1)
+
+    def test_confident_table_hint_builds_editable_table(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 400,
+                        "height": 300,
+                        "rotation": 0,
+                        "textBlocks": [
+                            {"id": "t1", "text": "A", "bbox": [10, 10, 100, 40], "spans": []},
+                            {"id": "t2", "text": "B", "bbox": [110, 10, 200, 40], "spans": []},
+                            {"id": "t3", "text": "C", "bbox": [10, 60, 100, 90], "spans": []},
+                            {"id": "t4", "text": "D", "bbox": [110, 60, 200, 90], "spans": []},
+                        ],
+                        "images": [],
+                        "drawings": [],
+                    }
+                ],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [],
+                        "tables": [{"id": "table1", "bbox": [0, 0, 220, 120], "rows": 2, "columns": 2, "sourceTextBlockIds": ["t1", "t2", "t3", "t4"], "confidence": 0.9}],
+                        "regions": [],
+                        "fallbacks": [],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
+                self.assertIn("a:tbl", slide)
+                self.assertIn("A", slide)
+                self.assertIn("D", slide)

@@ -153,6 +153,98 @@ def merged_text_from_source_blocks(item, text_blocks_by_id):
     return " ".join(block.get("text", "") for block in source_blocks if block.get("text", ""))
 
 
+def bbox_center(bbox):
+    x1, y1, x2, y2 = bbox
+    return (x1 + x2) / 2, (y1 + y2) / 2
+
+
+def point_in_bbox(point, bbox):
+    x, y = point
+    x1, y1, x2, y2 = bbox
+    return x1 <= x <= x2 and y1 <= y <= y2
+
+
+def bbox_inside_any(bbox, bboxes):
+    return any(point_in_bbox(bbox_center(bbox), candidate) for candidate in bboxes)
+
+
+def fallback_candidates(page_hints):
+    candidates = []
+    for fallback in page_hints.get("fallbacks", []):
+        candidates.append({"id": fallback.get("id", "fallback"), "bbox": fallback.get("bbox"), "zIndex": fallback.get("zIndex", 0)})
+    for region in page_hints.get("regions", []):
+        if region.get("strategy") == "image":
+            candidates.append({"id": region.get("id", "region"), "bbox": region.get("bbox"), "zIndex": region.get("zIndex", 0)})
+    return sorted([candidate for candidate in candidates if candidate.get("bbox")], key=lambda item: item.get("zIndex", 0))
+
+
+def ignored_source_ids_from_regions(page_hints):
+    ignored = set()
+    for region in page_hints.get("regions", []):
+        if region.get("strategy") in {"image", "ignore"}:
+            ignored.update(region.get("sourceIds", []))
+    return ignored
+
+
+def crop_page_image(manifest_root, page, bbox, crop_id):
+    image_path = manifest_root / page.get("imagePath", "")
+    if not image_path.exists():
+        return None
+    image = Image.open(image_path).convert("RGB")
+    scale_x = image.width / float(page["width"])
+    scale_y = image.height / float(page["height"])
+    x1, y1, x2, y2 = bbox
+    crop_box = (
+        max(0, round(x1 * scale_x)),
+        max(0, round(y1 * scale_y)),
+        min(image.width, round(x2 * scale_x)),
+        min(image.height, round(y2 * scale_y)),
+    )
+    if crop_box[2] <= crop_box[0] or crop_box[3] <= crop_box[1]:
+        return None
+    crop_dir = manifest_root / "crops"
+    crop_dir.mkdir(parents=True, exist_ok=True)
+    safe_id = "".join(char if char.isalnum() or char in "-_" else "-" for char in str(crop_id))
+    crop_path = crop_dir / f"page-{page['pageNumber']:03d}-{safe_id}.png"
+    image.crop(crop_box).save(crop_path)
+    return crop_path
+
+
+def add_fallback_crop(slide, manifest_root, page, fallback):
+    crop_path = crop_page_image(manifest_root, page, fallback["bbox"], fallback["id"])
+    if not crop_path:
+        return None
+    left, top, width, height = bbox_to_position(fallback["bbox"])
+    return slide.shapes.add_picture(str(crop_path), left, top, width, height)
+
+
+def add_table(slide, table_hint, text_blocks_by_id):
+    if float(table_hint.get("confidence", 1)) < 0.75:
+        return False
+    rows = int(table_hint.get("rows", 0))
+    columns = int(table_hint.get("columns", 0))
+    if rows <= 0 or columns <= 0:
+        return False
+    left, top, width, height = bbox_to_position(table_hint["bbox"])
+    table_shape = slide.shapes.add_table(rows, columns, left, top, width, height)
+    table = table_shape.table
+    x1, y1, x2, y2 = table_hint["bbox"]
+    table_width = max(1, x2 - x1)
+    table_height = max(1, y2 - y1)
+    cells = {(row, column): [] for row in range(rows) for column in range(columns)}
+    for source_id in table_hint.get("sourceTextBlockIds", []):
+        block = text_blocks_by_id.get(source_id)
+        if not block:
+            continue
+        cx, cy = bbox_center(block.get("bbox", table_hint["bbox"]))
+        row = min(rows - 1, max(0, int(((cy - y1) / table_height) * rows)))
+        column = min(columns - 1, max(0, int(((cx - x1) / table_width) * columns)))
+        cells[(row, column)].append(block.get("text", ""))
+    for (row, column), values in cells.items():
+        table.cell(row, column).text = "\n".join(value for value in values if value)
+    return True
+
+
 def build_pptx(manifest_path, hints_path, output_path):
     manifest_path = Path(manifest_path)
     hints_path = Path(hints_path)
@@ -169,19 +261,31 @@ def build_pptx(manifest_path, hints_path, output_path):
     for page in manifest["pages"]:
         slide = prs.slides.add_slide(blank_layout)
         page_hints = find_page_hints(hints, page["pageNumber"])
-        ignored = set(page_hints.get("ignoredBlockIds", []))
+        ignored = set(page_hints.get("ignoredBlockIds", [])) | ignored_source_ids_from_regions(page_hints)
         merged_source_ids = set()
+        table_source_ids = set()
+        fallback_boxes = [candidate["bbox"] for candidate in fallback_candidates(page_hints)]
         text_blocks_by_id = {block.get("id"): block for block in page.get("textBlocks", []) if block.get("id")}
 
+        for fallback in fallback_candidates(page_hints):
+            add_fallback_crop(slide, manifest_path.parent, page, fallback)
+
         for image in page.get("images", []):
-            if image.get("id") not in ignored:
+            if image.get("id") not in ignored and not bbox_inside_any(image.get("bbox", [0, 0, 0, 0]), fallback_boxes):
                 add_image(slide, manifest_path.parent, image)
 
         for drawing in page.get("drawings", []):
-            if drawing.get("id") not in ignored:
+            if drawing.get("id") not in ignored and not bbox_inside_any(drawing.get("bbox", [0, 0, 0, 0]), fallback_boxes):
                 add_drawing(slide, drawing)
 
+        for table_hint in page_hints.get("tables", []):
+            if not bbox_inside_any(table_hint.get("bbox", [0, 0, 0, 0]), fallback_boxes) and add_table(slide, table_hint, text_blocks_by_id):
+                table_source_ids.update(table_hint.get("sourceTextBlockIds", []))
+
         for item in page_hints.get("mergedTextBlocks", []):
+            if bbox_inside_any(item.get("bbox", [0, 0, 0, 0]), fallback_boxes):
+                merged_source_ids.update(item.get("sourceTextBlockIds", []))
+                continue
             source_blocks = [text_blocks_by_id[source_id] for source_id in item.get("sourceTextBlockIds", []) if source_id in text_blocks_by_id]
             source_text = merged_text_from_source_blocks(item, text_blocks_by_id)
             if source_text:
@@ -189,7 +293,9 @@ def build_pptx(manifest_path, hints_path, output_path):
             merged_source_ids.update(item.get("sourceTextBlockIds", []))
 
         for block in page.get("textBlocks", []):
-            if block.get("id") in ignored or block.get("id") in merged_source_ids:
+            if block.get("id") in ignored or block.get("id") in merged_source_ids or block.get("id") in table_source_ids:
+                continue
+            if bbox_inside_any(block.get("bbox", [0, 0, 0, 0]), fallback_boxes):
                 continue
             add_text_box(slide, {
                 "text": block.get("text", ""),
