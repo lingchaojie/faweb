@@ -1,3 +1,4 @@
+import json
 import subprocess
 import sys
 import tempfile
@@ -19,6 +20,7 @@ from scripts.quality_compare import (
     find_sample_pairs,
     render_pdf_pages,
     render_pptx_pages,
+    run_comparison,
     write_side_by_side,
 )
 
@@ -136,6 +138,51 @@ class QualityCompareTest(unittest.TestCase):
             self.assertEqual(len(pages), 1)
             self.assertTrue(pages[0].exists())
             run.assert_called_once()
+
+    def write_minimal_pptx(self, path):
+        prs = Presentation()
+        slide = prs.slides.add_slide(prs.slide_layouts[6])
+        slide.shapes.add_textbox(Inches(0.5), Inches(0.5), Inches(1), Inches(0.5)).text = "A"
+        prs.save(path)
+
+    def test_run_comparison_writes_summary_and_review_images(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            samples = root / "samples"
+            generated = root / "generated"
+            output = root / "analysis"
+            samples.mkdir()
+            generated.mkdir()
+            (samples / "alpha.pdf").write_bytes(b"%PDF-1.4\n")
+            self.write_minimal_pptx(samples / "alpha.pptx")
+            self.write_minimal_pptx(generated / "alpha.pptx")
+
+            def fake_render_pdf(_source, out_dir, zoom=2.0):
+                out_dir.mkdir(parents=True, exist_ok=True)
+                image = out_dir / "page-001.png"
+                Image.new("RGB", (20, 10), "white").save(image)
+                return [image]
+
+            def fake_render_pptx(source, out_dir, libreoffice_bin="soffice", zoom=2.0):
+                out_dir.mkdir(parents=True, exist_ok=True)
+                image = out_dir / "page-001.png"
+                color = "white" if source.parent.name == "samples" else "black"
+                Image.new("RGB", (20, 10), color).save(image)
+                return [image]
+
+            report = run_comparison(
+                samples_dir=samples,
+                output_dir=output,
+                generated_dir=generated,
+                render_pdf=fake_render_pdf,
+                render_pptx=fake_render_pptx,
+            )
+
+            summary = json.loads((output / "summary.json").read_text())
+            self.assertEqual(summary["samples"][0]["name"], "alpha")
+            self.assertEqual(report["samples"][0]["slides"][0]["pageNumber"], 1)
+            self.assertGreater(report["samples"][0]["slides"][0]["generatedDiffToReference"], 0.9)
+            self.assertTrue((output / "alpha" / "review" / "page-001.png").exists())
 
 
 if __name__ == "__main__":

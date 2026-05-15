@@ -137,3 +137,117 @@ def write_side_by_side(items, output_path):
     output_path.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output_path)
     return output_path
+
+
+def relative_to(path, root):
+    path = Path(path)
+    root = Path(root)
+    try:
+        return str(path.relative_to(root))
+    except ValueError:
+        return str(path)
+
+
+def render_set_for_sample(pair, sample_output_dir, generated_pptx_path, render_pdf, render_pptx, libreoffice_bin, zoom):
+    pdf_renders = render_pdf(pair.pdf_path, sample_output_dir / "source-pdf", zoom=zoom)
+    reference_renders = render_pptx(pair.reference_pptx_path, sample_output_dir / "reference-pptx", libreoffice_bin=libreoffice_bin, zoom=zoom)
+    generated_renders = []
+    if generated_pptx_path and generated_pptx_path.exists():
+        generated_renders = render_pptx(generated_pptx_path, sample_output_dir / "generated-pptx", libreoffice_bin=libreoffice_bin, zoom=zoom)
+    return pdf_renders, reference_renders, generated_renders
+
+
+def sample_stats(pair, generated_pptx_path):
+    stats = {"reference": collect_pptx_stats(pair.reference_pptx_path), "generated": None}
+    if generated_pptx_path and generated_pptx_path.exists():
+        stats["generated"] = collect_pptx_stats(generated_pptx_path)
+    return stats
+
+
+def slide_reports(sample_output_dir, pdf_renders, reference_renders, generated_renders):
+    reports = []
+    review_dir = sample_output_dir / "review"
+    max_pages = max(len(pdf_renders), len(reference_renders), len(generated_renders))
+    for index in range(max_pages):
+        page_number = index + 1
+        items = []
+        slide = {"pageNumber": page_number}
+        if index < len(pdf_renders):
+            slide["sourcePdfRender"] = relative_to(pdf_renders[index], sample_output_dir)
+            items.append(("PDF", pdf_renders[index]))
+        if index < len(reference_renders):
+            slide["referencePptxRender"] = relative_to(reference_renders[index], sample_output_dir)
+            items.append(("WPS reference", reference_renders[index]))
+        if index < len(generated_renders):
+            slide["generatedPptxRender"] = relative_to(generated_renders[index], sample_output_dir)
+            items.append(("Generated", generated_renders[index]))
+        if index < len(reference_renders) and index < len(generated_renders):
+            slide["generatedDiffToReference"] = compare_images(reference_renders[index], generated_renders[index])
+        else:
+            slide["generatedDiffToReference"] = None
+        if items:
+            review_path = write_side_by_side(items, review_dir / f"page-{page_number:03d}.png")
+            slide["reviewImage"] = relative_to(review_path, sample_output_dir)
+        reports.append(slide)
+    return reports
+
+
+def run_comparison(
+    samples_dir,
+    output_dir,
+    generated_dir=None,
+    render_pdf=render_pdf_pages,
+    render_pptx=render_pptx_pages,
+    libreoffice_bin="soffice",
+    zoom=2.0,
+):
+    samples_dir = Path(samples_dir)
+    output_dir = Path(output_dir)
+    generated_dir = Path(generated_dir) if generated_dir else None
+    output_dir.mkdir(parents=True, exist_ok=True)
+    report = {"samplesDir": str(samples_dir), "outputDir": str(output_dir), "samples": []}
+    for pair in find_sample_pairs(samples_dir):
+        generated_pptx_path = generated_dir / f"{pair.name}.pptx" if generated_dir else None
+        sample_output_dir = output_dir / pair.name
+        sample_output_dir.mkdir(parents=True, exist_ok=True)
+        pdf_renders, reference_renders, generated_renders = render_set_for_sample(
+            pair,
+            sample_output_dir,
+            generated_pptx_path,
+            render_pdf,
+            render_pptx,
+            libreoffice_bin,
+            zoom,
+        )
+        report["samples"].append({
+            "name": pair.name,
+            "pdf": str(pair.pdf_path),
+            "referencePptx": str(pair.reference_pptx_path),
+            "generatedPptx": str(generated_pptx_path) if generated_pptx_path and generated_pptx_path.exists() else None,
+            "stats": sample_stats(pair, generated_pptx_path),
+            "slides": slide_reports(sample_output_dir, pdf_renders, reference_renders, generated_renders),
+        })
+    (output_dir / "summary.json").write_text(json.dumps(report, ensure_ascii=False, indent=2))
+    return report
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(description="Compare sample PDF-to-PPT outputs against WPS PPTX references.")
+    parser.add_argument("--samples-dir", default="samples")
+    parser.add_argument("--output-dir", default="samples/_quality_compare")
+    parser.add_argument("--generated-dir")
+    parser.add_argument("--libreoffice-bin", default=shutil.which("soffice") or "soffice")
+    parser.add_argument("--zoom", type=float, default=2.0)
+    args = parser.parse_args(argv)
+    report = run_comparison(
+        samples_dir=args.samples_dir,
+        output_dir=args.output_dir,
+        generated_dir=args.generated_dir,
+        libreoffice_bin=args.libreoffice_bin,
+        zoom=args.zoom,
+    )
+    print(json.dumps({"samples": len(report["samples"]), "outputDir": str(args.output_dir)}, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    main()
