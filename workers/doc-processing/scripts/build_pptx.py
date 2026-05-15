@@ -2,9 +2,11 @@ import json
 import sys
 from pathlib import Path
 
+from PIL import Image
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches, Pt
 
 
@@ -26,23 +28,86 @@ def parse_color(value, fallback="000000"):
     return RGBColor(int(value[0:2], 16), int(value[2:4], 16), int(value[4:6], 16))
 
 
+def contains_cjk(text):
+    return any("㐀" <= char <= "鿿" or "豈" <= char <= "﫿" for char in text or "")
+
+
+def choose_font_family(font_family, text):
+    if contains_cjk(text):
+        return "Noto Sans CJK SC"
+    if font_family and "CID" not in font_family:
+        return font_family
+    return "Arial"
+
+
+def visible_spans(blocks):
+    spans = []
+    for block in blocks:
+        for span in block.get("spans", []):
+            if str(span.get("text", "")).strip():
+                spans.append(span)
+    return spans
+
+
+def style_from_source_blocks(blocks, role="body"):
+    spans = visible_spans(blocks)
+    largest = max(spans, key=lambda span: float(span.get("size") or 0), default={})
+    text = " ".join(block.get("text", "") for block in blocks)
+    fallback_size = 20 if role in {"title", "heading"} else 14
+    return {
+        "fontSize": float(largest.get("size") or fallback_size),
+        "fontFamily": choose_font_family(largest.get("font"), text),
+        "color": largest.get("color") or "#111111",
+        "align": "left",
+        "bullet": False,
+    }
+
+
+def merge_styles(source_style, hint_style):
+    merged = dict(source_style)
+    for key, value in (hint_style or {}).items():
+        if value is not None:
+            merged[key] = value
+    return merged
+
+
+def paragraph_alignment(value):
+    if value == "center":
+        return PP_ALIGN.CENTER
+    if value == "right":
+        return PP_ALIGN.RIGHT
+    return PP_ALIGN.LEFT
+
+
 def find_page_hints(hints, page_number):
     for page in hints.get("pages", []):
         if int(page.get("pageNumber", 0)) == int(page_number):
             return page
-    return {"mergedTextBlocks": [], "tables": [], "ignoredBlockIds": [], "imageRoles": []}
+    return {"mergedTextBlocks": [], "tables": [], "regions": [], "fallbacks": [], "ignoredBlockIds": [], "imageRoles": []}
 
 
-def add_text_box(slide, text_item):
+def add_text_box(slide, text_item, source_blocks=None):
+    source_blocks = source_blocks or []
+    text = text_item.get("text", "")
+    role = text_item.get("role", "body")
+    style = merge_styles(style_from_source_blocks(source_blocks, role), text_item.get("style", {}))
     left, top, width, height = bbox_to_position(text_item["bbox"])
     box = slide.shapes.add_textbox(left, top, width, height)
     frame = box.text_frame
     frame.clear()
+    frame.margin_left = 0
+    frame.margin_right = 0
+    frame.margin_top = 0
+    frame.margin_bottom = 0
     paragraph = frame.paragraphs[0]
+    paragraph.alignment = paragraph_alignment(style.get("align"))
+    if style.get("bullet") and not text.lstrip().startswith(("•", "-")):
+        text = f"• {text}"
     run = paragraph.add_run()
-    run.text = text_item.get("text", "")
-    run.font.size = Pt(14 if text_item.get("role") == "body" else 20)
-    run.font.color.rgb = parse_color(text_item.get("color"), "111111")
+    run.text = text
+    run.font.size = Pt(float(style.get("fontSize") or 14))
+    run.font.name = choose_font_family(style.get("fontFamily"), text)
+    run.font.color.rgb = parse_color(style.get("color"), "111111")
     return box
 
 
@@ -102,9 +167,10 @@ def build_pptx(manifest_path, hints_path, output_path):
                 add_drawing(slide, drawing)
 
         for item in page_hints.get("mergedTextBlocks", []):
+            source_blocks = [text_blocks_by_id[source_id] for source_id in item.get("sourceTextBlockIds", []) if source_id in text_blocks_by_id]
             source_text = merged_text_from_source_blocks(item, text_blocks_by_id)
             if source_text:
-                add_text_box(slide, {**item, "text": source_text})
+                add_text_box(slide, {**item, "text": source_text}, source_blocks)
             merged_source_ids.update(item.get("sourceTextBlockIds", []))
 
         for block in page.get("textBlocks", []):
@@ -114,8 +180,7 @@ def build_pptx(manifest_path, hints_path, output_path):
                 "text": block.get("text", ""),
                 "bbox": block.get("bbox", [0, 0, 1, 1]),
                 "role": "body",
-                "color": block.get("spans", [{}])[0].get("color", "#111111") if block.get("spans") else "#111111",
-            })
+            }, [block])
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     prs.save(output_path)
