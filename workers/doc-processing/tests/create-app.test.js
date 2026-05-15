@@ -76,6 +76,21 @@ test("missing fields return 400", async () => {
   }
 });
 
+test("unsupported task types return 400", async () => {
+  const { server, baseUrl } = await listen(createApp());
+  try {
+    const res = await fetch(`${baseUrl}/jobs`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ taskId: "task-1", taskType: "pdf_to_word", inputPath: "/tmp/input.pdf", outputDir: "/tmp/output" }),
+    });
+    assert.equal(res.status, 400);
+    assert.match(await res.text(), /Unsupported taskType/);
+  } finally {
+    server.close();
+  }
+});
+
 test("empty request body returns 400", async () => {
   const { server, baseUrl } = await listen(createApp());
   try {
@@ -136,6 +151,8 @@ test("request config cannot override worker runtime config", async () => {
       jobTimeoutMs: 120000,
       claudeBatchTimeoutMs: 45000,
       pageBatchSize: 3,
+      claudeModel: "sonnet",
+      claudeMaxPages: 3,
     });
   } finally {
     server.close();

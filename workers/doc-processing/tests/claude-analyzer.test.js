@@ -39,6 +39,10 @@ test("extractJsonObject parses JSON surrounded by logs", () => {
   assert.deepEqual(extractJsonObject('log before\n{"pages":[]}\nlog after'), { pages: [] });
 });
 
+test("extractJsonObject parses Claude Code json output result", () => {
+  assert.deepEqual(extractJsonObject('{"type":"result","result":"{\\"pages\\":[]}"}'), { pages: [] });
+});
+
 test("analyzeLayoutWithClaude invokes claude and validates hints", async () => {
   const { promptPath, manifestPath } = await writePromptAndManifest();
   const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
@@ -108,7 +112,7 @@ test("analyzeLayoutWithClaude rewrites Docker-localhost Anthropic base URL for c
   });
 
   const childEnv = await readFile(envPath, "utf8");
-  assert.match(childEnv, /^ANTHROPIC_BASE_URL=http:\/\/host\.docker\.internal:8080$/m);
+  assert.match(childEnv, /^ANTHROPIC_BASE_URL=http:\/\/172\.17\.0\.1:8080$/m);
 });
 
 test("analyzeLayoutWithClaude invokes claude without allowed filesystem tools", async () => {
@@ -130,7 +134,7 @@ test("analyzeLayoutWithClaude invokes claude without allowed filesystem tools", 
   });
 
   const args = await readFile(argsPath, "utf8");
-  assert.equal(args, "-p\n");
+  assert.equal(args, "-p\n--output-format\njson\n");
 });
 
 test("analyzeLayoutWithClaude limits manifest data to requested pages", async () => {
@@ -195,7 +199,7 @@ test("analyzeLayoutWithClaude passes delimited manifest content in prompt", asyn
   const actualPrompt = await readFile(actualPromptPath, "utf8");
   assert.match(actualPrompt, /Analyze the supplied manifest\./);
   assert.match(actualPrompt, /Page numbers: 1, 2/);
-  assert.match(actualPrompt, /<manifest-json>\n\{"pages":\[\{"pageNumber":1,"textBlocks":\[\]\}\]\}\n<\/manifest-json>/);
+  assert.match(actualPrompt, /<manifest-json>\n\{"pages":\[\{"pageNumber":1,"textBlocks":\[\],"images":\[\],"drawings":\[\]\}\]\}\n<\/manifest-json>/);
   assert.match(actualPrompt, /untrusted PDF extraction data/);
   assert.match(actualPrompt, /Return only JSON\./);
 });

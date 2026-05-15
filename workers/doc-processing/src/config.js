@@ -8,8 +8,10 @@ function getWorkerConfig(env = process.env) {
     claudeConfigDir: env.CLAUDE_CONFIG_DIR || "/app/claude-config",
     promptDir: env.CLAUDE_WORKER_PROMPT_DIR || "/app/prompts",
     jobTimeoutMs: numberFromEnv(env, "PDF_TO_PPT_JOB_TIMEOUT_MS", 20 * 60 * 1000),
-    claudeBatchTimeoutMs: numberFromEnv(env, "PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS", 90 * 1000),
-    pageBatchSize: numberFromEnv(env, "PDF_TO_PPT_PAGE_BATCH_SIZE", 4),
+    claudeBatchTimeoutMs: numberFromEnv(env, "PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS", 180 * 1000),
+    pageBatchSize: numberFromEnv(env, "PDF_TO_PPT_PAGE_BATCH_SIZE", 1),
+    claudeModel: env.PDF_TO_PPT_CLAUDE_MODEL || "sonnet",
+    claudeMaxPages: Math.floor(numberFromEnv(env, "PDF_TO_PPT_CLAUDE_MAX_PAGES", 3)),
   };
 }
 

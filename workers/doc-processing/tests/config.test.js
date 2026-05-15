@@ -13,8 +13,10 @@ test("getWorkerConfig uses safe defaults", () => {
   assert.equal(config.claudeConfigDir, "/app/claude-config");
   assert.equal(config.promptDir, "/app/prompts");
   assert.equal(config.jobTimeoutMs, 20 * 60 * 1000);
-  assert.equal(config.claudeBatchTimeoutMs, 90 * 1000);
-  assert.equal(config.pageBatchSize, 4);
+  assert.equal(config.claudeBatchTimeoutMs, 180 * 1000);
+  assert.equal(config.pageBatchSize, 1);
+  assert.equal(config.claudeModel, "sonnet");
+  assert.equal(config.claudeMaxPages, 3);
 });
 
 test("buildClaudeEnv preserves auth and sets discovery config", () => {

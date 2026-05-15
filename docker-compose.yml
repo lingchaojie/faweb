@@ -1,8 +1,9 @@
 services:
   db:
     image: postgres:16-alpine
+    network_mode: bridge
     ports:
-      - "5434:5432"
+      - "${POSTGRES_HOST_PORT:-5435}:5432"
     environment:
       POSTGRES_DB: flowassist
       POSTGRES_USER: flowassist
@@ -18,6 +19,10 @@ services:
   web:
     build:
       context: .
+    network_mode: bridge
+    links:
+      - db:db
+      - doc-worker:doc-worker
     environment:
       NODE_ENV: production
       APP_ORIGIN: ${APP_ORIGIN:-http://localhost:3001}
@@ -41,27 +46,40 @@ services:
       db:
         condition: service_healthy
 
+  claude-proxy:
+    image: alpine/socat
+    command: ["-d", "-d", "TCP-LISTEN:8080,fork,reuseaddr", "TCP:172.17.0.1:8080"]
+    network_mode: bridge
+    restart: unless-stopped
+
   doc-worker:
     build:
       context: ./workers/doc-processing
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    network_mode: bridge
+    links:
+      - claude-proxy:claude-proxy
     environment:
       PORT: 8001
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       ANTHROPIC_AUTH_TOKEN: ${ANTHROPIC_AUTH_TOKEN:-}
-      ANTHROPIC_BASE_URL: ${ANTHROPIC_BASE_URL:-}
+      ANTHROPIC_BASE_URL: ${DOCKER_ANTHROPIC_BASE_URL:-http://claude-proxy:8080}
       CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
       CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: ${CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:-1}
       FLOWASSIST_RUNNING_IN_DOCKER: "1"
+      FLOWASSIST_DOCKER_HOST_ADDRESS: ${FLOWASSIST_DOCKER_HOST_ADDRESS:-172.17.0.1}
       CLAUDE_CONFIG_DIR: /app/claude-config
       CLAUDE_WORKER_PROMPT_DIR: /app/prompts
       PDF_TO_PPT_JOB_TIMEOUT_MS: ${PDF_TO_PPT_JOB_TIMEOUT_MS:-1200000}
-      PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS: ${PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS:-90000}
-      PDF_TO_PPT_PAGE_BATCH_SIZE: ${PDF_TO_PPT_PAGE_BATCH_SIZE:-4}
+      PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS: ${PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS:-180000}
+      PDF_TO_PPT_PAGE_BATCH_SIZE: ${PDF_TO_PPT_PAGE_BATCH_SIZE:-1}
+      PDF_TO_PPT_CLAUDE_MODEL: ${PDF_TO_PPT_CLAUDE_MODEL:-sonnet}
+      PDF_TO_PPT_CLAUDE_MAX_PAGES: ${PDF_TO_PPT_CLAUDE_MAX_PAGES:-3}
+    depends_on:
+      - claude-proxy
     volumes:
       - shared-storage:/app/storage
-      - ./workers/doc-processing/claude-config:/app/claude-config:ro
+      - claude-config:/app/claude-config
+      - ./workers/doc-processing/claude-config/skills:/app/claude-config/skills:ro
       - ./workers/doc-processing/prompts:/app/prompts:ro
     healthcheck:
       test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
@@ -72,3 +90,4 @@ services:
 volumes:
   postgres-data:
   shared-storage:
+  claude-config:

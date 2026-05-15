@@ -5,7 +5,7 @@ const { existsSync } = require("node:fs");
 const { join } = require("node:path");
 const { tmpdir } = require("node:os");
 
-const { convertPdfToPpt, readManifest, runCommand, writeLayoutHints } = require("../src/converter");
+const { baselineLayoutHints, chunkPageNumbers, convertPdfToPpt, readManifest, runCommand, writeLayoutHints } = require("../src/converter");
 
 test("writeLayoutHints writes validated hints", async () => {
   const dir = await mkdtemp(join(tmpdir(), "converter-"));
@@ -23,6 +23,28 @@ test("readManifest reads manifest JSON without adding it to require cache", asyn
 
   assert.deepEqual(manifest, { pages: [{ pageNumber: 1 }] });
   assert.equal(require.cache[manifestPath], undefined);
+});
+
+test("chunkPageNumbers splits pages by configured batch size", () => {
+  assert.deepEqual(chunkPageNumbers([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]]);
+  assert.deepEqual(chunkPageNumbers([1, 2, 3], 10), [[1, 2, 3]]);
+});
+
+test("baselineLayoutHints creates editable text hints for requested pages", () => {
+  const hints = baselineLayoutHints({
+    pages: [
+      { pageNumber: 1, textBlocks: [{ id: "t1", text: "Hello", bbox: [1, 2, 3, 4] }], images: [{ id: "i1" }] },
+      { pageNumber: 2, textBlocks: [{ id: "t2", text: "World", bbox: [5, 6, 7, 8] }], images: [] },
+    ],
+  }, [2]);
+
+  assert.deepEqual(hints.pages, [{
+    pageNumber: 2,
+    mergedTextBlocks: [{ id: "m-t2", sourceTextBlockIds: ["t2"], role: "body", text: "World", bbox: [5, 6, 7, 8] }],
+    tables: [],
+    ignoredBlockIds: [],
+    imageRoles: [],
+  }]);
 });
 
 test("convertPdfToPpt runs extract analyze build in order", async () => {

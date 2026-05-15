@@ -1,26 +1,8 @@
 const express = require("express");
-const { writeFile, mkdir } = require("node:fs/promises");
-const { join } = require("node:path");
 
 const { convertPdfToPpt } = require("./converter");
 const { getWorkerConfig } = require("./config");
 const { createJobStore } = require("./job-store");
-
-function legacyStub(taskId, taskType, inputPath, outputDir) {
-  return new Promise((resolve, reject) => {
-    setTimeout(async () => {
-      try {
-        await mkdir(outputDir, { recursive: true });
-        const ext = taskType === "pdf_to_word" ? "docx" : "txt";
-        const resultPath = join(outputDir, `${taskId}-result.${ext}`);
-        await writeFile(resultPath, `Stub output for ${taskType} from ${inputPath}`);
-        resolve(resultPath);
-      } catch (error) {
-        reject(error);
-      }
-    }, 500);
-  });
-}
 
 function createApp(options = {}) {
   const app = express();
@@ -41,11 +23,13 @@ function createApp(options = {}) {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+    if (taskType !== "pdf_to_ppt") {
+      return res.status(400).json({ error: `Unsupported taskType: ${taskType}` });
+    }
+
     const job = store.createJob({ taskId, taskType, inputPath, outputDir });
 
-    const runner = taskType === "pdf_to_ppt"
-      ? converter({ taskId, inputPath, outputDir, config: getWorkerConfig() })
-      : legacyStub(taskId, taskType, inputPath, outputDir);
+    const runner = converter({ taskId, inputPath, outputDir, config: getWorkerConfig() });
 
     runner
       .then((resultPath) => store.completeJob(job.jobId, resultPath))

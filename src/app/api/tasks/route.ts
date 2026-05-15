@@ -12,6 +12,16 @@ const validWorkflowTypes = new Set<string>([
   "chat_extraction",
 ]);
 
+const supportedTaskTypesByWorkflow: Record<string, Set<string>> = {
+  doc_processing: new Set(["pdf_to_ppt"]),
+  ppt_template: new Set(),
+  chat_extraction: new Set(),
+};
+
+function isPdfFile(file: { originalName: string; mimeType: string | null }) {
+  return file.mimeType === "application/pdf" || file.originalName.toLowerCase().endsWith(".pdf");
+}
+
 export async function POST(request: Request) {
   const user = await readSessionUser();
   if (!user) {
@@ -29,13 +39,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid workflowType" }, { status: 400 });
   }
 
+  if (!supportedTaskTypesByWorkflow[workflowType]?.has(taskType)) {
+    return NextResponse.json({ error: "Unsupported taskType" }, { status: 400 });
+  }
+
   const file = await prisma.uploadedFile.findUnique({
     where: { id: fileId },
-    select: { id: true, userId: true, storedPath: true },
+    select: { id: true, userId: true, storedPath: true, originalName: true, mimeType: true },
   });
 
   if (!file || file.userId !== user.id) {
     return NextResponse.json({ error: "File not found" }, { status: 404 });
+  }
+
+  if (taskType === "pdf_to_ppt" && !isPdfFile(file)) {
+    return NextResponse.json({ error: "pdf_to_ppt requires a PDF file" }, { status: 400 });
   }
 
   const task = await prisma.task.create({

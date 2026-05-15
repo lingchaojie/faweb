@@ -22,7 +22,7 @@ RUN if [ -n "$NPM_CONFIG_REGISTRY" ]; then \
 FROM deps AS build
 
 COPY . .
-RUN npm run build
+RUN mkdir -p public && npm run build
 
 FROM node:22-alpine AS runner
 

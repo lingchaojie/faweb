@@ -19,8 +19,6 @@ type TaskRecord = {
 
 const taskOptions = [
   { value: "pdf_to_ppt", label: "PDF 转 PPT" },
-  { value: "pdf_to_word", label: "PDF 转 Word" },
-  { value: "pdf_extract_text", label: "PDF 提取文本" },
 ];
 
 function formatFileSize(bytes: number): string {
@@ -143,12 +141,12 @@ export default function DocProcessingPage() {
             {uploading ? "上传中..." : "拖放文件到此处"}
           </div>
           <div className="text-[12px] text-zinc-400">或点击选择文件</div>
-          <div className="text-[11px] text-zinc-400">支持 PDF, DOCX, XLSX</div>
+          <div className="text-[11px] text-zinc-400">支持 PDF</div>
           <input
             ref={fileInputRef}
             type="file"
             className="hidden"
-            accept=".pdf,.docx,.xlsx,.pptx"
+            accept=".pdf,application/pdf"
             onChange={(e) => {
               const f = e.target.files?.[0];
               if (f) handleUpload(f);
