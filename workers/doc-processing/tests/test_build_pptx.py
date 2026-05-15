@@ -87,6 +87,93 @@ class BuildPptxTest(unittest.TestCase):
     def test_choose_font_family_uses_cjk_fallback_for_chinese_text(self):
         self.assertEqual(choose_font_family("Helvetica", "无穹创新"), "Noto Sans CJK SC")
 
+    def test_build_emits_east_asian_font_for_chinese_text(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 960,
+                        "height": 540,
+                        "rotation": 0,
+                        "textBlocks": [
+                            {"id": "t1", "text": "无穹创新", "bbox": [72, 72, 240, 110], "spans": [{"text": "无穹创新", "bbox": [72, 72, 240, 110], "size": 24, "font": "Helvetica", "color": "#112233"}]}
+                        ],
+                        "images": [],
+                        "drawings": [],
+                    }
+                ],
+            }
+            hints = {"pages": [{"pageNumber": 1, "mergedTextBlocks": [], "tables": [], "ignoredBlockIds": [], "imageRoles": []}]}
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
+                self.assertIn("无穹创新", slide)
+                self.assertIn('<a:ea typeface="Noto Sans CJK SC"/>', slide)
+
+    def test_build_falls_back_when_hint_color_is_invalid_hex(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 960,
+                        "height": 540,
+                        "rotation": 0,
+                        "textBlocks": [
+                            {"id": "t1", "text": "Styled", "bbox": [72, 72, 240, 110], "spans": [{"text": "Styled", "bbox": [72, 72, 240, 110], "size": 24, "font": "Aptos", "color": "#112233"}]}
+                        ],
+                        "images": [],
+                        "drawings": [],
+                    }
+                ],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [
+                            {
+                                "id": "m1",
+                                "sourceTextBlockIds": ["t1"],
+                                "role": "title",
+                                "text": "Styled",
+                                "bbox": [72, 72, 240, 110],
+                                "style": {"color": "gggggg"},
+                            }
+                        ],
+                        "tables": [],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
+                self.assertIn('val="111111"', slide)
+                self.assertNotIn("gggggg", slide)
+
     def test_build_uses_hint_text_style_in_pptx_xml(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

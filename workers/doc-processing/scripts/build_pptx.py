@@ -2,11 +2,13 @@ import json
 import sys
 from pathlib import Path
 
+from lxml import etree
 from PIL import Image
 from pptx import Presentation
 from pptx.dml.color import RGBColor
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.enum.text import PP_ALIGN
+from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
 
@@ -25,7 +27,10 @@ def parse_color(value, fallback="000000"):
     value = value.lstrip("#")
     if len(value) != 6:
         value = fallback
-    return RGBColor(int(value[0:2], 16), int(value[2:4], 16), int(value[4:6], 16))
+    try:
+        return RGBColor(int(value[0:2], 16), int(value[2:4], 16), int(value[4:6], 16))
+    except ValueError:
+        return RGBColor(int(fallback[0:2], 16), int(fallback[2:4], 16), int(fallback[4:6], 16))
 
 
 def contains_cjk(text):
@@ -38,6 +43,16 @@ def choose_font_family(font_family, text):
     if font_family and "CID" not in font_family:
         return font_family
     return "Arial"
+
+
+def set_run_font(run, font_family, text):
+    run.font.name = font_family
+    if contains_cjk(text):
+        r_pr = run._r.get_or_add_rPr()
+        ea = r_pr.find(qn("a:ea"))
+        if ea is None:
+            ea = etree.SubElement(r_pr, qn("a:ea"))
+        ea.set("typeface", font_family)
 
 
 def visible_spans(blocks):
@@ -106,7 +121,7 @@ def add_text_box(slide, text_item, source_blocks=None):
     run = paragraph.add_run()
     run.text = text
     run.font.size = Pt(float(style.get("fontSize") or 14))
-    run.font.name = choose_font_family(style.get("fontFamily"), text)
+    set_run_font(run, choose_font_family(style.get("fontFamily"), text), text)
     run.font.color.rgb = parse_color(style.get("color"), "111111")
     return box
 
