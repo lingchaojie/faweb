@@ -53,10 +53,19 @@ services:
     restart: unless-stopped
     environment:
       PORT: 8001
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      CLAUDE_CODE_OAUTH_TOKEN: ${CLAUDE_CODE_OAUTH_TOKEN:-}
+      CLAUDE_CONFIG_DIR: /app/claude-config
+      CLAUDE_WORKER_PROMPT_DIR: /app/prompts
+      PDF_TO_PPT_JOB_TIMEOUT_MS: ${PDF_TO_PPT_JOB_TIMEOUT_MS:-1200000}
+      PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS: ${PDF_TO_PPT_CLAUDE_BATCH_TIMEOUT_MS:-90000}
+      PDF_TO_PPT_PAGE_BATCH_SIZE: ${PDF_TO_PPT_PAGE_BATCH_SIZE:-4}
     volumes:
       - flowassist-shared-storage:/app/storage
+      - ../../workers/doc-processing/claude-config:/app/claude-config:ro
+      - ../../workers/doc-processing/prompts:/app/prompts:ro
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8001/health || exit 1"]
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
       interval: 10s
       timeout: 5s
       retries: 5
