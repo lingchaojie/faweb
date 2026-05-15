@@ -14,7 +14,8 @@ Rules:
 - Do not rewrite source text unless merging adjacent fragments that visibly belong together.
 - Prefer grouping fragmented title/body text into fewer editable text boxes.
 - Identify table regions when text blocks align into rows and columns.
-- Mark purely decorative extracted blocks as ignored only when they would harm editability or duplicate background imagery.
+- Mark dense charts, screenshots, formulas, and visually complex regions as image fallbacks.
+- Mark extracted source IDs as ignored only when they duplicate a fallback image region or would visibly harm the slide.
 - Preserve page numbers and source block IDs exactly.
 
 The JSON shape must be:
@@ -29,7 +30,14 @@ The JSON shape must be:
           "sourceTextBlockIds": ["t1", "t2"],
           "role": "title",
           "text": "Merged visible text",
-          "bbox": [10, 20, 300, 80]
+          "bbox": [10, 20, 300, 80],
+          "style": {
+            "fontSize": 28,
+            "fontFamily": "Helvetica",
+            "color": "#112233",
+            "align": "center",
+            "bullet": false
+          }
         }
       ],
       "tables": [
@@ -38,10 +46,31 @@ The JSON shape must be:
           "bbox": [10, 100, 400, 220],
           "rows": 2,
           "columns": 3,
-          "sourceTextBlockIds": ["t3", "t4", "t5"]
+          "sourceTextBlockIds": ["t3", "t4", "t5"],
+          "confidence": 0.9
         }
       ],
-      "ignoredBlockIds": ["d1"],
+      "regions": [
+        {
+          "id": "r1",
+          "role": "chart",
+          "strategy": "image",
+          "bbox": [20, 120, 420, 260],
+          "sourceIds": ["d1", "t9"],
+          "confidence": 0.8,
+          "zIndex": 5
+        }
+      ],
+      "fallbacks": [
+        {
+          "id": "f1",
+          "reason": "dense chart",
+          "bbox": [20, 120, 420, 260],
+          "confidence": 0.75,
+          "zIndex": 6
+        }
+      ],
+      "ignoredBlockIds": ["d2"],
       "imageRoles": [
         { "imageId": "i1", "role": "logo" }
       ]

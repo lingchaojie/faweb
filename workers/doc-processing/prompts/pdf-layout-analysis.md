@@ -14,6 +14,9 @@ Important:
 - Keep coordinates in PDF point units.
 - Merge text fragments that visually form a single title, paragraph, bullet, label, or table cell.
 - Prefer fewer coherent text boxes over many single-word text boxes.
-- Treat photos and complex charts as images.
+- Treat photos, screenshots, formulas, and complex charts as image fallback regions.
 - Identify tables only when row and column structure is visually clear.
-- If a page is simple, return mergedTextBlocks and leave tables empty.
+- Return style hints only when they are visible in the manifest data: font size, font family, color, alignment, and bullet status.
+- Use `regions` with `strategy: "image"` for areas the builder should crop from the page image.
+- Use `regions` with `strategy: "ignore"` only for source IDs that should not be emitted as editable objects.
+- If a page is simple, return mergedTextBlocks and leave tables, regions, and fallbacks empty.

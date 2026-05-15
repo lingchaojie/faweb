@@ -42,6 +42,8 @@ test("baselineLayoutHints creates editable text hints for requested pages", () =
     pageNumber: 2,
     mergedTextBlocks: [{ id: "m-t2", sourceTextBlockIds: ["t2"], role: "body", text: "World", bbox: [5, 6, 7, 8] }],
     tables: [],
+    regions: [],
+    fallbacks: [],
     ignoredBlockIds: [],
     imageRoles: [],
   }]);

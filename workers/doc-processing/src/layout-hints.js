@@ -21,6 +21,45 @@ function normalizeStringArray(value, fieldName) {
   return value.map((item) => String(item));
 }
 
+function normalizePositiveInteger(value, fieldName) {
+  const number = Number(value);
+  if (!Number.isInteger(number) || number <= 0) throw new Error(`${fieldName} must be a positive integer`);
+  return number;
+}
+
+function normalizeConfidence(value) {
+  if (value === undefined) return 1;
+  const number = Number(value);
+  if (!Number.isFinite(number) || number < 0 || number > 1) throw new Error("confidence must be between 0 and 1");
+  return number;
+}
+
+function normalizeZIndex(value) {
+  if (value === undefined) return 0;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
+}
+
+function normalizeTextStyle(style) {
+  if (style === undefined) return {};
+  assertObject(style, "style must be an object");
+  const normalized = {};
+  if (style.fontSize !== undefined) {
+    const fontSize = Number(style.fontSize);
+    if (!Number.isFinite(fontSize) || fontSize <= 0) throw new Error("style.fontSize must be a positive number");
+    normalized.fontSize = fontSize;
+  }
+  if (style.fontFamily !== undefined) normalized.fontFamily = String(style.fontFamily);
+  if (style.color !== undefined) normalized.color = String(style.color);
+  if (style.align !== undefined) {
+    const align = String(style.align);
+    if (!["left", "center", "right"].includes(align)) throw new Error("style.align must be left, center, or right");
+    normalized.align = align;
+  }
+  if (style.bullet !== undefined) normalized.bullet = Boolean(style.bullet);
+  return normalized;
+}
+
 function normalizeMergedTextBlock(block) {
   assertObject(block, "mergedTextBlocks entries must be objects");
   return {
@@ -29,6 +68,7 @@ function normalizeMergedTextBlock(block) {
     role: String(block.role || "body"),
     text: String(block.text || ""),
     bbox: normalizeBbox(block.bbox),
+    style: normalizeTextStyle(block.style),
   };
 }
 
@@ -37,9 +77,10 @@ function normalizeTable(table) {
   return {
     id: String(table.id),
     bbox: normalizeBbox(table.bbox),
-    rows: Number(table.rows),
-    columns: Number(table.columns),
+    rows: normalizePositiveInteger(table.rows, "rows"),
+    columns: normalizePositiveInteger(table.columns, "columns"),
     sourceTextBlockIds: normalizeStringArray(table.sourceTextBlockIds, "sourceTextBlockIds"),
+    confidence: normalizeConfidence(table.confidence),
   };
 }
 
@@ -48,6 +89,34 @@ function normalizeImageRole(imageRole) {
   return {
     imageId: String(imageRole.imageId),
     role: String(imageRole.role || "image"),
+  };
+}
+
+function normalizeRegion(region) {
+  assertObject(region, "regions entries must be objects");
+  const strategy = String(region.strategy || "native");
+  if (!["native", "image", "ignore"].includes(strategy)) {
+    throw new Error("region strategy must be native, image, or ignore");
+  }
+  return {
+    id: String(region.id),
+    role: String(region.role || "region"),
+    strategy,
+    bbox: normalizeBbox(region.bbox),
+    sourceIds: normalizeStringArray(region.sourceIds, "sourceIds"),
+    confidence: normalizeConfidence(region.confidence),
+    zIndex: normalizeZIndex(region.zIndex),
+  };
+}
+
+function normalizeFallback(fallback) {
+  assertObject(fallback, "fallbacks entries must be objects");
+  return {
+    id: String(fallback.id),
+    reason: String(fallback.reason || "complex region"),
+    bbox: normalizeBbox(fallback.bbox),
+    confidence: normalizeConfidence(fallback.confidence),
+    zIndex: normalizeZIndex(fallback.zIndex),
   };
 }
 
@@ -62,6 +131,8 @@ function validateLayoutHints(value) {
         pageNumber: Number(page.pageNumber),
         mergedTextBlocks: (page.mergedTextBlocks || []).map(normalizeMergedTextBlock),
         tables: (page.tables || []).map(normalizeTable),
+        regions: (page.regions || []).map(normalizeRegion),
+        fallbacks: (page.fallbacks || []).map(normalizeFallback),
         ignoredBlockIds: normalizeStringArray(page.ignoredBlockIds, "ignoredBlockIds"),
         imageRoles: (page.imageRoles || []).map(normalizeImageRole),
       };

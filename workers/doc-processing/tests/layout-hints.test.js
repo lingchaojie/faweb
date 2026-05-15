@@ -36,6 +36,61 @@ test("validateLayoutHints accepts page hints with merged text and tables", () =>
   assert.equal(hints.pages[0].mergedTextBlocks[0].role, "title");
 });
 
+test("validateLayoutHints normalizes consumed quality hint fields", () => {
+  const hints = validateLayoutHints({
+    pages: [
+      {
+        pageNumber: 1,
+        mergedTextBlocks: [
+          {
+            id: "m1",
+            sourceTextBlockIds: ["t1"],
+            role: "title",
+            text: "Title",
+            bbox: [10, 20, 300, 80],
+            style: { fontSize: 28, fontFamily: "Helvetica", color: "#112233", align: "center", bullet: false },
+          },
+        ],
+        tables: [
+          { id: "table1", bbox: [10, 100, 400, 220], rows: 2, columns: 3, sourceTextBlockIds: ["t2"], confidence: 0.9 },
+        ],
+        regions: [
+          { id: "r1", role: "chart", strategy: "image", bbox: [20, 120, 420, 260], sourceIds: ["d1"], confidence: 0.8, zIndex: 5 },
+        ],
+        fallbacks: [
+          { id: "f1", reason: "dense chart", bbox: [20, 120, 420, 260], confidence: 0.75, zIndex: 6 },
+        ],
+        ignoredBlockIds: ["d2"],
+        imageRoles: [{ imageId: "i1", role: "logo" }],
+      },
+    ],
+  });
+
+  const page = hints.pages[0];
+  assert.equal(page.mergedTextBlocks[0].style.align, "center");
+  assert.equal(page.tables[0].confidence, 0.9);
+  assert.equal(page.regions[0].strategy, "image");
+  assert.equal(page.fallbacks[0].zIndex, 6);
+});
+
+test("validateLayoutHints rejects confidence outside zero to one", () => {
+  assert.throws(
+    () => validateLayoutHints({
+      pages: [{ pageNumber: 1, tables: [{ id: "t", bbox: [0, 0, 1, 1], rows: 1, columns: 1, confidence: 2 }] }],
+    }),
+    /confidence must be between 0 and 1/,
+  );
+});
+
+test("validateLayoutHints rejects unsupported region strategy", () => {
+  assert.throws(
+    () => validateLayoutHints({
+      pages: [{ pageNumber: 1, regions: [{ id: "r", role: "chart", strategy: "paint", bbox: [0, 0, 1, 1] }] }],
+    }),
+    /region strategy must be native, image, or ignore/,
+  );
+});
+
 test("validateLayoutHints rejects missing pages", () => {
   assert.throws(() => validateLayoutHints({}), /layout hints must contain pages array/);
 });

@@ -113,6 +113,8 @@ function baselineLayoutHints(manifest, pageNumbers) {
           bbox: block.bbox,
         })),
         tables: [],
+        regions: [],
+        fallbacks: [],
         ignoredBlockIds: [],
         imageRoles: (page.images || []).map((image) => ({ imageId: image.id, role: "image" })),
       })),
