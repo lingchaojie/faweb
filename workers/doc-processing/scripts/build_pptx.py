@@ -230,13 +230,19 @@ def add_fallback_crop(slide, manifest_root, page, fallback):
     return slide.shapes.add_picture(crop_stream, left, top, width, height)
 
 
-def add_table(slide, table_hint, text_blocks_by_id):
+def table_is_editable(table_hint):
     if float(table_hint.get("confidence", 1)) < 0.75:
         return False
     rows = int(table_hint.get("rows", 0))
     columns = int(table_hint.get("columns", 0))
-    if rows <= 0 or columns <= 0:
+    return rows > 0 and columns > 0
+
+
+def add_table(slide, table_hint, text_blocks_by_id):
+    if not table_is_editable(table_hint):
         return False
+    rows = int(table_hint.get("rows", 0))
+    columns = int(table_hint.get("columns", 0))
     left, top, width, height = bbox_to_position(table_hint["bbox"])
     table_shape = slide.shapes.add_table(rows, columns, left, top, width, height)
     table = table_shape.table
@@ -277,17 +283,19 @@ def build_pptx(manifest_path, hints_path, output_path):
         merged_source_ids = set()
         table_source_ids = set()
         fallback_boxes = [candidate["bbox"] for candidate in fallback_candidates(page_hints)]
+        table_boxes = [table_hint["bbox"] for table_hint in page_hints.get("tables", []) if table_hint.get("bbox") and not bbox_inside_any(table_hint.get("bbox"), fallback_boxes) and table_is_editable(table_hint)]
+        suppression_boxes = fallback_boxes + table_boxes
         text_blocks_by_id = {block.get("id"): block for block in page.get("textBlocks", []) if block.get("id")}
 
         for fallback in fallback_candidates(page_hints):
             add_fallback_crop(slide, manifest_path.parent, page, fallback)
 
         for image in page.get("images", []):
-            if image.get("id") not in ignored and not bbox_inside_any(image.get("bbox", [0, 0, 0, 0]), fallback_boxes):
+            if image.get("id") not in ignored and not bbox_inside_any(image.get("bbox", [0, 0, 0, 0]), suppression_boxes):
                 add_image(slide, manifest_path.parent, image)
 
         for drawing in page.get("drawings", []):
-            if drawing.get("id") not in ignored and not bbox_inside_any(drawing.get("bbox", [0, 0, 0, 0]), fallback_boxes):
+            if drawing.get("id") not in ignored and not bbox_inside_any(drawing.get("bbox", [0, 0, 0, 0]), suppression_boxes):
                 add_drawing(slide, drawing)
 
         for table_hint in page_hints.get("tables", []):
@@ -307,7 +315,7 @@ def build_pptx(manifest_path, hints_path, output_path):
         for block in page.get("textBlocks", []):
             if block.get("id") in ignored or block.get("id") in merged_source_ids or block.get("id") in table_source_ids:
                 continue
-            if bbox_inside_any(block.get("bbox", [0, 0, 0, 0]), fallback_boxes):
+            if bbox_inside_any(block.get("bbox", [0, 0, 0, 0]), suppression_boxes):
                 continue
             add_text_box(slide, {
                 "text": block.get("text", ""),

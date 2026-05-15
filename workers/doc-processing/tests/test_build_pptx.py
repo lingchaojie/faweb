@@ -442,3 +442,111 @@ class BuildPptxTest(unittest.TestCase):
                 self.assertIn("a:tbl", slide)
                 self.assertIn("A", slide)
                 self.assertIn("D", slide)
+
+    def test_confident_table_suppresses_overlapping_source_objects_with_incomplete_sources(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            page_dir = root / "page-001"
+            page_dir.mkdir()
+            source_image_path = page_dir / "source.png"
+            Image.new("RGB", (50, 50), "black").save(source_image_path)
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 400,
+                        "height": 300,
+                        "rotation": 0,
+                        "textBlocks": [
+                            {"id": "t1", "text": "Table Cell", "bbox": [20, 20, 120, 50], "spans": []},
+                            {"id": "t2", "text": "Duplicate Text", "bbox": [130, 20, 230, 50], "spans": []},
+                            {"id": "t3", "text": "Visible Text", "bbox": [20, 180, 120, 210], "spans": []},
+                        ],
+                        "images": [{"id": "i1", "path": "page-001/source.png", "bbox": [40, 70, 100, 130]}],
+                        "drawings": [{"id": "d1", "bbox": [150, 70, 220, 130], "fill": "#ff00ff", "stroke": "#ff00ff", "width": 1}],
+                    }
+                ],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [],
+                        "tables": [{"id": "table1", "bbox": [0, 0, 260, 150], "rows": 1, "columns": 2, "sourceTextBlockIds": ["t1"], "confidence": 0.95}],
+                        "regions": [],
+                        "fallbacks": [],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
+                media_names = [name for name in pptx.namelist() if name.startswith("ppt/media/")]
+                self.assertIn("a:tbl", slide)
+                self.assertIn("Table Cell", slide)
+                self.assertNotIn("Duplicate Text", slide)
+                self.assertIn("Visible Text", slide)
+                self.assertNotIn("FF00FF", slide)
+                self.assertEqual(media_names, [])
+
+    def test_low_confidence_table_does_not_suppress_overlapping_source_objects(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            page_dir = root / "page-001"
+            page_dir.mkdir()
+            source_image_path = page_dir / "source.png"
+            Image.new("RGB", (50, 50), "black").save(source_image_path)
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 400,
+                        "height": 300,
+                        "rotation": 0,
+                        "textBlocks": [{"id": "t1", "text": "Visible Overlap", "bbox": [20, 20, 120, 50], "spans": []}],
+                        "images": [{"id": "i1", "path": "page-001/source.png", "bbox": [40, 70, 100, 130]}],
+                        "drawings": [{"id": "d1", "bbox": [150, 70, 220, 130], "fill": "#ff00ff", "stroke": "#ff00ff", "width": 1}],
+                    }
+                ],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [],
+                        "tables": [{"id": "table1", "bbox": [0, 0, 260, 150], "rows": 1, "columns": 1, "sourceTextBlockIds": ["t1"], "confidence": 0.5}],
+                        "regions": [],
+                        "fallbacks": [],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
+                media_names = [name for name in pptx.namelist() if name.startswith("ppt/media/")]
+                self.assertNotIn("a:tbl", slide)
+                self.assertIn("Visible Overlap", slide)
+                self.assertIn("FF00FF", slide)
+                self.assertEqual(len(media_names), 1)
