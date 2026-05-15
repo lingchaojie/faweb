@@ -56,28 +56,46 @@ def extract_text_blocks(page):
     return result
 
 
+def pixmap_for_png(pix, pixmap_factory=fitz.Pixmap):
+    if pix.alpha or pix.n - pix.alpha > 3:
+        return pixmap_factory(fitz.csRGB, pix)
+    return pix
+
+
 def extract_images(page, doc, page_dir):
     result = []
     image_index = 0
+    saved_images = {}
+    processed_xrefs = set()
     for image in page.get_images(full=True):
         xref = image[0]
+        if xref in processed_xrefs:
+            continue
+        processed_xrefs.add(xref)
         try:
-            pix = fitz.Pixmap(doc, xref)
-            if pix.alpha:
-                pix = fitz.Pixmap(fitz.csRGB, pix)
-            name = f"image-{image_index}.png"
-            path = page_dir / name
-            pix.save(path)
+            if xref in saved_images:
+                name, width, height = saved_images[xref]
+            else:
+                pix = pixmap_for_png(fitz.Pixmap(doc, xref))
+                name = f"image-{len(saved_images)}.png"
+                path = page_dir / name
+                pix.save(path)
+                width = pix.width
+                height = pix.height
+                saved_images[xref] = (name, width, height)
+
             rects = page.get_image_rects(xref)
-            bbox = rect_to_list(rects[0]) if rects else [0, 0, pix.width, pix.height]
-            result.append({
-                "id": f"i{image_index}",
-                "path": str(Path(page_dir.name) / name),
-                "bbox": bbox,
-                "width": pix.width,
-                "height": pix.height,
-            })
-            image_index += 1
+            if not rects:
+                rects = [fitz.Rect(0, 0, width, height)]
+            for rect in rects:
+                result.append({
+                    "id": f"i{image_index}",
+                    "path": str(Path(page_dir.name) / name),
+                    "bbox": rect_to_list(rect),
+                    "width": width,
+                    "height": height,
+                })
+                image_index += 1
         except Exception:
             continue
     return result
