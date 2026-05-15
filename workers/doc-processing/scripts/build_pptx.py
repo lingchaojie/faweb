@@ -1,5 +1,6 @@
 import json
 import sys
+from io import BytesIO
 from pathlib import Path
 
 from lxml import etree
@@ -164,8 +165,19 @@ def point_in_bbox(point, bbox):
     return x1 <= x <= x2 and y1 <= y <= y2
 
 
+def bbox_overlap_ratio(bbox, candidate):
+    x1, y1, x2, y2 = bbox
+    cx1, cy1, cx2, cy2 = candidate
+    overlap_width = max(0, min(x2, cx2) - max(x1, cx1))
+    overlap_height = max(0, min(y2, cy2) - max(y1, cy1))
+    bbox_area = max(0, x2 - x1) * max(0, y2 - y1)
+    if bbox_area <= 0:
+        return 0
+    return (overlap_width * overlap_height) / bbox_area
+
+
 def bbox_inside_any(bbox, bboxes):
-    return any(point_in_bbox(bbox_center(bbox), candidate) for candidate in bboxes)
+    return any(point_in_bbox(bbox_center(bbox), candidate) or bbox_overlap_ratio(bbox, candidate) >= 0.25 for candidate in bboxes)
 
 
 def fallback_candidates(page_hints):
@@ -202,20 +214,20 @@ def crop_page_image(manifest_root, page, bbox, crop_id):
     )
     if crop_box[2] <= crop_box[0] or crop_box[3] <= crop_box[1]:
         return None
-    crop_dir = manifest_root / "crops"
-    crop_dir.mkdir(parents=True, exist_ok=True)
+    crop_stream = BytesIO()
     safe_id = "".join(char if char.isalnum() or char in "-_" else "-" for char in str(crop_id))
-    crop_path = crop_dir / f"page-{page['pageNumber']:03d}-{safe_id}.png"
-    image.crop(crop_box).save(crop_path)
-    return crop_path
+    crop_stream.name = f"page-{page['pageNumber']:03d}-{safe_id}.png"
+    image.crop(crop_box).save(crop_stream, format="PNG")
+    crop_stream.seek(0)
+    return crop_stream
 
 
 def add_fallback_crop(slide, manifest_root, page, fallback):
-    crop_path = crop_page_image(manifest_root, page, fallback["bbox"], fallback["id"])
-    if not crop_path:
+    crop_stream = crop_page_image(manifest_root, page, fallback["bbox"], fallback["id"])
+    if not crop_stream:
         return None
     left, top, width, height = bbox_to_position(fallback["bbox"])
-    return slide.shapes.add_picture(str(crop_path), left, top, width, height)
+    return slide.shapes.add_picture(crop_stream, left, top, width, height)
 
 
 def add_table(slide, table_hint, text_blocks_by_id):

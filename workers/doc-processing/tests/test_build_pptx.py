@@ -339,6 +339,7 @@ class BuildPptxTest(unittest.TestCase):
                 self.assertNotIn("Covered", slide)
                 self.assertIn("Visible", slide)
                 self.assertEqual(len(media_names), 1)
+            self.assertFalse((root / "crops").exists())
 
     def test_region_image_strategy_behaves_as_fallback_crop(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -346,13 +347,26 @@ class BuildPptxTest(unittest.TestCase):
             page_dir = root / "page-001"
             page_dir.mkdir()
             Image.new("RGB", (200, 100), "white").save(page_dir / "page.png")
+            source_image_path = page_dir / "source.png"
+            Image.new("RGB", (50, 50), "black").save(source_image_path)
             manifest_path = root / "manifest.json"
             hints_path = root / "hints.json"
             output_path = root / "result.pptx"
             manifest = {
                 "pdfPath": str(root / "input.pdf"),
                 "pageCount": 1,
-                "pages": [{"pageNumber": 1, "width": 200, "height": 100, "rotation": 0, "imagePath": "page-001/page.png", "textBlocks": [], "images": [], "drawings": []}],
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 200,
+                        "height": 100,
+                        "rotation": 0,
+                        "imagePath": "page-001/page.png",
+                        "textBlocks": [{"id": "t1", "text": "Overlapped", "bbox": [0, 30, 35, 50], "spans": []}],
+                        "images": [{"id": "i1", "path": "page-001/source.png", "bbox": [0, 30, 35, 70]}],
+                        "drawings": [{"id": "d1", "bbox": [0, 40, 35, 80], "fill": "#000000", "stroke": "#000000", "width": 1}],
+                    }
+                ],
             }
             hints = {
                 "pages": [
@@ -373,7 +387,10 @@ class BuildPptxTest(unittest.TestCase):
             build_pptx(manifest_path, hints_path, output_path)
 
             with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
                 media_names = [name for name in pptx.namelist() if name.startswith("ppt/media/")]
+                self.assertNotIn("Overlapped", slide)
+                self.assertNotIn("a:solidFill", slide)
                 self.assertEqual(len(media_names), 1)
 
     def test_confident_table_hint_builds_editable_table(self):
