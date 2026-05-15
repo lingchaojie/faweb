@@ -500,6 +500,107 @@ class BuildPptxTest(unittest.TestCase):
                 self.assertNotIn("FF00FF", slide)
                 self.assertEqual(media_names, [])
 
+    def test_confident_table_suppresses_overlapping_merged_text_with_incomplete_sources(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 400,
+                        "height": 300,
+                        "rotation": 0,
+                        "textBlocks": [
+                            {"id": "t1", "text": "Table Cell", "bbox": [20, 20, 120, 50], "spans": []},
+                            {"id": "t2", "text": "Duplicate Merged Text", "bbox": [130, 20, 230, 50], "spans": []},
+                            {"id": "t3", "text": "Visible Text", "bbox": [20, 180, 120, 210], "spans": []},
+                        ],
+                        "images": [],
+                        "drawings": [],
+                    }
+                ],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [
+                            {
+                                "id": "m1",
+                                "sourceTextBlockIds": ["t2"],
+                                "role": "body",
+                                "bbox": [120, 10, 250, 70],
+                            }
+                        ],
+                        "tables": [{"id": "table1", "bbox": [0, 0, 260, 150], "rows": 1, "columns": 2, "sourceTextBlockIds": ["t1"], "confidence": 0.95}],
+                        "regions": [],
+                        "fallbacks": [],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
+                self.assertIn("a:tbl", slide)
+                self.assertIn("Table Cell", slide)
+                self.assertNotIn("Duplicate Merged Text", slide)
+                self.assertIn("Visible Text", slide)
+
+    def test_low_confidence_table_does_not_suppress_overlapping_merged_text(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 400,
+                        "height": 300,
+                        "rotation": 0,
+                        "textBlocks": [{"id": "t1", "text": "Merged Visible Text", "bbox": [20, 20, 180, 50], "spans": []}],
+                        "images": [],
+                        "drawings": [],
+                    }
+                ],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [{"id": "m1", "sourceTextBlockIds": ["t1"], "role": "body", "bbox": [0, 0, 260, 150]}],
+                        "tables": [{"id": "table1", "bbox": [0, 0, 260, 150], "rows": 1, "columns": 1, "sourceTextBlockIds": ["t1"], "confidence": 0.5}],
+                        "regions": [],
+                        "fallbacks": [],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
+                self.assertNotIn("a:tbl", slide)
+                self.assertIn("Merged Visible Text", slide)
+
     def test_low_confidence_table_does_not_suppress_overlapping_source_objects(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

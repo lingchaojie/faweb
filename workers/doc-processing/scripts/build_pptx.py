@@ -303,7 +303,7 @@ def build_pptx(manifest_path, hints_path, output_path):
                 table_source_ids.update(table_hint.get("sourceTextBlockIds", []))
 
         for item in page_hints.get("mergedTextBlocks", []):
-            if bbox_inside_any(item.get("bbox", [0, 0, 0, 0]), fallback_boxes):
+            if bbox_inside_any(item.get("bbox", [0, 0, 0, 0]), suppression_boxes):
                 merged_source_ids.update(item.get("sourceTextBlockIds", []))
                 continue
             source_blocks = [text_blocks_by_id[source_id] for source_id in item.get("sourceTextBlockIds", []) if source_id in text_blocks_by_id]
