@@ -6,6 +6,7 @@ COPY package.json package-lock.json* ./
 RUN npm install --production
 
 COPY server.js ./
+COPY src ./src
 
 EXPOSE 8001
 
