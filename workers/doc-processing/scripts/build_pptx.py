@@ -238,6 +238,16 @@ def table_is_editable(table_hint):
     return rows > 0 and columns > 0
 
 
+def table_source_block_ids(table_hint, text_blocks_by_id):
+    source_ids = list(table_hint.get("sourceTextBlockIds", []))
+    seen = set(source_ids)
+    for source_id, block in text_blocks_by_id.items():
+        if source_id not in seen and bbox_inside_any(block.get("bbox", [0, 0, 0, 0]), [table_hint["bbox"]]):
+            source_ids.append(source_id)
+            seen.add(source_id)
+    return source_ids
+
+
 def add_table(slide, table_hint, text_blocks_by_id):
     if not table_is_editable(table_hint):
         return False
@@ -250,7 +260,7 @@ def add_table(slide, table_hint, text_blocks_by_id):
     table_width = max(1, x2 - x1)
     table_height = max(1, y2 - y1)
     cells = {(row, column): [] for row in range(rows) for column in range(columns)}
-    for source_id in table_hint.get("sourceTextBlockIds", []):
+    for source_id in table_source_block_ids(table_hint, text_blocks_by_id):
         block = text_blocks_by_id.get(source_id)
         if not block:
             continue
@@ -287,8 +297,7 @@ def build_pptx(manifest_path, hints_path, output_path):
         suppression_boxes = fallback_boxes + table_boxes
         text_blocks_by_id = {block.get("id"): block for block in page.get("textBlocks", []) if block.get("id")}
 
-        for fallback in fallback_candidates(page_hints):
-            add_fallback_crop(slide, manifest_path.parent, page, fallback)
+        fallbacks = fallback_candidates(page_hints)
 
         for image in page.get("images", []):
             if image.get("id") not in ignored and not bbox_inside_any(image.get("bbox", [0, 0, 0, 0]), suppression_boxes):
@@ -298,9 +307,12 @@ def build_pptx(manifest_path, hints_path, output_path):
             if drawing.get("id") not in ignored and not bbox_inside_any(drawing.get("bbox", [0, 0, 0, 0]), suppression_boxes):
                 add_drawing(slide, drawing)
 
+        for fallback in fallbacks:
+            add_fallback_crop(slide, manifest_path.parent, page, fallback)
+
         for table_hint in page_hints.get("tables", []):
             if not bbox_inside_any(table_hint.get("bbox", [0, 0, 0, 0]), fallback_boxes) and add_table(slide, table_hint, text_blocks_by_id):
-                table_source_ids.update(table_hint.get("sourceTextBlockIds", []))
+                table_source_ids.update(table_source_block_ids(table_hint, text_blocks_by_id))
 
         for item in page_hints.get("mergedTextBlocks", []):
             if bbox_inside_any(item.get("bbox", [0, 0, 0, 0]), suppression_boxes):

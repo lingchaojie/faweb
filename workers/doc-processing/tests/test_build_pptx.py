@@ -5,6 +5,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
+from lxml import etree
 from PIL import Image
 
 DOC_PROCESSING_ROOT = Path(__file__).resolve().parents[1]
@@ -341,6 +342,64 @@ class BuildPptxTest(unittest.TestCase):
                 self.assertEqual(len(media_names), 1)
             self.assertFalse((root / "crops").exists())
 
+    def test_fallback_crop_is_emitted_after_overlapping_native_image(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            page_dir = root / "page-001"
+            page_dir.mkdir()
+            Image.new("RGB", (300, 200), "white").save(page_dir / "page.png")
+            Image.new("RGB", (200, 200), "black").save(page_dir / "source.png")
+            manifest_path = root / "manifest.json"
+            hints_path = root / "hints.json"
+            output_path = root / "result.pptx"
+            manifest = {
+                "pdfPath": str(root / "input.pdf"),
+                "pageCount": 1,
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "width": 300,
+                        "height": 200,
+                        "rotation": 0,
+                        "imagePath": "page-001/page.png",
+                        "textBlocks": [],
+                        "images": [{"id": "i1", "path": "page-001/source.png", "bbox": [0, 0, 200, 200]}],
+                        "drawings": [],
+                    }
+                ],
+            }
+            hints = {
+                "pages": [
+                    {
+                        "pageNumber": 1,
+                        "mergedTextBlocks": [],
+                        "tables": [],
+                        "regions": [],
+                        "fallbacks": [{"id": "f1", "reason": "complex", "bbox": [50, 10, 150, 60], "confidence": 0.9, "zIndex": 1}],
+                        "ignoredBlockIds": [],
+                        "imageRoles": [],
+                    }
+                ]
+            }
+            manifest_path.write_text(json.dumps(manifest))
+            hints_path.write_text(json.dumps(hints))
+
+            build_pptx(manifest_path, hints_path, output_path)
+
+            with zipfile.ZipFile(output_path) as pptx:
+                slide = etree.fromstring(pptx.read("ppt/slides/slide1.xml"))
+                ns = {
+                    "p": "http://schemas.openxmlformats.org/presentationml/2006/main",
+                    "a": "http://schemas.openxmlformats.org/drawingml/2006/main",
+                }
+                positions = []
+                for picture in slide.xpath(".//p:spTree/p:pic", namespaces=ns):
+                    offset = picture.find(".//a:off", namespaces=ns)
+                    positions.append((int(offset.get("x")), int(offset.get("y"))))
+
+                self.assertEqual(len(positions), 2)
+                self.assertLess(positions.index((0, 0)), positions.index((50 * 12700, 10 * 12700)))
+
     def test_region_image_strategy_behaves_as_fallback_crop(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -495,7 +554,8 @@ class BuildPptxTest(unittest.TestCase):
                 media_names = [name for name in pptx.namelist() if name.startswith("ppt/media/")]
                 self.assertIn("a:tbl", slide)
                 self.assertIn("Table Cell", slide)
-                self.assertNotIn("Duplicate Text", slide)
+                self.assertIn("Duplicate Text", slide)
+                self.assertEqual(slide.count("Duplicate Text"), 1)
                 self.assertIn("Visible Text", slide)
                 self.assertNotIn("FF00FF", slide)
                 self.assertEqual(media_names, [])
@@ -554,7 +614,8 @@ class BuildPptxTest(unittest.TestCase):
                 slide = pptx.read("ppt/slides/slide1.xml").decode("utf-8")
                 self.assertIn("a:tbl", slide)
                 self.assertIn("Table Cell", slide)
-                self.assertNotIn("Duplicate Merged Text", slide)
+                self.assertIn("Duplicate Merged Text", slide)
+                self.assertEqual(slide.count("Duplicate Merged Text"), 1)
                 self.assertIn("Visible Text", slide)
 
     def test_low_confidence_table_does_not_suppress_overlapping_merged_text(self):
