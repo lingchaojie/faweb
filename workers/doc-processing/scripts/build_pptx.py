@@ -67,6 +67,12 @@ def add_image(slide, manifest_root, image):
     return slide.shapes.add_picture(str(path), left, top, width, height)
 
 
+def merged_text_from_source_blocks(item, text_blocks_by_id):
+    source_blocks = [text_blocks_by_id[source_id] for source_id in item.get("sourceTextBlockIds", []) if source_id in text_blocks_by_id]
+    source_blocks.sort(key=lambda block: (block.get("bbox", [0, 0, 0, 0])[1], block.get("bbox", [0, 0, 0, 0])[0]))
+    return " ".join(block.get("text", "") for block in source_blocks if block.get("text", ""))
+
+
 def build_pptx(manifest_path, hints_path, output_path):
     manifest_path = Path(manifest_path)
     hints_path = Path(hints_path)
@@ -85,6 +91,7 @@ def build_pptx(manifest_path, hints_path, output_path):
         page_hints = find_page_hints(hints, page["pageNumber"])
         ignored = set(page_hints.get("ignoredBlockIds", []))
         merged_source_ids = set()
+        text_blocks_by_id = {block.get("id"): block for block in page.get("textBlocks", []) if block.get("id")}
 
         for image in page.get("images", []):
             if image.get("id") not in ignored:
@@ -95,7 +102,9 @@ def build_pptx(manifest_path, hints_path, output_path):
                 add_drawing(slide, drawing)
 
         for item in page_hints.get("mergedTextBlocks", []):
-            add_text_box(slide, item)
+            source_text = merged_text_from_source_blocks(item, text_blocks_by_id)
+            if source_text:
+                add_text_box(slide, {**item, "text": source_text})
             merged_source_ids.update(item.get("sourceTextBlockIds", []))
 
         for block in page.get("textBlocks", []):

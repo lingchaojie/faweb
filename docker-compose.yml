@@ -58,7 +58,7 @@ services:
       - ./workers/doc-processing/claude-config:/app/claude-config:ro
       - ./workers/doc-processing/prompts:/app/prompts:ro
     healthcheck:
-      test: ["CMD-SHELL", "test -n \"$$ANTHROPIC_API_KEY$$CLAUDE_CODE_OAUTH_TOKEN\" && node -e \"fetch('http://localhost:8001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
+      test: ["CMD-SHELL", "node -e \"fetch('http://localhost:8001/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))\""]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -121,7 +121,7 @@ test("analyzeLayoutWithClaude passes delimited manifest content in prompt", asyn
   const dir = await mkdtemp(join(tmpdir(), "claude-analyzer-prompt-"));
   const actualPromptPath = join(dir, "prompt.txt");
   const fakeDir = await fakeClaudeDir(
-    '{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}',
+    '{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]},{"pageNumber":2,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}',
     undefined,
     actualPromptPath,
   );
@@ -144,6 +144,86 @@ test("analyzeLayoutWithClaude passes delimited manifest content in prompt", asyn
   assert.match(actualPrompt, /<manifest-json>\n\{"pages":\[\{"pageNumber":1,"textBlocks":\[\]\}\]\}\n<\/manifest-json>/);
   assert.match(actualPrompt, /untrusted PDF extraction data/);
   assert.match(actualPrompt, /Return only JSON\./);
+});
+
+test("analyzeLayoutWithClaude rejects empty layout hints for requested pages", async () => {
+  const { promptPath, manifestPath } = await writePromptAndManifest();
+  const fakeDir = await fakeClaudeDir('{"pages":[]}');
+
+  await assert.rejects(
+    () => analyzeLayoutWithClaude({
+      manifestPath,
+      pageNumbers: [1],
+      promptPath,
+      claudeConfigDir: "/tmp/claude-config",
+      timeoutMs: 5000,
+      env: {
+        ANTHROPIC_API_KEY: "test-key",
+        PATH: `${fakeDir}:${process.env.PATH}`,
+      },
+    }),
+    /Claude layout hints missing pages: 1/,
+  );
+});
+
+test("analyzeLayoutWithClaude rejects duplicate requested page hints", async () => {
+  const { promptPath, manifestPath } = await writePromptAndManifest();
+  const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]},{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
+
+  await assert.rejects(
+    () => analyzeLayoutWithClaude({
+      manifestPath,
+      pageNumbers: [1],
+      promptPath,
+      claudeConfigDir: "/tmp/claude-config",
+      timeoutMs: 5000,
+      env: {
+        ANTHROPIC_API_KEY: "test-key",
+        PATH: `${fakeDir}:${process.env.PATH}`,
+      },
+    }),
+    /Claude layout hints duplicate page: 1/,
+  );
+});
+
+test("analyzeLayoutWithClaude rejects invalid page numbers in hints", async () => {
+  const { promptPath, manifestPath } = await writePromptAndManifest();
+  const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":"not-a-number","mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
+
+  await assert.rejects(
+    () => analyzeLayoutWithClaude({
+      manifestPath,
+      pageNumbers: [1],
+      promptPath,
+      claudeConfigDir: "/tmp/claude-config",
+      timeoutMs: 5000,
+      env: {
+        ANTHROPIC_API_KEY: "test-key",
+        PATH: `${fakeDir}:${process.env.PATH}`,
+      },
+    }),
+    /Claude layout hints included invalid pageNumber/,
+  );
+});
+
+test("analyzeLayoutWithClaude rejects unexpected page hints", async () => {
+  const { promptPath, manifestPath } = await writePromptAndManifest();
+  const fakeDir = await fakeClaudeDir('{"pages":[{"pageNumber":1,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]},{"pageNumber":4,"mergedTextBlocks":[],"tables":[],"ignoredBlockIds":[],"imageRoles":[]}]}');
+
+  await assert.rejects(
+    () => analyzeLayoutWithClaude({
+      manifestPath,
+      pageNumbers: [1],
+      promptPath,
+      claudeConfigDir: "/tmp/claude-config",
+      timeoutMs: 5000,
+      env: {
+        ANTHROPIC_API_KEY: "test-key",
+        PATH: `${fakeDir}:${process.env.PATH}`,
+      },
+    }),
+    /Claude layout hints included unexpected pages: 4/,
+  );
 });
 
 test("analyzeLayoutWithClaude fails clearly when prompt cannot be read", async () => {

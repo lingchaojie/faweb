@@ -69,4 +69,43 @@ function validateLayoutHints(value) {
   };
 }
 
-module.exports = { validateLayoutHints };
+function validateLayoutHintsForPages(value, requestedPageNumbers) {
+  const hints = validateLayoutHints(value);
+  const requestedPages = new Set(requestedPageNumbers.map(Number));
+  const seenPages = new Set();
+  const invalidPages = [];
+  const duplicatePages = [];
+  const unexpectedPages = [];
+
+  for (const page of hints.pages) {
+    if (!Number.isFinite(page.pageNumber) || !Number.isInteger(page.pageNumber) || page.pageNumber <= 0) {
+      invalidPages.push(String(page.pageNumber));
+      continue;
+    }
+    if (seenPages.has(page.pageNumber)) {
+      duplicatePages.push(page.pageNumber);
+      continue;
+    }
+    seenPages.add(page.pageNumber);
+    if (!requestedPages.has(page.pageNumber)) unexpectedPages.push(page.pageNumber);
+  }
+
+  if (invalidPages.length > 0) {
+    throw new Error(`Claude layout hints included invalid pageNumber: ${invalidPages.join(", ")}`);
+  }
+  if (duplicatePages.length > 0) {
+    throw new Error(`Claude layout hints duplicate page: ${duplicatePages.join(", ")}`);
+  }
+  if (unexpectedPages.length > 0) {
+    throw new Error(`Claude layout hints included unexpected pages: ${unexpectedPages.join(", ")}`);
+  }
+
+  const missingPages = [...requestedPages].filter((pageNumber) => !seenPages.has(pageNumber));
+  if (missingPages.length > 0) {
+    throw new Error(`Claude layout hints missing pages: ${missingPages.join(", ")}`);
+  }
+
+  return hints;
+}
+
+module.exports = { validateLayoutHints, validateLayoutHintsForPages };
