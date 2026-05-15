@@ -1,16 +1,26 @@
+import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-
+import fitz
 from PIL import Image
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE
 from pptx.util import Inches
 
-from scripts.quality_compare import collect_pptx_stats, find_sample_pairs
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from scripts.quality_compare import (
+    collect_pptx_stats,
+    compare_images,
+    find_sample_pairs,
+    render_pdf_pages,
+    render_pptx_pages,
+    write_side_by_side,
+)
 
 
 class QualityCompareTest(unittest.TestCase):
@@ -56,6 +66,76 @@ class QualityCompareTest(unittest.TestCase):
             self.assertEqual(stats["pictures"], 1)
             self.assertGreaterEqual(stats["shapes"], 2)
             self.assertEqual(stats["tables"], 1)
+
+    def test_render_pdf_pages_writes_numbered_pngs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pdf_path = root / "input.pdf"
+            doc = fitz.open()
+            page = doc.new_page(width=200, height=100)
+            page.insert_text((20, 40), "Hello")
+            doc.save(pdf_path)
+            doc.close()
+
+            pages = render_pdf_pages(pdf_path, root / "renders", zoom=1)
+
+            self.assertEqual([path.name for path in pages], ["page-001.png"])
+            self.assertTrue(pages[0].exists())
+
+    def test_compare_images_returns_zero_for_identical_images(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            first = root / "first.png"
+            second = root / "second.png"
+            Image.new("RGB", (10, 10), "white").save(first)
+            Image.new("RGB", (10, 10), "white").save(second)
+
+            self.assertEqual(compare_images(first, second), 0.0)
+
+    def test_compare_images_returns_positive_value_for_different_images(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            first = root / "first.png"
+            second = root / "second.png"
+            Image.new("RGB", (10, 10), "white").save(first)
+            Image.new("RGB", (10, 10), "black").save(second)
+
+            self.assertGreater(compare_images(first, second), 0.9)
+
+    def test_write_side_by_side_combines_images_with_labels(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            left = root / "left.png"
+            right = root / "right.png"
+            output = root / "review.png"
+            Image.new("RGB", (20, 10), "red").save(left)
+            Image.new("RGB", (20, 10), "blue").save(right)
+
+            write_side_by_side([("Left", left), ("Right", right)], output)
+
+            with Image.open(output) as result:
+                self.assertEqual(result.size, (40, 34))
+
+    def test_render_pptx_pages_converts_to_pdf_then_renders(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            pptx_path = root / "deck.pptx"
+            pptx_path.write_bytes(b"fake pptx")
+
+            def fake_run(args, check, stdout, stderr):
+                out_dir = Path(args[args.index("--outdir") + 1])
+                doc = fitz.open()
+                doc.new_page(width=200, height=100)
+                doc.save(out_dir / "deck.pdf")
+                doc.close()
+                return subprocess.CompletedProcess(args, 0)
+
+            with patch("scripts.quality_compare.subprocess.run", side_effect=fake_run) as run:
+                pages = render_pptx_pages(pptx_path, root / "pptx-renders", libreoffice_bin="soffice", zoom=1)
+
+            self.assertEqual(len(pages), 1)
+            self.assertTrue(pages[0].exists())
+            run.assert_called_once()
 
 
 if __name__ == "__main__":

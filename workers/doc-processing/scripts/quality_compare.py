@@ -66,3 +66,74 @@ def collect_pptx_stats(pptx_path):
                 if text:
                     totals["textShapes"] += 1
     return totals
+
+
+def render_pdf_pages(pdf_path, output_dir, zoom=2.0):
+    pdf_path = Path(pdf_path)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    doc = fitz.open(pdf_path)
+    paths = []
+    try:
+        for index, page in enumerate(doc, start=1):
+            pixmap = page.get_pixmap(matrix=fitz.Matrix(zoom, zoom), alpha=False)
+            output_path = output_dir / f"page-{index:03d}.png"
+            pixmap.save(output_path)
+            paths.append(output_path)
+    finally:
+        doc.close()
+    return paths
+
+
+def render_pptx_pages(pptx_path, output_dir, libreoffice_bin="soffice", zoom=2.0):
+    pptx_path = Path(pptx_path)
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory() as tmp:
+        tmp_dir = Path(tmp)
+        subprocess.run(
+            [libreoffice_bin, "--headless", "--convert-to", "pdf", "--outdir", str(tmp_dir), str(pptx_path)],
+            check=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        converted_pdf = tmp_dir / f"{pptx_path.stem}.pdf"
+        if not converted_pdf.exists():
+            pdfs = sorted(tmp_dir.glob("*.pdf"))
+            if not pdfs:
+                raise FileNotFoundError(f"LibreOffice did not create a PDF for {pptx_path}")
+            converted_pdf = pdfs[0]
+        return render_pdf_pages(converted_pdf, output_dir, zoom=zoom)
+
+
+def compare_images(reference_path, candidate_path):
+    reference = Image.open(reference_path).convert("RGB")
+    candidate = Image.open(candidate_path).convert("RGB")
+    if candidate.size != reference.size:
+        candidate = candidate.resize(reference.size)
+    diff = ImageChops.difference(reference, candidate)
+    histogram = diff.histogram()
+    total = 0
+    for channel in range(3):
+        bins = histogram[channel * 256:(channel + 1) * 256]
+        total += sum(value * count for value, count in enumerate(bins))
+    width, height = reference.size
+    return total / float(255 * 3 * width * height)
+
+
+def write_side_by_side(items, output_path):
+    opened = [(label, Image.open(path).convert("RGB")) for label, path in items]
+    label_height = 24
+    width = sum(image.width for _, image in opened)
+    height = max(image.height for _, image in opened) + label_height
+    canvas = Image.new("RGB", (width, height), "white")
+    draw = ImageDraw.Draw(canvas)
+    x = 0
+    for label, image in opened:
+        draw.text((x + 4, 4), label, fill="black")
+        canvas.paste(image, (x, label_height))
+        x += image.width
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    canvas.save(output_path)
+    return output_path
