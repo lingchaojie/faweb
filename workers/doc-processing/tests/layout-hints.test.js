@@ -82,6 +82,22 @@ test("validateLayoutHints rejects confidence outside zero to one", () => {
   );
 });
 
+test("validateLayoutHints rejects non-boolean style bullet values", () => {
+  assert.throws(
+    () => validateLayoutHints({
+      pages: [
+        {
+          pageNumber: 1,
+          mergedTextBlocks: [
+            { id: "m1", sourceTextBlockIds: ["t1"], role: "body", text: "x", bbox: [0, 0, 1, 1], style: { bullet: "false" } },
+          ],
+        },
+      ],
+    }),
+    /style\.bullet must be a boolean/,
+  );
+});
+
 test("validateLayoutHints rejects unsupported region strategy", () => {
   assert.throws(
     () => validateLayoutHints({

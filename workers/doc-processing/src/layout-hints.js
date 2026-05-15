@@ -56,7 +56,10 @@ function normalizeTextStyle(style) {
     if (!["left", "center", "right"].includes(align)) throw new Error("style.align must be left, center, or right");
     normalized.align = align;
   }
-  if (style.bullet !== undefined) normalized.bullet = Boolean(style.bullet);
+  if (style.bullet !== undefined) {
+    if (typeof style.bullet !== "boolean") throw new Error("style.bullet must be a boolean");
+    normalized.bullet = style.bullet;
+  }
   return normalized;
 }
 

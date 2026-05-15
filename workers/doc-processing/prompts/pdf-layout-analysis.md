@@ -17,7 +17,8 @@ Important:
 - Treat photos, screenshots, formulas, and complex charts as image fallback regions.
 - Identify tables only when row and column structure is visually clear; for each table include `confidence`.
 - Return style hints only when they are visible in the manifest data: font size, font family, color, alignment, and bullet status.
-- For each `regions` entry, include `id`, `role`, `bbox`, `sourceIds`, `confidence`, and `zIndex`.
+- For each `regions` entry, include `id`, `role`, `strategy`, `bbox`, `sourceIds`, `confidence`, and `zIndex`.
+- Set each region `strategy` to one of `native`, `image`, or `ignore`.
 - Use `regions` with `strategy: "image"` for areas the builder should crop from the page image.
 - Use `regions` with `strategy: "ignore"` only for source IDs that should not be emitted as editable objects.
 - For each `fallbacks` entry, include `id`, `reason`, `bbox`, `confidence`, and `zIndex`.
