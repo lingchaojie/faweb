@@ -5,13 +5,24 @@ const { existsSync } = require("node:fs");
 const { join } = require("node:path");
 const { tmpdir } = require("node:os");
 
-const { convertPdfToPpt, writeLayoutHints } = require("../src/converter");
+const { convertPdfToPpt, readManifest, runCommand, writeLayoutHints } = require("../src/converter");
 
 test("writeLayoutHints writes validated hints", async () => {
   const dir = await mkdtemp(join(tmpdir(), "converter-"));
   const path = await writeLayoutHints(dir, { pages: [{ pageNumber: 1, mergedTextBlocks: [], tables: [], ignoredBlockIds: [], imageRoles: [] }] });
   assert.equal(path, join(dir, "layout-hints.json"));
   assert.equal(existsSync(path), true);
+});
+
+test("readManifest reads manifest JSON without adding it to require cache", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "converter-"));
+  const manifestPath = join(dir, "manifest.json");
+  await writeFile(manifestPath, JSON.stringify({ pages: [{ pageNumber: 1 }] }));
+
+  const manifest = await readManifest(manifestPath);
+
+  assert.deepEqual(manifest, { pages: [{ pageNumber: 1 }] });
+  assert.equal(require.cache[manifestPath], undefined);
 });
 
 test("convertPdfToPpt runs extract analyze build in order", async () => {
@@ -78,4 +89,57 @@ test("convertPdfToPpt fails when analyzer fails", async () => {
     }),
     /Claude failed/,
   );
+});
+
+test("convertPdfToPpt aborts timed-out work and does not build", async () => {
+  const dir = await mkdtemp(join(tmpdir(), "converter-"));
+  const inputPath = join(dir, "input.pdf");
+  await writeFile(inputPath, "fake pdf");
+  let observedSignal;
+  let buildCalled = false;
+
+  await assert.rejects(
+    () => convertPdfToPpt({
+      taskId: "task-1",
+      inputPath,
+      outputDir: dir,
+      config: {
+        promptDir: dir,
+        claudeConfigDir: dir,
+        jobTimeoutMs: 25,
+        claudeBatchTimeoutMs: 1000,
+        pageBatchSize: 4,
+      },
+      deps: {
+        extract: async (_inputPath, _jobDir, _config, options) => {
+          observedSignal = options.signal;
+          return new Promise((resolve, reject) => {
+            options.signal.addEventListener("abort", () => reject(options.signal.reason), { once: true });
+            setTimeout(() => resolve({ manifestPath: join(dir, "manifest.json"), pageNumbers: [1] }), 250);
+          });
+        },
+        analyze: async () => { throw new Error("analyze should not run"); },
+        build: async () => {
+          buildCalled = true;
+          throw new Error("build should not run");
+        },
+      },
+    }),
+    /PDF to PPT job timed out after 25ms/,
+  );
+
+  assert.equal(observedSignal.aborted, true);
+  assert.equal(buildCalled, false);
+});
+
+test("runCommand kills child process when aborted", async () => {
+  const controller = new AbortController();
+  const childScript = "process.on('SIGTERM', () => process.exit(42)); setInterval(() => {}, 1000);";
+  const before = Date.now();
+
+  const commandPromise = runCommand(process.execPath, ["-e", childScript], { signal: controller.signal });
+  setTimeout(() => controller.abort(new Error("stop child")), 25);
+
+  await assert.rejects(commandPromise, /aborted|SIGTERM|code 42|stop child/);
+  assert.ok(Date.now() - before < 1000);
 });
