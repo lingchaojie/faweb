@@ -1,9 +1,9 @@
 import { createWriteStream } from "node:fs";
 import { open } from "node:fs/promises";
 import { basename, resolve } from "node:path";
-import { once } from "node:events";
 import { setTimeout as delay } from "node:timers/promises";
 import { Readable } from "node:stream";
+import { pipeline } from "node:stream/promises";
 
 const baseUrl = process.env.FLOWASSIST_BASE_URL || "http://localhost:60001";
 const username = process.env.FLOWASSIST_USERNAME || "admin";
@@ -40,8 +40,9 @@ async function login() {
   form.set("username", username);
   form.set("password", password);
   const res = await request("/api/auth/login", { method: "POST", body: form });
-  if (![302, 303].includes(res.status)) {
-    throw new Error(`Login failed with status ${res.status}: ${await res.text()}`);
+  const location = res.headers.get("location") || "";
+  if (![302, 303].includes(res.status) || location.includes("/login?error=1") || !cookie) {
+    throw new Error(`Login failed with status ${res.status}, location ${location || "<none>"}`);
   }
 }
 
@@ -83,8 +84,8 @@ async function pollTask(taskId) {
 async function downloadResult(taskId) {
   const res = await request(`/api/files/download/${taskId}`);
   if (!res.ok) throw new Error(`Download failed with status ${res.status}: ${await res.text()}`);
-  const file = createWriteStream(outputPptx);
-  await once(Readable.fromWeb(res.body).pipe(file), "finish");
+  if (!res.body) throw new Error("Download failed: response body is missing");
+  await pipeline(Readable.fromWeb(res.body), createWriteStream(outputPptx));
   return outputPptx;
 }
 
