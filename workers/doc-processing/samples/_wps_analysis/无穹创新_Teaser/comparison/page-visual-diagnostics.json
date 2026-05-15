@@ -1,0 +1,251 @@
+[
+  {
+    "page": 1,
+    "source": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\无穹创新_Teaser\\comparison\\pdf-pages\\page-001.png",
+    "ppt": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\无穹创新_Teaser\\ppt-renders\\幻灯片1.PNG",
+    "diff": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\无穹创新_Teaser\\comparison\\diffs\\diff-001.png",
+    "diagnostic_overlay": "E:\\skilldev\\pdf-to-ppt-skill\\samples\\_wps_analysis\\无穹创新_Teaser\\comparison\\diagnostic-overlays\\overlay-001.png",
+    "diagnostics": [
+      {
+        "bbox": [
+          0,
+          0,
+          1280,
+          720
+        ],
+        "area": 635732,
+        "area_ratio": 0.689813,
+        "mean_delta": 206.493,
+        "max_delta": 255,
+        "category": "large_block_or_missing_content",
+        "severity": 0.876,
+        "bbox_norm": [
+          0.0,
+          0.0,
+          1.0,
+          1.0
+        ]
+      },
+      {
+        "bbox": [
+          400,
+          13,
+          436,
+          47
+        ],
+        "area": 527,
+        "area_ratio": 0.000572,
+        "mean_delta": 218.326,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.561,
+        "bbox_norm": [
+          0.3125,
+          0.0181,
+          0.3406,
+          0.0653
+        ]
+      },
+      {
+        "bbox": [
+          415,
+          27,
+          439,
+          49
+        ],
+        "area": 207,
+        "area_ratio": 0.000225,
+        "mean_delta": 207.585,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.531,
+        "bbox_norm": [
+          0.3242,
+          0.0375,
+          0.343,
+          0.0681
+        ]
+      },
+      {
+        "bbox": [
+          290,
+          617,
+          342,
+          636
+        ],
+        "area": 450,
+        "area_ratio": 0.000488,
+        "mean_delta": 193.949,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.498,
+        "bbox_norm": [
+          0.2266,
+          0.8569,
+          0.2672,
+          0.8833
+        ]
+      },
+      {
+        "bbox": [
+          601,
+          419,
+          611,
+          429
+        ],
+        "area": 67,
+        "area_ratio": 7.3e-05,
+        "mean_delta": 193.209,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.493,
+        "bbox_norm": [
+          0.4695,
+          0.5819,
+          0.4773,
+          0.5958
+        ]
+      },
+      {
+        "bbox": [
+          812,
+          153,
+          838,
+          161
+        ],
+        "area": 118,
+        "area_ratio": 0.000128,
+        "mean_delta": 188.229,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.481,
+        "bbox_norm": [
+          0.6344,
+          0.2125,
+          0.6547,
+          0.2236
+        ]
+      },
+      {
+        "bbox": [
+          786,
+          152,
+          813,
+          161
+        ],
+        "area": 125,
+        "area_ratio": 0.000136,
+        "mean_delta": 187.056,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.478,
+        "bbox_norm": [
+          0.6141,
+          0.2111,
+          0.6352,
+          0.2236
+        ]
+      },
+      {
+        "bbox": [
+          717,
+          18,
+          752,
+          28
+        ],
+        "area": 172,
+        "area_ratio": 0.000187,
+        "mean_delta": 184.494,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.472,
+        "bbox_norm": [
+          0.5602,
+          0.025,
+          0.5875,
+          0.0389
+        ]
+      },
+      {
+        "bbox": [
+          443,
+          15,
+          496,
+          36
+        ],
+        "area": 750,
+        "area_ratio": 0.000814,
+        "mean_delta": 179.468,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.463,
+        "bbox_norm": [
+          0.3461,
+          0.0208,
+          0.3875,
+          0.05
+        ]
+      },
+      {
+        "bbox": [
+          705,
+          569,
+          725,
+          576
+        ],
+        "area": 95,
+        "area_ratio": 0.000103,
+        "mean_delta": 180.232,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.46,
+        "bbox_norm": [
+          0.5508,
+          0.7903,
+          0.5664,
+          0.8
+        ]
+      },
+      {
+        "bbox": [
+          836,
+          153,
+          864,
+          161
+        ],
+        "area": 128,
+        "area_ratio": 0.000139,
+        "mean_delta": 179.172,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.458,
+        "bbox_norm": [
+          0.6531,
+          0.2125,
+          0.675,
+          0.2236
+        ]
+      },
+      {
+        "bbox": [
+          732,
+          569,
+          745,
+          577
+        ],
+        "area": 75,
+        "area_ratio": 8.1e-05,
+        "mean_delta": 175.2,
+        "max_delta": 255,
+        "category": "text_or_font_mismatch",
+        "severity": 0.447,
+        "bbox_norm": [
+          0.5719,
+          0.7903,
+          0.582,
+          0.8014
+        ]
+      }
+    ]
+  }
+]
